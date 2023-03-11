@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.choongang.scheduleproject.mapper.AdminMapper">
+  		<!-- 회원목록 출력 -->
+  		<select id="getMemberList" resultType="UserVO">
+  			select distinct
+  					u.user_id, 
+  				   u.department_id,
+  				   u.user_role,
+  				   u.user_email,
+  				   u.user_name,
+  				   u.user_pw,
+  				   u.user_cell,
+  				   u.user_birth,
+  				   u.user_active,
+  				   u.user_position,
+  				   u.user_employeenumber,
+  				   u.user_regdate,
+  				   d.department_name
+  				    from user_user u
+  				    left join user_department d
+                    on u.department_id = d.department_id
+  				    <choose>
+	  				    <when test='searchType =="사원번호" and search !=null'>
+	  				    where u.user_employeenumber like concat('%' , #{search},'%')
+	  				    </when>
+	  				    <when test='searchType =="아이디" and search !=null'>
+	  				    where u.user_id like concat('%' , #{search},'%')
+	  				    </when>
+	  				    <when test='searchType =="이름" and search !=null'>
+	  				    where u.user_name like concat('%' , #{search},'%')
+	  				    </when>
+	  				    <when test='searchType =="부서" and search !=null'>
+	  				    where d.department_name like concat('%' , #{search},'%')
+	  				    </when>
+	  				    <when test='searchType =="휴대폰번호" and search !=null'>
+	  				    where u.user_cell like concat('%' , #{search},'%')
+	  				    </when>
+	  				    <when test='searchType =="이메일" and search !=null'>
+	  				    where u.user_email like concat('%' , #{search},'%')
+	  				    </when>
+  				    </choose>
+  				    
+  				    order by user_employeenumber 
+  				    desc limit #{pageStart},#{amount}
+  				   
+  		</select>
+  		
+  		<!-- 검색결과 카운트 -->
+  		<select id="getMemberCount" resultType="int">
+  			select count(*) from user_user u
+  			left join user_department d
+            on u.department_id = d.department_id
+  				<choose>
+  				    <when test='searchType =="사원번호" and search !=null'>
+  				    where u.user_employeenumber like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="아이디" and search !=null'>
+  				    where u.user_id like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="이름" and search !=null'>
+  				    where u.user_name like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="부서" and search !=null'>
+  				    where d.department_name like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="휴대폰번호" and search !=null'>
+  				    where u.user_cell like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="이메일" and search !=null'>
+  				    where u.user_email like concat('%' , #{search},'%')
+  				    </when>
+  			</choose>
+  		</select>
+  		<!-- manageMember 페이지에서 체크박스 체크하는 경우 쿼리 -->
+  		<update id="checkMemberUpdate" parameterType="CheckVO">
+  			
+  			update user_user set 
+  			<choose>
+	  			<when test="user_active == true">
+	  			user_active = true
+	  			</when>
+	  			<otherwise>
+	  			user_active = false
+	  			</otherwise>
+			</choose>
+			<if test='pwReset == "on"'>					
+	  			,user_pw = '1234'<!-- 암호화 처리해서 들어가줘야 함 -->
+	  		</if>
+                    where user_id = #{user_id};
+  		</update>
+  		
+  		<!-- 체크박스 삭제 작업 -->
+  		<delete id="deleteMember" parameterType="CheckVO">
+  			
+  				delete from user_user where user_id = #{user_id}
+  			
+  		</delete>
+  		<!-- 프로젝트 리스트 출력 -->
+  		<select id="getProjectList" resultType="ProjectVO">
+  			 select pj_num ,
+  			 		pj_name,
+  			 		pj_active,
+  			 		pj_description,
+  			 		pj_startdate,
+  			 		pj_enddate
+  			 from user_project
+  		</select>
+  		<!-- 프로젝트 갯수 -->
+  		<select id="getProjectCount" resultType="int">
+  			select count(*)
+  			from user_project
+  		</select>
+  </mapper>
