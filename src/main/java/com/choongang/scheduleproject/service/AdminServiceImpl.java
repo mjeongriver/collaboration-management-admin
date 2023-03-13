@@ -1,6 +1,7 @@
 package com.choongang.scheduleproject.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
 import com.choongang.scheduleproject.util.Criteria;
 
+
 @Service
 public class AdminServiceImpl implements AdminService {
 	
@@ -19,7 +21,12 @@ public class AdminServiceImpl implements AdminService {
 	// 회원 목록
 	@Override
 	public ArrayList<UserVO> getMemberList(Criteria criteria) {
-		return adminMapper.getMemberList(criteria); 
+		ArrayList<UserVO> list = new ArrayList<>(); //userVO 담아줄 리스트
+		for(UserVO userVO : adminMapper.getMemberList(criteria)) {
+			list.add(adminMapper.getMemeberListResult(userVO)); //VO갯수만큼 호출해서 user_id당 담아줌
+		}
+		//이렇게 일일히 하는 이유는 sql join시 user_log 에서 여러 기록이 있으면 user_user에서 동일한 회원 컬럼이 여러개 생성되기 때문
+		return list; 
 	}
 	//총 회원 수
 	@Override
@@ -49,7 +56,11 @@ public class AdminServiceImpl implements AdminService {
 	//프로젝트 목록 출력
 	@Override
 	public ArrayList<ProjectVO> getProjectList(Criteria criteria) {
-		return adminMapper.getProjectList(criteria);
+		ArrayList<ProjectVO> list = new ArrayList<>();//projectVO 담아줄 리스트
+		for(ProjectVO projectVO: adminMapper.getProjectList(criteria)) { //가져온 projectVO 만큼 반복함
+			list.add(adminMapper.getProjectListResult(projectVO)); //반복하면서 select 실행 한 후 결과값 list에 담아줌
+		}
+		return list; //반환
 	}
 	//검색 시 프로젝트 결과 총갯수
 	@Override
