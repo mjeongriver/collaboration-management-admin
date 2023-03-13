@@ -38,7 +38,7 @@
 													<option value="이메일" th:selected="${pageVO.criteria.searchType == '이메일'}">이메일</option>
 												</select> <input type="text" th:value="${pageVO.criteria.search}" name="search" placeholder="Search"
 													title="Enter search keyword"
-													style="border: none; padding-top: 15px; outline: none;" required="required" pattern="^[가-힣a-zA-Z0-0]+$">
+													style="border: none; padding-top: 15px; outline: none;" required="required" pattern="^[가-힣a-zA-Z0-9@]+$">
 												<button type="submit" title="Search"
 													style="background-color: transparent; border: none; padding-right: 18px">
 													<i class="bi bi-search"></i>
