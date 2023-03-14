@@ -20,6 +20,7 @@
 							<div class="card-body">
 								<div style="margin: 20px 0px; height: 40px">
 									<!-- 일정관리 검색창 -->
+									<!-- 폼 형태로 값들을 컨트롤러에 넘김 -->
 									<div class="search-bar">
 										<form class="search-form d-flex align-items-center"
 											method="GET" action="manageProject" style="justify-content: right;">
@@ -111,21 +112,22 @@
 												<td><span class="badge bg-primary modalOn"
 													style="cursor: pointer">팀원 수정</span></td>
 												<td><select
-													style="border: 1px solid #E0E5EE; border-radius: 5px">
-														<option th:selected="${projectVO.pj_active} == true"
+													style="border: 1px solid #E0E5EE; border-radius: 5px" name="pj_active" class="pj_active">
+														<option th:selected="${projectVO.pj_active} ==true"
 															value="true">활성화</option>
 														<option th:selected="${projectVO.pj_active} == false"
 															value="false">비활성화</option>
-												</select></td>
-												<td><input class="form-check-input" type="checkbox"
-													id="gridCheck1" name="projectDelete"></td>
+													</select></td>
+												<td><input class="form-check-input projectDelete" type="checkbox"
+													id="gridCheck1" name="projectDelete">
+													<input type="hidden" th:value="${projectVO.pj_num}" name="pj_numCheck" class="pj_numCheck"></td>
 											</tr>
 										</th:block>
 									</tbody>
 								</table>
 								<!-- End Bordered Table -->
 								<button type="button" class="btn btn-primary"
-									style="float: right">완료</button>
+									style="float: right" id="submit" >완료</button>
 
 							</div>
 
@@ -169,42 +171,35 @@
 			<div id="basicModal" class="modal-overlay">
 				<div class="modal-content">
 					<section class="section" id="detailModal">
-						<div class="row" style="justify-content: center">
+						<div class="row modalStart" style="justify-content: center">
+						
 							<h5 class="title" style="padding-top: 20px"></h5>
 							<hr />
 							<div>
-								<input class="form-control" type="text"
-									placeholder="프로젝트 제목을 입력하세요."><br>
-								<textarea class="form-control" type="text"
-									placeholder="프로젝트에 관한 설명을 입력하세요." style="height: 200px"></textarea>
+								<input class="form-control projectName" type="text"
+									placeholder="프로젝트 제목을 입력하세요." readonly value=""><br>
+								<textarea class="form-control projectDetail" type="text"
+									placeholder="프로젝트에 관한 설명을 입력하세요." style="height: 200px" readonly ></textarea>
 								<br>
 							</div>
 							<div>
-								<!-- 팀원 목록 -->
+								
 								<div style="float: left; width: 49%;">
 									<p>팀원 목록</p>
-									<div class="form-control" type="text"
+									<div class="form-control team" type="text"
 										style="height: 200px; overflow: auto;" readonly>
-										<p>강민정</p>
-										<p>이승완</p>
-										<p>이세민</p>
-										<p>이동민</p>
-										<p>권도은</p>
-										<p>이서윤</p>
+										<!-- <p>강민정</p> -->
+										
 									</div>
 								</div>
 
-								<!-- 옵저버 목록 -->
+								
 								<div style="float: right; width: 49%">
 									<p>옵저버 목록</p>
-									<div class="form-control" type="text"
+									<div class="form-control observer" type="text"
 										style="height: 200px; overflow: auto;" readonly>
-										<p>강민정</p>
-										<p>이승완</p>
-										<p>이세민</p>
-										<p>이동민</p>
-										<p>권도은</p>
-										<p>이서윤</p>
+										<!-- <p>강민정</p> -->
+										
 									</div>
 								</div>
 							</div>
@@ -325,17 +320,46 @@
 </th:block>
 <script src="/assets/js/modal.js"></script>
 
-<script>
+<script th:inline="javascript">
 	//모달창 구현 - 누른 버튼마다 다른 모달 구현
 	$(".modalOn").click(function(e) {
-		if(e.target.innerHTML === "프로젝트 상세") {
+		
+		var pj_numData = $(e.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
+		if(e.target.innerHTML === "프로젝트 상세") { //프로젝트 상세 버튼 누를때
+			$(".team").empty(); // 창 열기전에 창에 있던 하위 태그들 초기화
+			$(".observer").empty(); // 창 열기전에 모달창에 있던 하위 태그를 초기화
+			
+			$.ajax({
+				url:'../getProjectDetail', //요청
+				async:false,
+				type:"POST",
+				data:JSON.stringify({pj_num:pj_numData}), //보내는 데이터
+				contentType:"application/json", //보내는 데이터 형식
+				dataType:"json", //받는 데이터 형식
+				success:function(result){
+					console.log(result);
+					$(".projectName").attr("placeholder",result.projectName); //placeholder로 제목 고정
+					$(".projectDetail").attr("placeholder",result.projectDescription); // 이하 동일 상세 내용 고정
+					for(var i = 0; i<result.team.length; i++) { //team에 있는 인원들 출력
+						$(".team").append("<p>"+result.team[i]+"</p>");						
+					}
+					for(var i = 0; i<result.observer.length; i++) { //observer에 있는 인원들 출력
+						$(".observer").append("<p>"+result.observer[i]+"</p>");
+					}
+				},
+				error:function(err){
+					
+				}
+			});
+		
 			$("#detailModal").css("display", "");
-			$("#changeModal").css("display", "none");			
-		} else if(e.target.innerHTML === "팀원 수정") {
+			$("#changeModal").css("display", "none");	
+			
+		} else if(e.target.innerHTML === "팀원 수정") { //팀원 수정 버튼 누를때
 			$("#detailModal").css("display", "none");
 			$("#changeModal").css("display", "");			
 		}
-			$("#basicModal").children().find(".title").html(e.target.innerHTML +": "+e.target.parentElement.parentElement.children[0].innerHTML);
+		$("#basicModal").children().find(".title").html(e.target.innerHTML +": "+e.target.parentElement.parentElement.children[0].innerHTML); //제목 넣기
 	});
 	
 	//프로젝트 삭제 전체선택
@@ -352,5 +376,45 @@
 	handleAmount.onchange = function(e) {
 		location.href="manageProject?page=1&amount=" + e.target.value;
 	}
+	
+	//비동기로 restController에 데이터 넘기기
+	//먼저 배열로 해당 태그들을 가져와 value 값으로 json을 만듬
+	var pj_data = [];
+	$("#submit").click(function(){
+		
+		var pj_numCheck = document.querySelectorAll(".pj_numCheck");
+		var pj_active = document.querySelectorAll(".pj_active");
+		var pj_delete = document.querySelectorAll(".projectDelete");
+		
+		for(var i=0; i<pj_active.length; i++) {
+			
+			pj_data[i]=
+				{
+					pj_num : pj_numCheck[i].defaultValue,
+					pj_active: pj_active[i].value,
+					pj_delete: pj_delete[i].checked
+				}
+			
+		}
+		
+		//여기서 JSON 데이터를 ajax로 보내줌
+		$.ajax({
+			url:"/projectCheckRegist",
+			type:"POST",
+			data:JSON.stringify(pj_data),
+			contentType:"application/json", //보내는 데이터
+			dataType:"text",
+			success:function(result) {
+				alert(result);
+				location.href='/admin/manageProject';
+			},
+			error:function(err){
+				console.log(err);
+			}
+		});
+	});
+	
+	
 	</script>
+	
 </html>
