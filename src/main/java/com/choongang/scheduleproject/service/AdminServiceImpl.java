@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.ProjectCheckVO;
+import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
+import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
@@ -66,6 +69,36 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getProjectCount(Criteria criteria) {
 		return adminMapper.getProjectCount(criteria);
+	}
+	//체크박스 체크시 업데이트 되는 프로젝트 목록
+	@Override
+	public int updateProjectList(ArrayList<ProjectCheckVO> list) {
+		int result = 0;
+		for(ProjectCheckVO vo: list) {
+			result = adminMapper.updateProjectList(vo); //반복문 사용으로 프로젝트 넘버 당 하나하나 update 실행
+		}
+		return result;
+	}
+	@Override
+	public int deleteProjectList(ArrayList<ProjectCheckVO> list) {
+		int result = 0;
+		for(ProjectCheckVO vo: list) {
+			if(vo.isPj_delete() == true) {				
+				result = adminMapper.deleteProjectList(vo); //반복문 사용으로 프로젝트 넘버 당 하나하나 delete 실행
+			}
+		}
+		
+		return result;
+	}
+	//프로젝트 상세보기 내용 구함
+	@Override
+	public ProjectDetailVO getProjectDetail(ProjectDetailVO vo) {
+		return adminMapper.getProjectDetail(vo);
+	}
+	//프로젝트 상세보기 인원 구함
+	@Override
+	public ArrayList<ProjectDetailMemberVO> getProjectDetailMember(ProjectDetailVO vo) {
+		return adminMapper.getProjectDetailMember(vo);
 	}
 	
 }

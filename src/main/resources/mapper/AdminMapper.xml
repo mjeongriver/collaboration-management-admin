@@ -162,12 +162,48 @@
   					pj_name,
   					pj_active,
   					<!-- pj_chief, -->
-  					pj_bookmark,
   					pj_description,
   					pj_startdate,
   					pj_enddate,
   					(select count(*) from mapping where pj_num = #{pj_num}) pj_count
   					from user_project
   					where pj_num = #{pj_num}
+  		</select>
+  		
+  		<!-- 프로젝트 리스트 체크박스 업데이트 -->
+  		<update id="updateProjectList" parameterType="ProjectCheckVO">
+  			update user_project set
+  			<choose>
+  				<when test="pj_active == 'true'">
+  					pj_active = true
+  				</when>
+  				<otherwise>
+  					pj_active = false
+  				</otherwise>
+  			</choose>
+  			where pj_num = #{pj_num}
+  		</update>
+  		
+  		<!-- 프로젝트 리스트 체크박스 선택 시 삭제 -->
+  		<delete id="deleteProjectList" parameterType="ProjectCheckVO">
+  			delete from user_project where pj_num = #{pj_num}
+  		</delete>
+  		
+  		<!-- 프로젝트 상세내용 가져오기 -->
+  		<select id="getProjectDetail" resultType="ProjectDetailVO">
+  			select pj_num,
+  					pj_name,
+  					pj_description
+  			from user_project
+  			where pj_num = #{pj_num}
+  		</select>
+  		<select id="getProjectDetailMember" resultType="ProjectDetailMemberVO">
+  			select m.user_id,
+  					m.is_observer,
+  					u.user_name
+  			from mapping m
+  			left join user_user u
+  			on m.user_id = u.user_id
+  			where pj_num = #{pj_num}
   		</select>
   </mapper>

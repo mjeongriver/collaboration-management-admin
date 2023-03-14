@@ -1,5 +1,7 @@
 package com.choongang.scheduleproject.command;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,16 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProjectVO {
+public class ProjectDetailVO {
 	
-	private int pj_num;
+	private String pj_num;
 	private String pj_name;
-	private boolean pj_active;
-	private String pj_chief;;
 	private String pj_description;
-	private String pj_startdate;
-	private String pj_enddate;
-	private String pj_count;
-	
-
+	//private ArrayList<String> pj_member; 
+	//private ArrayList<String> pj_observer; 
 }
