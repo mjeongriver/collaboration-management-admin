@@ -1,7 +1,5 @@
 package com.choongang.scheduleproject.command;
 
-import java.util.ArrayList;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CheckVO {
-	private String user_id;
-	private String pwReset;
-	private String memberDelete;
+public class ProjectActiveVO {
+	private int pj_num;
+	private boolean pj_active;
 }

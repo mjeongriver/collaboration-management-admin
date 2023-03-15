@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProjectCheckVO {
 	private int pj_num;
-	private String pj_active;
 	private boolean pj_delete;
 }

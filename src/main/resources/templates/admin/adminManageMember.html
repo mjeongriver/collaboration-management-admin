@@ -224,11 +224,9 @@
 														여기서는 잘 안되서 쓰진 않음*/
 														
 				var user_id; //서버에서 받아줄 VO 멤버변수 값과 똑같이 선언
-				var user_active; 
 				var pwReset;
 				var memberDelete;
 				var user = document.querySelectorAll(".user_id"); //배열로 user_id 클래스에 해당하는 값을 받아옴
-				var active = document.querySelectorAll(".user_active");	//배열로 user_active 클래스에 해당하는 값을 받아옴
 				var pw = document.querySelectorAll(".pwReset");	//배열로 pwReset 클래스에 해당하는 값을 받아옴
 				var member = document.querySelectorAll(".memberDelete");//배열로 memberDelete 클래스에 해당하는 값을 받아옴
 				
@@ -239,7 +237,6 @@
 					user_data[i] =
 						{
 							user_id:user[i].defaultValue,
-							user_active:active[i].value,
 							pwReset:pw[i].value,
 							memberDelete:member[i].value
 					}
@@ -252,7 +249,7 @@
 					url:'/checkRegist',
 					contentType:'application/json' , //보내줄 데이터 타입을 명시해줌 JSON 데이터
 					data:JSON.stringify(user_data), //보내줄 JSON 객체를 JSON 문자열로 변환
-					dateType:'text', // 서버에서 리턴받는 String 형태를 텍스트로 받음
+					dataType:'text', // 서버에서 리턴받는 String 형태를 텍스트로 받음
 					success:function(result) {
 						alert(result);
 						location.href="/admin/manageMember";
@@ -261,6 +258,28 @@
 						alert("변경에 실패했습니다.");
 					}
 				})
+			})
+		})
+		
+		//활성화 유무 change 이벤트
+		$(".user_active").change(function(event) {
+			var user_idData = $(event.target).closest("td").closest("tr").find(".user_id").val(); //유저 아이디 가져옴
+			user_activeData = {
+					user_id:user_idData, //유저 아이디 
+					user_active:$(event.target).val() //유저 비활성 활성 유무
+			}
+			$.ajax({
+				type:'POST',
+				url:'/checkActiveRegist',
+				contentType:'application/json',
+				data:JSON.stringify(user_activeData),
+				dataType:'text',
+				success:function(result){
+					alert(result);
+				},
+				error:function(){
+					alert('변경 실패');
+				}
 			})
 		})
 		

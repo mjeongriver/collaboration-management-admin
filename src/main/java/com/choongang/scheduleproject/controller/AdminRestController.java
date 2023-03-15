@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
+import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.service.AdminService;
 import com.google.gson.Gson;
@@ -32,19 +34,37 @@ public class AdminRestController {
 	public String manageMember(@RequestBody ArrayList<CheckVO> list) { //JSON 데이터(여러개)를 리스트 형태로 받아옴
 		int updateResult = adminService.checkMemberUpdate(list);
 		int deleteResult = adminService.deleteMember(list);
-		if(updateResult == 1) {
+		if(updateResult == 1 || deleteResult == 1) {
 			return "등록 성공했습니다.";
 		}
-		return "등록 실패했습니다.";
+		return "해당 항목에 선택해주시길 바랍니다.";
 	}
+	//유저 활성 비활성 유무 넘겨줌
+	@PostMapping("/checkActiveRegist")
+	public String checkActiveRegist(@RequestBody UserActiveVO vo) {
+		int activeResult = adminService.userActiveUpdate(vo);
+		if(activeResult == 1) {
+			return "등록 성공";
+		}
+		return "등록 실패";
+	}
+	//프로젝트 체크박스 업데이트
 	@PostMapping("/projectCheckRegist")
 	public String manageProject(@RequestBody ArrayList<ProjectCheckVO> list) { //JSON데이터를 리스트 형태로 받음
-		int updateResult = adminService.updateProjectList(list);
 		int deleteResult = adminService.deleteProjectList(list);
-		if(updateResult == 1) {
+		if(deleteResult == 1 ) {
 			return "등록 성공했습니다.";
 		}
-		return "등록 실패했습니다.";
+		return "해당 항목에 체크해주세요";
+	}
+	//프로젝트 활성/비활성 유무
+	@PostMapping("/projectActiveUpdate")
+	public String projectActiveUpdate(@RequestBody ProjectActiveVO vo) {
+		int activeResult = adminService.projectActiveUpdate(vo);
+		if(activeResult == 1) {
+			return "등록 성공";
+		}
+		return "등록 실패";
 	}
 	@PostMapping("/getProjectDetail")
 	public String getProjectDetail(@RequestBody ProjectDetailVO vo) { //
