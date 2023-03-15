@@ -28,7 +28,7 @@
 												<select class="form-select"
 													style="float: left; height: 34px; width: 220px; margin: 10px; border: none" name="searchType">
 													<option value="pj_name" th:selected="${pageVO.criteria.searchType == 'pj_name'}">프로젝트 명</option>
-													<option value="pj_chief" th:selected="${pageVO.criteria.searchType == 'pj_chief'}">프로젝트 장</option>
+													<option value="pj_writer" th:selected="${pageVO.criteria.searchType == 'pj_writer'}">팀장</option>
 													<option value="pj_startdate" th:selected="${pageVO.criteria.searchType == 'pj_startdate'}">프로젝트 생성일</option>
 												</select> <input type="text" name="search" placeholder="Search"
 													th:value="${pageVO.criteria.search}" title="Enter search keyword"
@@ -59,22 +59,14 @@
 									<thead>
 										<tr>
 
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-												명</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-												장</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-												생성일</th>
-											<th scope="col" style="line-height: 30px; height: 30px">팀원
-												수</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-												상세 보기</th>
-											<th scope="col" style="line-height: 30px; height: 30px">팀원
-												수정</th>
-											<th scope="col" style="line-height: 30px; height: 30px">활성화
-												여부</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-												삭제 <input class="form-check-input" type="checkbox"
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 명</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀장</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 생성일</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀원 수</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 상세 보기</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀원 수정</th>
+											<th scope="col" style="line-height: 30px; height: 30px">활성화 여부</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 삭제 <input class="form-check-input" type="checkbox"
 												id="gridCheck1" style="margin-top: 8px;"
 												name="projectDelete" onclick="selectAllProjectDelete(this)">
 											</th>
@@ -104,7 +96,7 @@
 											<tr>
 												<th scope="row">[[${projectVO.pj_name}]]</th>
 
-												<td>[[${projectVO.pj_chief}]]</td>
+												<td>[[${projectVO.pj_writer}]]</td>
 												<td>[[${projectVO.pj_startdate}]]</td>
 												<td>[[${projectVO.pj_count}]]</td>
 												<td><span class="badge bg-primary modalOn"
@@ -150,6 +142,8 @@
 											class="page-link"
 											th:href="@{manageProject(page=${page}, amount=${pageVO.amount} ,search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">[[${page}]]</a></li>
 									</th:block>
+									
+									<!-- 다음 버튼 -->
 									<li
 										th:class="${pageVO.prev == true ? 'page-item':'page-item disabled'}"><a
 										class="page-link"

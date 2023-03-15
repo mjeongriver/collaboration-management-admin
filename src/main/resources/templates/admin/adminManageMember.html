@@ -117,7 +117,7 @@
 														<td>[[${UserVO.user_cell}]]</td>
 														<td>[[${UserVO.user_email}]]</td>
 														<td th:text="${#dates.format(UserVO.user_regdate, 'yyyy-MM-dd')}"></td>
-														<td>[[${UserVO.log_date}]]</td>
+														<td th:text="${#dates.format(UserVO.log_date, 'yyyy-MM-dd HH시 mm분 ss초')}"></td>
 														<td><select style="border:1px solid #E0E5EE; border-radius: 5px" name="user_active" class="user_active">
 														
 																<!-- 타임리프 셀렉트 지정 -->

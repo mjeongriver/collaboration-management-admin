@@ -11,6 +11,7 @@ import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
+import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserVO;
@@ -99,5 +100,11 @@ public class AdminServiceImpl implements AdminService {
 	public int projectActiveUpdate(ProjectActiveVO vo) {
 		return adminMapper.projectActiveUpdate(vo);
 	}
+	//프로젝트 통계목록 기능
+	@Override
+	public ArrayList<ProjectStaticVO> getProjectStatic(Criteria criteria) {
+		return adminMapper.getProjectStatic(criteria);
+	}
+	
 	
 }

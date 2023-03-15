@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.choongang.scheduleproject.mapper.AdminMapper">
-  		<!-- 회원목록 출력 전 id 추출 -->
+  		<!-- 회원목록 출력 -->
   		<select id="getMemberList" resultType="UserVO">
   			select u.user_id, 
   				   u.department_id,
@@ -112,7 +112,7 @@
   			 select p.pj_num,
   			 		p.pj_name,
   					p.pj_active,
-  					<!-- p.pj_chief, -->
+  					p.pj_writer,
   					p.pj_description,
   					p.pj_startdate,
   					p.pj_enddate,
@@ -182,6 +182,7 @@
   			from user_project
   			where pj_num = #{pj_num}
   		</select>
+  		
   		<select id="getProjectDetailMember" resultType="ProjectDetailMemberVO">
   			select m.user_id,
   					m.is_observer,
@@ -191,4 +192,28 @@
   			on m.user_id = u.user_id
   			where pj_num = #{pj_num}
   		</select>
+  		
+  		<!-- 프로젝트 통계 가져오기 -->
+  		<select id="getProjectStatic" resultType="ProjectStaticVO">
+  			select pj_num,
+  					pj_name,
+  					pj_active,
+  					pj_writer,
+  					pj_startdate
+  			from user_project
+  			 <choose>
+  				    <when test='searchType =="pj_name" and search !=null'>
+  				    where pj_name like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="pj_chief" and search !=null'>
+  				    where pj_chief like concat('%' , #{search},'%')
+  				    </when>
+  				    <when test='searchType =="pj_startdate" and search !=null'>
+  				    where pj_startdate like concat('%' , #{search},'%')
+  				    </when>
+  			</choose>
+  			order by pj_num desc
+  			 limit #{pageStart} , #{amount}
+  		</select>
+  		
   </mapper>

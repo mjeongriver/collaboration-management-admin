@@ -35,8 +35,14 @@ public class AdminController {
 		model.addAttribute("pageVO", pageVO);
 		return "/admin/adminManageProject";
 	}
+	//통계 목록 페이지
 	@GetMapping("/manageStatistics")
-	public String manageStatistics() {
+	public String manageStatistics(Model model, Criteria criteria) {
+		int total = adminService.getProjectCount(criteria); //프로젝트 총 갯수
+		PageVO pageVO = new PageVO(criteria,total ); //페이징
+		model.addAttribute("projectStaticVO" , adminService.getProjectStatic(criteria)); //프로젝트 통계 목록 담아줌
+		model.addAttribute("pageVO", pageVO); //페이징 
+		
 		return "/admin/adminManageStatistics";
 	}
 	@GetMapping("/noticeContent")
