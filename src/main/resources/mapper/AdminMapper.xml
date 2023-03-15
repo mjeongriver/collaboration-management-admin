@@ -6,8 +6,8 @@
   <mapper namespace="com.choongang.scheduleproject.mapper.AdminMapper">
   		<!-- 회원목록 출력 전 id 추출 -->
   		<select id="getMemberList" resultType="UserVO">
-  			select u.user_id 
-  				   <!-- u.department_id,
+  			select u.user_id, 
+  				   u.department_id,
   				   u.user_role,
   				   u.user_email,
   				   u.user_name,
@@ -18,10 +18,14 @@
   				   u.user_position,
   				   u.user_employeenumber,
   				   u.user_regdate,
-  				   d.department_name -->
-  				    from user_user u
+  				   d.department_name,
+  				     max(l.log_date) log_date
+  					from user_user u
   				    left join user_department d
                     on u.department_id = d.department_id
+                    left join user_log l 
+                    on l.user_id = u.user_id
+              		<!-- 검색시 실행 -->
   				    <choose>
 	  				    <when test='searchType =="사원번호" and search !=null'>
 	  				    where u.user_employeenumber like concat('%' , #{search},'%')
@@ -42,33 +46,12 @@
 	  				    where u.user_email like concat('%' , #{search},'%')
 	  				    </when>
   				    </choose>
-  				    
-  				    order by user_employeenumber 
+  				    group by u.user_id
+  				    order by u.user_employeenumber 
   				    desc limit #{pageStart},#{amount}
   				   
   		</select>
-  		<!-- user_id를 이용한 전부 출력 -->
-  		<select id="getMemeberListResult" resultType="UserVO">
-  			select  u.user_id, 
-  				    u.department_id,
-  				   u.user_role,
-  				   u.user_email,
-  				   u.user_name,
-  				   u.user_pw,
-  				   u.user_cell,
-  				   u.user_birth,
-  				   u.user_active,
-  				   u.user_position,
-  				   u.user_employeenumber,
-  				   u.user_regdate,
-  				   d.department_name,
-  				   (select log_date from user_log where user_id = #{user_id} order by log_date desc limit 1) log_date
-  					from user_user u
-  				    left join user_department d
-                    on u.department_id = d.department_id
-                    where user_id = #{user_id}
-  		</select>
-  		
+
   		<!-- 검색결과 카운트 -->
   		<select id="getMemberCount" resultType="int">
   			select count(*) from user_user u
@@ -98,7 +81,14 @@
   		<!-- manageMember 페이지에서 체크박스 체크하는 경우 쿼리 -->
   		<update id="checkMemberUpdate" parameterType="CheckVO">
   			
-  			update user_user set 
+  			update user_user set 	
+	  		user_pw = '1234'<!-- 암호화 처리해서 들어가줘야 함 -->
+            where user_id = #{user_id};
+  		</update>
+  		
+  		<!-- 유저 활성/비활성 업데이트 -->
+  		<update id="userActiveUpdate" parameterType="UserActiveVO">
+  			update user_user set
   			<choose>
 	  			<when test="user_active == true">
 	  			user_active = true
@@ -107,10 +97,7 @@
 	  			user_active = false
 	  			</otherwise>
 			</choose>
-			<if test='pwReset == "on"'>					
-	  			,user_pw = '1234'<!-- 암호화 처리해서 들어가줘야 함 -->
-	  		</if>
-                    where user_id = #{user_id};
+			where user_id = #{user_id}
   		</update>
   		
   		<!-- 체크박스 삭제 작업 -->
@@ -122,8 +109,17 @@
   		
   		<!-- 프로젝트 리스트 출력 -->
   		<select id="getProjectList" resultType="ProjectVO">
-  			 select pj_num
-  			 from user_project
+  			 select p.pj_num,
+  			 		p.pj_name,
+  					p.pj_active,
+  					<!-- p.pj_chief, -->
+  					p.pj_description,
+  					p.pj_startdate,
+  					p.pj_enddate,
+  			 		count(m.user_id) pj_count
+  			 from user_project p
+  			 left join mapping m
+  			 on m.pj_num = p.pj_num
   			 <choose>
   				    <when test='searchType =="pj_name" and search !=null'>
   				    where pj_name like concat('%' , #{search},'%')
@@ -134,9 +130,9 @@
   				    <when test='searchType =="pj_startdate" and search !=null'>
   				    where pj_startdate like concat('%' , #{search},'%')
   				    </when>
-  				    
   			</choose>
-  			 order by pj_num desc
+  			group by p.pj_num
+  			 order by p.pj_num desc
   			 limit #{pageStart} , #{amount}
   		</select>
   		
@@ -156,25 +152,12 @@
   				    </when>
   			</choose>
   		</select>
-  		<!-- 프로젝트 id를 이용하여 select 해옴 -->
-  		<select id="getProjectListResult" resultType="ProjectVO">
-  			select pj_num,
-  					pj_name,
-  					pj_active,
-  					<!-- pj_chief, -->
-  					pj_description,
-  					pj_startdate,
-  					pj_enddate,
-  					(select count(*) from mapping where pj_num = #{pj_num}) pj_count
-  					from user_project
-  					where pj_num = #{pj_num}
-  		</select>
-  		
-  		<!-- 프로젝트 리스트 체크박스 업데이트 -->
-  		<update id="updateProjectList" parameterType="ProjectCheckVO">
+ 
+  		<!-- 프로젝트 리스트 활성 /비활성 -->
+  		<update id="projectActiveUpdate" parameterType="ProjectActiveVO">
   			update user_project set
   			<choose>
-  				<when test="pj_active == 'true'">
+  				<when test="pj_active == true">
   					pj_active = true
   				</when>
   				<otherwise>
@@ -183,6 +166,8 @@
   			</choose>
   			where pj_num = #{pj_num}
   		</update>
+  		
+  		
   		
   		<!-- 프로젝트 리스트 체크박스 선택 시 삭제 -->
   		<delete id="deleteProjectList" parameterType="ProjectCheckVO">

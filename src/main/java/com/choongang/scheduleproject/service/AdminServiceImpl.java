@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.ProjectVO;
+import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
 import com.choongang.scheduleproject.util.Criteria;
@@ -24,12 +26,7 @@ public class AdminServiceImpl implements AdminService {
 	// 회원 목록
 	@Override
 	public ArrayList<UserVO> getMemberList(Criteria criteria) {
-		ArrayList<UserVO> list = new ArrayList<>(); //userVO 담아줄 리스트
-		for(UserVO userVO : adminMapper.getMemberList(criteria)) {
-			list.add(adminMapper.getMemeberListResult(userVO)); //VO갯수만큼 호출해서 user_id당 담아줌
-		}
-		//이렇게 일일히 하는 이유는 sql join시 user_log 에서 여러 기록이 있으면 user_user에서 동일한 회원 컬럼이 여러개 생성되기 때문
-		return list; 
+		return adminMapper.getMemberList(criteria); 
 	}
 	//총 회원 수
 	@Override
@@ -40,8 +37,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int checkMemberUpdate(ArrayList<CheckVO> list) {
 		int result=0; //결과값 반환
+		
 		for(CheckVO vo : list) {
-			result = adminMapper.checkMemberUpdate(vo);
+			if(vo.getPwReset().equals("on")) {
+				result = adminMapper.checkMemberUpdate(vo);
+			}
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리
 		return result;
 	}
@@ -49,6 +49,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int deleteMember(ArrayList<CheckVO> list) {
 		int result=0; //결과값 반환
+		
 		for(CheckVO vo : list) {
 			if(vo.getMemberDelete().equals("on")) {
 				result = adminMapper.deleteMember(vo);
@@ -59,26 +60,14 @@ public class AdminServiceImpl implements AdminService {
 	//프로젝트 목록 출력
 	@Override
 	public ArrayList<ProjectVO> getProjectList(Criteria criteria) {
-		ArrayList<ProjectVO> list = new ArrayList<>();//projectVO 담아줄 리스트
-		for(ProjectVO projectVO: adminMapper.getProjectList(criteria)) { //가져온 projectVO 만큼 반복함
-			list.add(adminMapper.getProjectListResult(projectVO)); //반복하면서 select 실행 한 후 결과값 list에 담아줌
-		}
-		return list; //반환
+		return adminMapper.getProjectList(criteria); //반환
 	}
 	//검색 시 프로젝트 결과 총갯수
 	@Override
 	public int getProjectCount(Criteria criteria) {
 		return adminMapper.getProjectCount(criteria);
 	}
-	//체크박스 체크시 업데이트 되는 프로젝트 목록
-	@Override
-	public int updateProjectList(ArrayList<ProjectCheckVO> list) {
-		int result = 0;
-		for(ProjectCheckVO vo: list) {
-			result = adminMapper.updateProjectList(vo); //반복문 사용으로 프로젝트 넘버 당 하나하나 update 실행
-		}
-		return result;
-	}
+	//프로젝트 삭제 체크박스 업데이트
 	@Override
 	public int deleteProjectList(ArrayList<ProjectCheckVO> list) {
 		int result = 0;
@@ -99,6 +88,16 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ArrayList<ProjectDetailMemberVO> getProjectDetailMember(ProjectDetailVO vo) {
 		return adminMapper.getProjectDetailMember(vo);
+	}
+	//유저 활성/비활성 기능
+	@Override
+	public int userActiveUpdate(UserActiveVO vo) {
+		return adminMapper.userActiveUpdate(vo);
+	}
+	//프로젝트 활성 비활성 기능
+	@Override
+	public int projectActiveUpdate(ProjectActiveVO vo) {
+		return adminMapper.projectActiveUpdate(vo);
 	}
 	
 }

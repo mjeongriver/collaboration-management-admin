@@ -334,8 +334,8 @@
 				async:false,
 				type:"POST",
 				data:JSON.stringify({pj_num:pj_numData}), //보내는 데이터
-				contentType:"application/json", //보내는 데이터 형식
-				dataType:"json", //받는 데이터 형식
+				contentType:"application/json", //서버에 보내는 데이터 형식
+				dataType:"json", //서버에서 받는 데이터 형식
 				success:function(result){
 					console.log(result);
 					$(".projectName").attr("placeholder",result.projectName); //placeholder로 제목 고정
@@ -379,22 +379,19 @@
 	
 	//비동기로 restController에 데이터 넘기기
 	//먼저 배열로 해당 태그들을 가져와 value 값으로 json을 만듬
-	var pj_data = [];
+	var pj_data = [];//json 담을 배열 선언
 	$("#submit").click(function(){
 		
 		var pj_numCheck = document.querySelectorAll(".pj_numCheck");
-		var pj_active = document.querySelectorAll(".pj_active");
 		var pj_delete = document.querySelectorAll(".projectDelete");
 		
-		for(var i=0; i<pj_active.length; i++) {
+		for(var i=0; i<pj_delete.length; i++) {
 			
 			pj_data[i]=
 				{
 					pj_num : pj_numCheck[i].defaultValue,
-					pj_active: pj_active[i].value,
 					pj_delete: pj_delete[i].checked
 				}
-			
 		}
 		
 		//여기서 JSON 데이터를 ajax로 보내줌
@@ -406,7 +403,7 @@
 			dataType:"text",
 			success:function(result) {
 				alert(result);
-				location.href='/admin/manageProject';
+				location.href='/admin/manageProject'; //새로고침
 			},
 			error:function(err){
 				console.log(err);
@@ -414,7 +411,30 @@
 		});
 	});
 	
+	//프로젝트 활성 비활성 유무 데이터 넘기기
+	$(".pj_active").change(function(event) {
+		var pj_numData = $(event.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
+		pj_activeData = {
+				pj_num:pj_numData, //프로젝트 넘버
+				pj_active:$(event.target).val() //pj 비활성 활성 유무
+		}
+		$.ajax({
+			type:'POST',
+			url:'/projectActiveUpdate',
+			contentType:'application/json',
+			data:JSON.stringify(pj_activeData),
+			dataType:'text',
+			success:function(result){
+				alert(result);
+			},
+			error:function(){
+				alert('변경 실패');
+			}
+		})
+	})
 	
+			
+			
 	</script>
 	
 </html>
