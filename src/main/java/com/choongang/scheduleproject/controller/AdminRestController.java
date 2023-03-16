@@ -32,8 +32,8 @@ public class AdminRestController {
 	//체크 리스트 넘겨주는 컨트롤러
 	@PostMapping("/checkRegist")
 	public String manageMember(@RequestBody ArrayList<CheckVO> list) { //JSON 데이터(여러개)를 리스트 형태로 받아옴
-		int updateResult = adminService.checkMemberUpdate(list);
-		int deleteResult = adminService.deleteMember(list);
+		int updateResult = adminService.checkMemberUpdate(list); //비밀번호 초기화
+		int deleteResult = adminService.deleteMember(list); //회원 삭제
 		if(updateResult == 1 || deleteResult == 1) {
 			return "등록 성공했습니다.";
 		}

@@ -82,7 +82,7 @@
   		<update id="checkMemberUpdate" parameterType="CheckVO">
   			
   			update user_user set 	
-	  		user_pw = '1234'<!-- 암호화 처리해서 들어가줘야 함 -->
+	  		user_pw = #{password}<!-- 암호화 처리해서 들어가줘야 함 -->
             where user_id = #{user_id};
   		</update>
   		
@@ -199,8 +199,12 @@
   					pj_name,
   					pj_active,
   					pj_writer,
-  					pj_startdate
-  			from user_project
+  					pj_startdate,
+  					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = true ) complete,
+					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = false ) uncomplete,
+					(round(((select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = true ) /
+					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num ) )*100)) progress
+  			from user_project p
   			 <choose>
   				    <when test='searchType =="pj_name" and search !=null'>
   				    where pj_name like concat('%' , #{search},'%')
@@ -216,4 +220,8 @@
   			 limit #{pageStart} , #{amount}
   		</select>
   		
+  		<!-- 로그인 정보 가져오기 -->
+  		<select id="getLoginVO" resultType="AdminLoginVO" parameterType="AdminLoginVO">
+  			select admin_id, admin_pw from admin_admin where admin_id = #{admin_id}
+  		</select>
   </mapper>

@@ -24,7 +24,7 @@
 									<!-- 폼 형태로 값들을 컨트롤러에 넘김 -->
 									<div class="search-bar">
 										<form class="search-form d-flex align-items-center"
-											method="GET" action="manageProject" style="justify-content: right;">
+											method="GET" action="manageStatistics" style="justify-content: right;">
 											<div style="border: 1px solid #E0E5EE; border-radius: 15px;">
 												<select class="form-select"
 													style="float: left; height: 34px; width: 220px; margin: 10px; border: none" name="searchType">
@@ -89,10 +89,10 @@
 											<td>[[${projectStaticVO.pj_writer}]]</td>
 											<td>[[${projectStaticVO.pj_startdate}]]</td>
 											<td>완료/미완료</td>
-											<td><div class="progress">
-													<div class="progress-bar" role="progressbar"
-														style="width: 70%" aria-valuenow="70" aria-valuemin="0"
-														aria-valuemax="100">70%</div>
+											<td><div class="progress"> 
+													<div class="progress-bar" role="progressbar" th:id="'progress'+${projectStaticVOStat.index}"
+														style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+														aria-valuemax="100">[[${projectStaticVO.progress}]]%</div> <!-- th:id="'progress'+${projectStaticVOStat.index}" 고유 아이디값 넣기 -->
 												</div>
 												</td>
 											<td><span class="badge bg-primary modalOn"
@@ -237,8 +237,17 @@
 	handleAmount.onchange = function(e) {
 		location.href="manageStatistics?page=1&amount=" + e.target.value;
 	}
+	//진척률 퍼센테이지 그래프
+	var progress = $('.progress-bar');
 	
-	 
+	$('.progress-bar').each(function(i,e){ //그래프를 그려주기 위해 해당 클래스 반복문 돌림 
+		$('#progress'+i).attr("style","width:"+e.innerHTML); //해당 태그 고유 아이디 값 얻음
+		//여기서 인덱스를 통해 해당 태그 아이디에 접근해서 타임리프를 통해 넣어줬던 텍스트 값을 attr 속성 변경으로 width 값을 변경해줌
+		
+	});
+	//$('.progress-bar').attr("style","width:"+progress[i].innerHTML);
+	
+	
 		
 	</script>
 </html>

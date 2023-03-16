@@ -13,6 +13,9 @@ public class ProjectStaticVO {
 	private int pj_num;
 	private String pj_name;
 	private boolean pj_active;
-	private String pj_writer;;
+	private String pj_writer;
 	private String pj_startdate;
+	private int complete;
+	private int uncomplete;
+	private int progress;
 }

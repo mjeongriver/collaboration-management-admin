@@ -1,11 +1,19 @@
 package com.choongang.scheduleproject.controller;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.service.AdminService;
 import com.choongang.scheduleproject.util.Criteria;
 import com.choongang.scheduleproject.util.PageVO;
@@ -44,6 +52,29 @@ public class AdminController {
 		model.addAttribute("pageVO", pageVO); //페이징 
 		
 		return "/admin/adminManageStatistics";
+	}
+	//어드민 로그인 요청
+	@PostMapping("/login")
+	public String login(@Valid AdminLoginVO vo , Errors errors, HttpSession session, RedirectAttributes ra) {
+		//서버단에서 유효성 검사 실행
+		if(errors.hasErrors()) {
+			System.out.println(errors.toString());
+			String msg = "로그인 시도 중 서버에서 문제가 발생했습니다.";
+			ra.addFlashAttribute("msg", msg);
+			return "redirect:/";
+		}
+		
+		AdminLoginVO adminLoginVO = adminService.getLoginVO(vo); //로그인한 정보 담음
+		
+		if(adminLoginVO == null || !adminLoginVO.getAdmin_pw().equals(vo.getAdmin_pw())) { //아이디 또는 비밀번호가 맞지 않을 때 
+			ra.addFlashAttribute("msg","아이디 또는 비밀번호가 일치하지 않습니다.");
+			return "redirect:/";
+		}
+		
+		session.setAttribute("admin_id", adminLoginVO.getAdmin_id()); //session에 id 담아줌
+		
+		
+		return "redirect:/admin/manageMember";
 	}
 	@GetMapping("/noticeContent")
 	public String noticeContent() {

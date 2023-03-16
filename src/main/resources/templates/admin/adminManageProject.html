@@ -325,11 +325,19 @@
 			
 			$.ajax({
 				url:'../getProjectDetail', //요청
-				async:false,
 				type:"POST",
 				data:JSON.stringify({pj_num:pj_numData}), //보내는 데이터
 				contentType:"application/json", //서버에 보내는 데이터 형식
 				dataType:"json", //서버에서 받는 데이터 형식
+				 beforeSend: function() {//로딩이 완료되기 전
+					 //마우스 커서를 로딩 중 커서로 변경
+				     $('html').css("cursor", "wait"); 
+				     
+				   	},
+				    complete: function() { //로딩 완료
+				    	//마우스 커서를 원래대로 돌린다
+				        $('html').css("cursor", "auto");
+				    },
 				success:function(result){
 					console.log(result);
 					$(".projectName").attr("placeholder",result.projectName); //placeholder로 제목 고정

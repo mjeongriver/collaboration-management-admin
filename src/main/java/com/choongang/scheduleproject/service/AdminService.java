@@ -2,6 +2,7 @@ package com.choongang.scheduleproject.service;
 
 import java.util.ArrayList;
 
+import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
@@ -27,6 +28,6 @@ public interface AdminService {
 	public int userActiveUpdate(UserActiveVO vo);//유저 활성/ 비활성 기능
 	public int projectActiveUpdate(ProjectActiveVO vo); //프로젝트 활성/ 비활성 기능
 	public ArrayList<ProjectStaticVO> getProjectStatic(Criteria criteria); //프로젝트 통계목록 불러오기
-	
+	public AdminLoginVO getLoginVO(AdminLoginVO vo); //로그인 정보 가져오기
 	
 }
