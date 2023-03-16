@@ -44,7 +44,7 @@ public class PageVO {
 		this.prev = this.start > 1;
 		
 		//다음버튼 활성화
-		this.next = this.end > this.realEnd;
+		this.next = this.realEnd > this.end;
 		
 		//화면에서 반복시킬 페이지 데이터
 		this.pageList = new ArrayList<>();
