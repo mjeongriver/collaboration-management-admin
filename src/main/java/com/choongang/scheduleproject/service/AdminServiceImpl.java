@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
+import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserVO;
@@ -22,7 +25,11 @@ import com.choongang.scheduleproject.util.Criteria;
 public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
-	AdminMapper adminMapper;
+	private AdminMapper adminMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	// 회원 목록
 	@Override
 	public ArrayList<UserVO> getMemberList(Criteria criteria) {
@@ -40,11 +47,14 @@ public class AdminServiceImpl implements AdminService {
 		
 		for(CheckVO vo : list) {
 			if(vo.getPwReset().equals("on")) {
+				String password ="default123!";
+				vo.setPassword( passwordEncoder.encode(password)); //비밀번호 암호화 후 초기화
 				result = adminMapper.checkMemberUpdate(vo);
 			}
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리
 		return result;
 	}
+	
 	//회원 삭제
 	@Override
 	public int deleteMember(ArrayList<CheckVO> list) {
@@ -99,5 +109,15 @@ public class AdminServiceImpl implements AdminService {
 	public int projectActiveUpdate(ProjectActiveVO vo) {
 		return adminMapper.projectActiveUpdate(vo);
 	}
+	//프로젝트 통계목록 기능
+	@Override
+	public ArrayList<ProjectStaticVO> getProjectStatic(Criteria criteria) {
+		return adminMapper.getProjectStatic(criteria);
+	}
+	@Override
+	public AdminLoginVO getLoginVO(AdminLoginVO vo) {
+		return adminMapper.getLoginVO(vo);
+	}
+	
 	
 }

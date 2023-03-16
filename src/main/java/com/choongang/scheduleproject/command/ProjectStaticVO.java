@@ -9,16 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProjectVO {
-	
+public class ProjectStaticVO {
 	private int pj_num;
 	private String pj_name;
 	private boolean pj_active;
-	private String pj_writer;;
-	private String pj_description;
+	private String pj_writer;
 	private String pj_startdate;
-	private String pj_enddate;
-	private String pj_count;
-	
-
+	private int complete;
+	private int uncomplete;
+	private int progress;
 }
