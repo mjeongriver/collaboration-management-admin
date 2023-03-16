@@ -117,12 +117,14 @@
 </th:block>
 
 <!-- ~개씩 보기 -->
-<script>
+<script th:inline="javascript">
 	var handleAmount = document.getElementById("handleAmount");
 	handleAmount.onchange = function(e) {
 
 		location.href="adminNoticeTableList?page=1&amount=" + e.target.value;
 	}
+	
+	
 
 </script>
 

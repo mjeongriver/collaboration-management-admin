@@ -77,22 +77,7 @@ public class AdminController {
 		
 		return "redirect:/admin/manageMember";
 	}
-	@GetMapping("/noticeContent")
-	public String noticeContent() {
-		return "/admin/adminNoticeContent";
-	}
-	@GetMapping("/noticeModify")
-	public String noticeModify() {
-		return "/admin/adminNoticeModify";
-	}
-	@GetMapping("/noticeRegist")
-	public String noticeRegist() {
-		return "/admin/adminNoticeRegist";
-	}
-	@GetMapping("/noticeTableList")
-	public String noticeTableList() {
-		return "/admin/adminNoticeTableList";
-	}
+	
 	
 	
 	

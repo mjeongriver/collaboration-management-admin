@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class HomeController {
 	
 	@GetMapping("/")
 	public String index() {
-		return "/admin/adminNoticeLogin";
+		return "admin/adminNoticeLogin";
 	}
 	
 	@GetMapping("/adminDashboard")
@@ -46,42 +47,42 @@ public class HomeController {
 	    model.addAttribute("projectList", adminService.getProjectList(criteria)); // 프로젝트 목록 데이터
 	    model.addAttribute("projectPageVO", projectPageVO); // 프로젝트 목록 페이지 정보
 
-	    return "/admin/adminDashboard";
+	    return "admin/adminDashboard";
 	}
 	
 	//관리자 공지사항 게시판
-	@GetMapping("/adminNoticeTableList")
+	@GetMapping("/noticeTableList")
 	public String adminNoticeTableList(Criteria cri, Model model) {
 		
 		int total = adminNoticeService.getCount(cri);
 		model.addAttribute("AdminNoticeList", adminNoticeService.getList(cri)); //페이지에 넘길 데이터
 		
 		PageVO pageVO = new PageVO(cri, total); //페이징에 사용
-		
+		System.out.println(pageVO.toString());
 		model.addAttribute("pageVO", pageVO);
 		
-		return "/admin/adminNoticeTableList";
+		return "admin/noticeTableList";
 	}
 	
 	//위의 noticeTableList를 상세 조회하는 컨트롤러
-	@GetMapping("/adminNoticeContent")
+	@GetMapping("/noticeContent")
 	public String noticeContent(@RequestParam int notice_num, Model model) {
 			
 		//클릭한 글 번호에 대한 내용을 조회
 		AdminNoticeListVO adminNoticeListVO = adminNoticeService.getContent(notice_num);
 		model.addAttribute("adminNoticeListVO", adminNoticeListVO);
 			
-			return "/admin/adminNoticeContent";
+			return "admin/noticeContent";
 		}
 	
-	@RequestMapping(value="/deleteForm", method = RequestMethod.GET)
+	@PostMapping(value="/deleteForm")
 	public String deleteNotice(@RequestParam("notice_num") int notice_num, RedirectAttributes ra) {
 		
 		int result = adminNoticeService.deleteNotice(notice_num);
 		String msg = result == 1 ? "삭제되었습니다" : "삭제에 실패했습니다";
 		ra.addFlashAttribute("msg", msg);
 		
-		return "redirect:/admin/adminNoticeTableList";
+		return "redirect:/admin/noticeTableList";
 	}
 
 	
