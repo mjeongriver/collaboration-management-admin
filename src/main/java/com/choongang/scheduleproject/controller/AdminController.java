@@ -16,6 +16,7 @@ public class AdminController {
 
 	@Autowired
 	AdminService adminService;
+	
 	//회원목록 페이지
 	@GetMapping("/manageMember")
 	public String manageMember(Model model , Criteria criteria) { //단순 목록은 타임리프 처리

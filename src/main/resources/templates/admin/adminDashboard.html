@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/basicLayout :: 함수( ~{:: .wrap } ) }">
+
+<div class="wrap">
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>대시보드</h1>
+    </div>
+    <!-- End Page Title -->
+	
+    <section class="section dashboard">
+      <div class="row">
+      
+    <!-- 왼쪽 첫번째 그리드 시작 -->    
+    <section class="section">
+				<div class="row">
+					<div class="col-lg-6">
+       					<nav>
+        					<ol class="breadcrumb">
+          						<li class="breadcrumb-item active" onclick="location.href='/admin/manageStatistics'" style="cursor:pointer">통계</li>
+        					</ol>
+      					</nav>
+						<div class="card">
+							<div class="card-body">
+								
+								<!-- Bordered Table -->
+								<table class="table table-bordered"
+									style="text-align: center; margin-top: 20px">
+
+									<thead>
+										<tr>
+											<th scope="col" style="width: 15%;">글번호</th>
+											<th scope="col">프로젝트 명</th>
+											<th scope="col">팀장</th>
+											<th scope="col" style="width: 18%;">완료/미완료</th>
+											<th scope="col" style="width: 15%;">진척률 현황</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row" style="font-weight: 400;">1</th>
+											<td>double z</td>
+											<td>짱구</td>
+											<td>완료</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar" role="progressbar"
+														style="width: 25%" aria-valuenow="25" aria-valuemin="0"
+														aria-valuemax="100">25%</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" style="font-weight: 400;">2</th>
+											<td>bread</td>
+											<td>철수</td>
+											<td>미완료</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar" role="progressbar"
+														style="width: 70%" aria-valuenow="70" aria-valuemin="0"
+														aria-valuemax="100">70%</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" style="font-weight: 400;">3</th>
+											<td>mom</td>
+											<td>유리</td>
+											<td>미완료</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar" role="progressbar"
+														style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+														aria-valuemax="100"></div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" style="font-weight: 400;">4</th>
+											<td>mimi</td>
+											<td>맹구</td>
+											<td>미완료</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar" role="progressbar"
+														style="width: 30%" aria-valuenow="30" aria-valuemin="0"
+														aria-valuemax="100">30%</div>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<th scope="row" style="font-weight: 400;">5</th>
+											<td>hoon</td>
+											<td>훈이</td>
+											<td>미완료</td>
+											<td>
+												<div class="progress">
+													<div class="progress-bar" role="progressbar"
+														style="width: 45%" aria-valuenow="45" aria-valuemin="0"
+														aria-valuemax="100">45%</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- End Bordered Table -->
+							</div>
+						</div>
+
+					</div>
+					
+		<!-- 오른쪽 첫번째 시작 -->
+        <div class="col-lg-6">
+          <!-- Recent Activity -->
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" onclick="location.href='/admin/adminNoticeTableList'" style="cursor:pointer">공지사항 게시판</li>
+        </ol>
+      </nav>
+          <div class="card">
+            <div class="card-body">
+               <table class="table">
+                <thead>
+                  <tr>
+                    
+                    <th scope="col">번호</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  <tr class="table-primary">
+                  
+                    
+                    <td>Cell</td>
+                    <td><a href="noticecontent">Cell</a></td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    
+                  </tr>
+                  <tr class="table-primary">
+                    
+                    <td>Cell</td>
+                    <td><a href="noticecontent">Cell</a></td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    
+                  </tr>
+                  <tr class="table-primary">
+                    
+                    <td>Cell</td>
+                    <td><a href="noticecontent">Cell</a></td>
+                    <td>Cell</td>
+                    <td>Cell</td>
+                    
+                  </tr>
+                  <tr>
+                    
+                    <td>1</td>
+                    <td><a href="noticecontent">Cell</a></td>
+                    <td>이동민</td>
+                    <td>2023-03-02</td>
+                    
+                  </tr>
+                  <tr>
+                    
+                    <td>1</td>
+                    <td><a href="noticecontent">Cell</a>
+                    </td>
+                    <td>이동민</td>
+                    <td>2023-03-02</td>
+                    
+                  </tr>
+                </tbody>
+              </table>
+
+            </div>
+            
+          </div><!-- End Recent Activity -->
+        </div>
+        <!-- 오른쪽 첫번째 끝 -->
+		</div>
+				
+				<!-- 왼쪽 아래 시작 -->
+				<div class="row">
+					<div class="col-lg-6">
+					   <nav>
+        					<ol class="breadcrumb">
+          						<li class="breadcrumb-item active" onclick="location.href='/admin/manageMember'" style="cursor:pointer">회원 관리</li>
+        					</ol>
+      				   </nav>
+
+						<div class="card">
+							<div class="card-body">
+
+									<!-- Bordered Table -->
+									<table class="table table-bordered"
+										style="text-align: center; margin-top: 20px;">
+										
+										<thead >
+											<tr >
+												<th scope="col" style="line-height:30px;height:30px">사원번호</th>
+												<th scope="col" style="line-height:30px;height:30px">아이디</th>
+												<th scope="col" style="line-height:30px;height:30px">이름</th>
+												<th scope="col" style="line-height:30px;height:30px">부서</th>
+												<th scope="col" style="line-height:30px;height:30px">휴대폰번호</th>
+												<th scope="col" style="line-height:30px;height:30px">이메일</th>
+											</tr>
+										</thead>
+										<form id="form">
+											<tbody>
+											<!-- 타임리프로 DB 반복문 처리 -->
+											<th:blcok th:each="UserVO,status : ${UserList}">
+											
+												<!-- form id="form"> -->
+													<tr>
+														<th scope="row" >[[${UserVO.user_employeenumber}]]</th>
+														<td>[[${UserVO.user_id}]]</td>
+														<td>[[${UserVO.user_name}]]</td>
+														<td>[[${UserVO.department_name}]]</td>
+														<td>[[${UserVO.user_cell}]]</td>
+														<td>[[${UserVO.user_email}]]</td>
+													</tr>
+												<!-- </form> -->
+											</th:blcok>
+											
+										</tbody>
+									</form>
+									</table>									
+								</div>
+							</div>
+						</div>
+					<!-- 왼쪽아래 끝  -->
+		<!-- 오른쪽 아래 컬럼 시작 -->
+        <div class="col-lg-6">
+          <!-- Recent Activity -->
+       <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active" onclick="location.href='/admin/manageProject'" style="cursor:pointer">프로젝트 관리</li>
+        </ol>
+      </nav>
+          <div class="card">
+            <div class="card">
+							<div class="card-body">
+								<!-- Bordered Table -->
+								<table class="table table-bordered"
+									style="text-align: center; margin-top: 20px">
+
+									<thead>
+										<tr>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												명</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												장</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												생성일</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀원
+												수</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="projectVO : ${projectList}">
+											<tr>
+												<th scope="row">[[${projectVO.pj_name}]]</th>
+
+												<td>[[${projectVO.pj_chief}]]</td>
+												<td>[[${projectVO.pj_startdate}]]</td>
+												<td>[[${projectVO.pj_count}]]</td>
+											</tr>
+										</th:block>
+									</tbody>
+								</table>
+								<!-- End Bordered Table -->
+							</div>
+						</div>
+          </div><!-- End Recent Activity -->
+        </div>
+        <!-- 오른쪽 아래 끝 -->
+		</div>
+	</section>
+    <!-- 왼쪽 첫번째 그리드 끝 -->
+      </div>
+    </section>
+
+
+  </main><!-- End #main -->
+</div>
+</th:block>
+
+
+
+
+</html>

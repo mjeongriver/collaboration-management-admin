@@ -10,6 +10,7 @@ public class Criteria {
 	private int amount; //데이터 개수
 	
 	private String searchType; //검색 타입
+	private String searchName;
 	private String search; //검색 값 
 	
 	public Criteria() {
