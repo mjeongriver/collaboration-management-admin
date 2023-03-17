@@ -1,5 +1,7 @@
 package com.choongang.scheduleproject.command;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProjectStaticVO {
-	private int pj_num;
-	private String pj_name;
-	private boolean pj_active;
-	private String pj_writer;
-	private String pj_startdate;
+	private int pjNum;
+	private String pjName;
+	private boolean pjActive;
+	private String pjWriter;
+	private String pjStartdate;
 	private int complete;
 	private int uncomplete;
 	private int progress;

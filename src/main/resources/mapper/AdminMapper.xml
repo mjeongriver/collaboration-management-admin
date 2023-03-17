@@ -91,20 +91,20 @@
 	<update id="userActiveUpdate" parameterType="UserActiveVO">
 		update user_user set
 		<choose>
-			<when test="user_active == true">
+			<when test="userActive == true">
 				user_active = true
 			</when>
 			<otherwise>
 				user_active = false
 			</otherwise>
 		</choose>
-		where user_id = #{user_id}
+		where user_id = #{userId}
 	</update>
 
 	<!-- 체크박스 삭제 작업 -->
 	<delete id="deleteMember" parameterType="CheckVO">
 
-		delete from user_user where user_id = #{user_id}
+		delete from user_user where user_id = #{userId}
 
 	</delete>
 
@@ -122,13 +122,13 @@
 		left join mapping m
 		on m.pj_num = p.pj_num
 		<choose>
-			<when test='searchType =="pj_name" and search !=null'>
+			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_chief" and search !=null'>
-				where pj_chief like concat('%' , #{search},'%')
+			<when test='searchType =="pjWriter" and search !=null'>
+				where pj_writer like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_startdate" and search !=null'>
+			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
 			</when>
 		</choose>
@@ -142,13 +142,13 @@
 		select count(*)
 		from user_project
 		<choose>
-			<when test='searchType =="pj_name" and search !=null'>
+			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_chief" and search !=null'>
-				where pj_chief like concat('%' , #{search},'%')
+			<when test='searchType =="pjWriter" and search !=null'>
+				where pj_writer like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_startdate" and search !=null'>
+			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
 			</when>
 		</choose>
@@ -158,21 +158,21 @@
 	<update id="projectActiveUpdate" parameterType="ProjectActiveVO">
 		update user_project set
 		<choose>
-			<when test="pj_active == true">
+			<when test="pjActive == true">
 				pj_active = true
 			</when>
 			<otherwise>
 				pj_active = false
 			</otherwise>
 		</choose>
-		where pj_num = #{pj_num}
+		where pj_num = #{pjNum}
 	</update>
 
 
 
 	<!-- 프로젝트 리스트 체크박스 선택 시 삭제 -->
 	<delete id="deleteProjectList" parameterType="ProjectCheckVO">
-		delete from user_project where pj_num = #{pj_num}
+		delete from user_project where pj_num = #{pjNum}
 	</delete>
 
 	<!-- 프로젝트 상세내용 가져오기 -->
@@ -212,13 +212,13 @@
 		)*100)) progress
 		from user_project p
 		<choose>
-			<when test='searchType =="pj_name" and search !=null'>
+			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_chief" and search !=null'>
-				where pj_chief like concat('%' , #{search},'%')
+			<when test='searchType =="pjWriter" and search !=null'>
+				where pj_writer like concat('%' , #{search},'%')
 			</when>
-			<when test='searchType =="pj_startdate" and search !=null'>
+			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
 			</when>
 		</choose>
@@ -229,6 +229,6 @@
 	<!-- 로그인 정보 가져오기 -->
 	<select id="getLoginVO" resultType="AdminLoginVO"
 		parameterType="AdminLoginVO">
-		select admin_id, admin_pw from admin_admin where admin_id = #{admin_id}
+		select admin_id, admin_pw from admin_admin where admin_id = #{adminId}
 	</select>
 </mapper>

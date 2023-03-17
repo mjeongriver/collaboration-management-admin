@@ -66,12 +66,12 @@ public class AdminController {
 
 		AdminLoginVO adminLoginVO = adminService.getLoginVO(vo); //로그인한 정보 담음
 
-		if(adminLoginVO == null || !adminLoginVO.getAdmin_pw().equals(vo.getAdmin_pw())) { //아이디 또는 비밀번호가 맞지 않을 때
+		if(adminLoginVO == null || !adminLoginVO.getAdminPw().equals(vo.getAdminPw())) { //아이디 또는 비밀번호가 맞지 않을 때
 			ra.addFlashAttribute("msg","아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/";
 		}
 
-		session.setAttribute("admin_id", adminLoginVO.getAdmin_id()); //session에 id 담아줌
+		session.setAttribute("admin_id", adminLoginVO.getAdminId()); //session에 id 담아줌
 
 
 		return "redirect:/admin/manage-member";

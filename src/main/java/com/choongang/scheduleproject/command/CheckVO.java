@@ -2,6 +2,8 @@ package com.choongang.scheduleproject.command;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CheckVO {
-	private String user_id;
+	@JsonProperty("user_id")
+	private String userId;
 	private String pwReset;
 	private String memberDelete;
 	private String password;

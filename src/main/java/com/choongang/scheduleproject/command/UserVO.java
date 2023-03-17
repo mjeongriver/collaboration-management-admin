@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserVO {
-   private String user_id;
-   private int department_id;
-   private String department_name;
-   private boolean user_role;
-   private String user_email;
-   private String user_name;
-   private String user_pw;
-   private String user_cell;
-   private String user_birth;
-   private boolean user_active;
-   private String user_position;
-   private int user_employeenumber;
-   private Timestamp user_regdate;
-   private Timestamp log_date;
+   private String userId;
+   private int departmentId;
+   private String departmentName;
+   private boolean userRole;
+   private String userEmail;
+   private String userName;
+   private String userPw;
+   private String userCell;
+   private String userBirth;
+   private boolean userActive;
+   private String userPosition;
+   private int userEmployeenumber;
+   private Timestamp userRegdate;
+   private Timestamp logDate;
 }

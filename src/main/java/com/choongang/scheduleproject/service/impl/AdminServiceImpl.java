@@ -82,7 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteProjectList(ArrayList<ProjectCheckVO> list) {
 		int result = 0;
 		for(ProjectCheckVO vo: list) {
-			if(vo.isPj_delete() == true) {
+			if(vo.isPjDelete() == true) {
 				result = adminMapper.deleteProjectList(vo); //반복문 사용으로 프로젝트 넘버 당 하나하나 delete 실행
 			}
 		}
