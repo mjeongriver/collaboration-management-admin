@@ -23,6 +23,7 @@ import com.choongang.scheduleproject.util.Criteria;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+	private final static String PASSWORD ="default123!";
 
 	@Autowired
 	private AdminMapper adminMapper;
@@ -47,8 +48,7 @@ public class AdminServiceImpl implements AdminService {
 
 		for(CheckVO vo : list) {
 			if(vo.getPwReset().equals("on")) {
-				String password ="default123!";
-				vo.setPassword( passwordEncoder.encode(password)); //비밀번호 암호화 후 초기화
+				vo.setPassword( passwordEncoder.encode(PASSWORD)); //비밀번호 암호화 후 초기화
 				result = adminMapper.checkMemberUpdate(vo);
 			}
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리

@@ -3,8 +3,10 @@ package com.choongang.scheduleproject.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.choongang.scheduleproject.command.CheckVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
@@ -81,6 +83,11 @@ public class AdminRestController {
 		ProjectDetail.add("observer", observer);
 
 		return ProjectDetail.toString(); //json 스트링으로 반환
+	}
+	@GetMapping("/get-member-statistics")
+	public String getMemberStatistics(@RequestParam("pj_num") int pjNum) {
+		System.out.println(pjNum);
+		return "success";
 	}
 
 }
