@@ -1,4 +1,4 @@
-package com.choongang.scheduleproject.service;
+package com.choongang.scheduleproject.service.impl;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.scheduleproject.command.AdminNoticeListVO;
 import com.choongang.scheduleproject.mapper.AdminNoticeListMapper;
+import com.choongang.scheduleproject.service.AdminNoticeService;
 import com.choongang.scheduleproject.util.Criteria;
 
 @Service("adminNoticeService")
@@ -29,17 +30,17 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
 	public int getCount(Criteria cri) {
 		return adminNoticeListMapper.getCount(cri);
 	}
-	
+
 	//상세보기
 	@Override
-	public AdminNoticeListVO getContent(int notice_num) {
-		return adminNoticeListMapper.getContent(notice_num);
+	public AdminNoticeListVO getContent(int noticeNum) {
+		return adminNoticeListMapper.getContent(noticeNum);
 	}
-	
+
 	//삭제기능
 	@Override
-	public int deleteNotice(int notice_num) {
-		return adminNoticeListMapper.deleteNotice(notice_num);
+	public int deleteNotice(int noticeNum) {
+		return adminNoticeListMapper.deleteNotice(noticeNum);
 	}
 
 
