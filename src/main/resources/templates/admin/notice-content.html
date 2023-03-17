@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-<th:block th:replace="~{./include/basicLayout :: 함수( ~{:: .wrap } ) }">
+<th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
 <div class="wrap">
 
   <main id="main" class="main">
@@ -11,15 +11,15 @@
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
-        
-        <form action="/admin/deleteForm" method="post" name="actionForm">
-        
+
+        <form action="/admin/deleteform" method="post" name="actionForm">
+
         <input type="hidden" name="notice_num" th:value="${adminNoticeListVO.notice_num }">
 
           <!-- 내용 박스 -->
           <div class="card">
             <div class="card-body" style="padding: 20px;">
-            
+
             	<div style="padding:10px;">
 	            	<div style="width:100%; height:100px;">
 	            		<div style="float:left;">
@@ -31,34 +31,34 @@
 	              		</div>
 	              	</div>
               	</div>
-              	
+
               <div class="pagetitle" style="padding: 10px;">
           			<h3>내용</h3>
           			<hr/>
           			<p>[[${adminNoticeListVO.notice_content}]]</p>
     		  </div>
-    		  
+
     		   <div class="pagetitle" style="padding: 10px;">
       				<h5>첨부파일</h5>
       				<hr/>
       				<p>[[${adminNoticeListVO.notice_note}]]</p> <!-- 첨부파일은 아직 기능 구현하지 못했으므로 note로 대체 -->
     		   </div>
-    		   
+
     		   	 <!-- 삭제 버튼  -->
 				 <div style="display:flex; justify-content:right;">
 			 		<button type="button" class="btn btn-dark" onclick="deleteNotice(event)">삭제</button>
-				</div> 
-    			
-             </div>   
+				</div>
+
+             </div>
           </div>
-          
+
           </form>
 
         </div>
       </div>
     </section>
-   
-   
+
+
   </main><!-- End #main -->
 
   </div>
@@ -67,11 +67,11 @@
 
 <script>
 
-function deleteNotice(event) {
-    if(confirm("정말 지우겠습니까?")) {
-        document.actionForm.submit();
-    }
-}
+	function deleteNotice(event) {
+    	if(confirm("정말 지우겠습니까?")) {
+        	document.actionForm.submit();
+    	}
+	}
 
 </script>
 
