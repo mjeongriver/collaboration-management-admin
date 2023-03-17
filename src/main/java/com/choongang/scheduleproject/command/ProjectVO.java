@@ -1,5 +1,6 @@
 package com.choongang.scheduleproject.command;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProjectVO {
-	
-	private int pj_num;
-	private String pj_name;
-	private boolean pj_active;
-	private String pj_writer;;
-	private String pj_description;
-	private String pj_startdate;
-	private String pj_enddate;
-	private String pj_count;
-	
+
+	private int pjNum;
+	private String pjName;
+	private boolean pjActive;
+	private String pjWriter;;
+	private String pjDescription;
+	private String pjStartdate;
+	private String pjEnddate;
+	private String pjCount;
+
 
 }

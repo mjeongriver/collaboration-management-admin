@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProjectDetailMemberVO {
-	
-	private String user_id;
-	private boolean is_observer;
-	private String user_name;
+
+	private String userId;
+	private boolean isObserver;
+	private String userName;
 }

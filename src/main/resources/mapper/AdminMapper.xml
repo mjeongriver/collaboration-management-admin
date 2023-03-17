@@ -2,226 +2,233 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.choongang.scheduleproject.mapper.AdminMapper">
-  		<!-- 회원목록 출력 -->
-  		<select id="getMemberList" resultType="UserVO">
-  			select u.user_id, 
-  				   u.department_id,
-  				   u.user_role,
-  				   u.user_email,
-  				   u.user_name,
-  				   u.user_pw,
-  				   u.user_cell,
-  				   u.user_birth,
-  				   u.user_active,
-  				   u.user_position,
-  				   u.user_employeenumber,
-  				   u.user_regdate,
-  				   d.department_name,
-  				     max(l.log_date) log_date
-  					from user_user u
-  				    left join user_department d
-                    on u.department_id = d.department_id
-                    left join user_log l 
-                    on l.user_id = u.user_id
-              		<!-- 검색시 실행 -->
-  				    <choose>
-	  				    <when test='searchType =="사원번호" and search !=null'>
-	  				    where u.user_employeenumber like concat('%' , #{search},'%')
-	  				    </when>
-	  				    <when test='searchType =="아이디" and search !=null'>
-	  				    where u.user_id like concat('%' , #{search},'%')
-	  				    </when>
-	  				    <when test='searchType =="이름" and search !=null'>
-	  				    where u.user_name like concat('%' , #{search},'%')
-	  				    </when>
-	  				    <when test='searchType =="부서" and search !=null'>
-	  				    where d.department_name like concat('%' , #{search},'%')
-	  				    </when>
-	  				    <when test='searchType =="휴대폰번호" and search !=null'>
-	  				    where u.user_cell like concat('%' , #{search},'%')
-	  				    </when>
-	  				    <when test='searchType =="이메일" and search !=null'>
-	  				    where u.user_email like concat('%' , #{search},'%')
-	  				    </when>
-  				    </choose>
-  				    group by u.user_id
-  				    order by u.user_employeenumber 
-  				    desc limit #{pageStart},#{amount}
-  				   
-  		</select>
 
-  		<!-- 검색결과 카운트 -->
-  		<select id="getMemberCount" resultType="int">
-  			select count(*) from user_user u
-  			left join user_department d
-            on u.department_id = d.department_id
-  				<choose>
-  				    <when test='searchType =="사원번호" and search !=null'>
-  				    where u.user_employeenumber like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="아이디" and search !=null'>
-  				    where u.user_id like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="이름" and search !=null'>
-  				    where u.user_name like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="부서" and search !=null'>
-  				    where d.department_name like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="휴대폰번호" and search !=null'>
-  				    where u.user_cell like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="이메일" and search !=null'>
-  				    where u.user_email like concat('%' , #{search},'%')
-  				    </when>
-  			</choose>
-  		</select>
-  		<!-- manageMember 페이지에서 체크박스 체크하는 경우 쿼리 -->
-  		<update id="checkMemberUpdate" parameterType="CheckVO">
-  			
-  			update user_user set 	
-	  		user_pw = #{password}<!-- 암호화 처리해서 들어가줘야 함 -->
-            where user_id = #{user_id};
-  		</update>
-  		
-  		<!-- 유저 활성/비활성 업데이트 -->
-  		<update id="userActiveUpdate" parameterType="UserActiveVO">
-  			update user_user set
-  			<choose>
-	  			<when test="user_active == true">
-	  			user_active = true
-	  			</when>
-	  			<otherwise>
-	  			user_active = false
-	  			</otherwise>
-			</choose>
-			where user_id = #{user_id}
-  		</update>
-  		
-  		<!-- 체크박스 삭제 작업 -->
-  		<delete id="deleteMember" parameterType="CheckVO">
-  			
-  				delete from user_user where user_id = #{user_id}
-  			
-  		</delete>
-  		
-  		<!-- 프로젝트 리스트 출력 -->
-  		<select id="getProjectList" resultType="ProjectVO">
-  			 select p.pj_num,
-  			 		p.pj_name,
-  					p.pj_active,
-  					p.pj_writer,
-  					p.pj_description,
-  					p.pj_startdate,
-  					p.pj_enddate,
-  			 		count(m.user_id) pj_count
-  			 from user_project p
-  			 left join mapping m
-  			 on m.pj_num = p.pj_num
-  			 <choose>
-  				    <when test='searchType =="pj_name" and search !=null'>
-  				    where pj_name like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_chief" and search !=null'>
-  				    where pj_chief like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_startdate" and search !=null'>
-  				    where pj_startdate like concat('%' , #{search},'%')
-  				    </when>
-  			</choose>
-  			group by p.pj_num
-  			 order by p.pj_num desc
-  			 limit #{pageStart} , #{amount}
-  		</select>
-  		
-  		<!-- 프로젝트 갯수 -->
-  		<select id="getProjectCount" resultType="int">
-  			select count(*)
-  			from user_project
-  			<choose>
-  				    <when test='searchType =="pj_name" and search !=null'>
-  				    where pj_name like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_chief" and search !=null'>
-  				    where pj_chief like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_startdate" and search !=null'>
-  				    where pj_startdate like concat('%' , #{search},'%')
-  				    </when>
-  			</choose>
-  		</select>
- 
-  		<!-- 프로젝트 리스트 활성 /비활성 -->
-  		<update id="projectActiveUpdate" parameterType="ProjectActiveVO">
-  			update user_project set
-  			<choose>
-  				<when test="pj_active == true">
-  					pj_active = true
-  				</when>
-  				<otherwise>
-  					pj_active = false
-  				</otherwise>
-  			</choose>
-  			where pj_num = #{pj_num}
-  		</update>
-  		
-  		
-  		
-  		<!-- 프로젝트 리스트 체크박스 선택 시 삭제 -->
-  		<delete id="deleteProjectList" parameterType="ProjectCheckVO">
-  			delete from user_project where pj_num = #{pj_num}
-  		</delete>
-  		
-  		<!-- 프로젝트 상세내용 가져오기 -->
-  		<select id="getProjectDetail" resultType="ProjectDetailVO">
-  			select pj_num,
-  					pj_name,
-  					pj_description
-  			from user_project
-  			where pj_num = #{pj_num}
-  		</select>
-  		
-  		<select id="getProjectDetailMember" resultType="ProjectDetailMemberVO">
-  			select m.user_id,
-  					m.is_observer,
-  					u.user_name
-  			from mapping m
-  			left join user_user u
-  			on m.user_id = u.user_id
-  			where pj_num = #{pj_num}
-  		</select>
-  		
-  		<!-- 프로젝트 통계 가져오기 -->
-  		<select id="getProjectStatic" resultType="ProjectStaticVO">
-  			select pj_num,
-  					pj_name,
-  					pj_active,
-  					pj_writer,
-  					pj_startdate,
-  					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = true ) complete,
-					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = false ) uncomplete,
-					(round(((select count(b.board_process) from user_board b where b.pj_num = p.pj_num and b.board_process = true ) /
-					(select count(b.board_process) from user_board b where b.pj_num = p.pj_num ) )*100)) progress
-  			from user_project p
-  			 <choose>
-  				    <when test='searchType =="pj_name" and search !=null'>
-  				    where pj_name like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_chief" and search !=null'>
-  				    where pj_chief like concat('%' , #{search},'%')
-  				    </when>
-  				    <when test='searchType =="pj_startdate" and search !=null'>
-  				    where pj_startdate like concat('%' , #{search},'%')
-  				    </when>
-  			</choose>
-  			order by pj_num desc
-  			 limit #{pageStart} , #{amount}
-  		</select>
-  		
-  		<!-- 로그인 정보 가져오기 -->
-  		<select id="getLoginVO" resultType="AdminLoginVO" parameterType="AdminLoginVO">
-  			select admin_id, admin_pw from admin_admin where admin_id = #{admin_id}
-  		</select>
-  </mapper>
+<mapper
+	namespace="com.choongang.scheduleproject.mapper.AdminMapper">
+	<!-- 회원목록 출력 -->
+	<select id="getMemberList" resultType="UserVO">
+		select u.user_id,
+		u.department_id,
+		u.user_role,
+		u.user_email,
+		u.user_name,
+		u.user_pw,
+		u.user_cell,
+		u.user_birth,
+		u.user_active,
+		u.user_position,
+		u.user_employeenumber,
+		u.user_regdate,
+		d.department_name,
+		max(l.log_date) log_date
+		from user_user u
+		left join user_department d
+		on u.department_id = d.department_id
+		left join user_log l
+		on l.user_id = u.user_id
+		<!-- 검색시 실행 -->
+		<choose>
+			<when test='searchType =="사원번호" and search !=null'>
+				where u.user_employeenumber like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="아이디" and search !=null'>
+				where u.user_id like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="이름" and search !=null'>
+				where u.user_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="부서" and search !=null'>
+				where d.department_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="휴대폰번호" and search !=null'>
+				where u.user_cell like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="이메일" and search !=null'>
+				where u.user_email like concat('%' , #{search},'%')
+			</when>
+		</choose>
+		group by u.user_id
+		order by u.user_employeenumber
+		desc limit #{pageStart},#{amount}
+
+	</select>
+
+	<!-- 검색결과 카운트 -->
+	<select id="getMemberCount" resultType="int">
+		select count(*) from user_user u
+		left join user_department d
+		on u.department_id = d.department_id
+		<choose>
+			<when test='searchType =="사원번호" and search !=null'>
+				where u.user_employeenumber like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="아이디" and search !=null'>
+				where u.user_id like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="이름" and search !=null'>
+				where u.user_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="부서" and search !=null'>
+				where d.department_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="휴대폰번호" and search !=null'>
+				where u.user_cell like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="이메일" and search !=null'>
+				where u.user_email like concat('%' , #{search},'%')
+			</when>
+		</choose>
+	</select>
+	<!-- manageMember 페이지에서 체크박스 체크하는 경우 쿼리 -->
+	<update id="checkMemberUpdate" parameterType="CheckVO">
+
+		update user_user set
+		user_pw = #{password}<!-- 암호화 처리해서 들어가줘야 함 -->
+		where user_id = #{user_id};
+	</update>
+
+	<!-- 유저 활성/비활성 업데이트 -->
+	<update id="userActiveUpdate" parameterType="UserActiveVO">
+		update user_user set
+		<choose>
+			<when test="user_active == true">
+				user_active = true
+			</when>
+			<otherwise>
+				user_active = false
+			</otherwise>
+		</choose>
+		where user_id = #{user_id}
+	</update>
+
+	<!-- 체크박스 삭제 작업 -->
+	<delete id="deleteMember" parameterType="CheckVO">
+
+		delete from user_user where user_id = #{user_id}
+
+	</delete>
+
+	<!-- 프로젝트 리스트 출력 -->
+	<select id="getProjectList" resultType="ProjectVO">
+		select p.pj_num,
+		p.pj_name,
+		p.pj_active,
+		p.pj_writer,
+		p.pj_description,
+		p.pj_startdate,
+		p.pj_enddate,
+		count(m.user_id) pj_count
+		from user_project p
+		left join mapping m
+		on m.pj_num = p.pj_num
+		<choose>
+			<when test='searchType =="pj_name" and search !=null'>
+				where pj_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_chief" and search !=null'>
+				where pj_chief like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_startdate" and search !=null'>
+				where pj_startdate like concat('%' , #{search},'%')
+			</when>
+		</choose>
+		group by p.pj_num
+		order by p.pj_num desc
+		limit #{pageStart} , #{amount}
+	</select>
+
+	<!-- 프로젝트 갯수 -->
+	<select id="getProjectCount" resultType="int">
+		select count(*)
+		from user_project
+		<choose>
+			<when test='searchType =="pj_name" and search !=null'>
+				where pj_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_chief" and search !=null'>
+				where pj_chief like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_startdate" and search !=null'>
+				where pj_startdate like concat('%' , #{search},'%')
+			</when>
+		</choose>
+	</select>
+
+	<!-- 프로젝트 리스트 활성 /비활성 -->
+	<update id="projectActiveUpdate" parameterType="ProjectActiveVO">
+		update user_project set
+		<choose>
+			<when test="pj_active == true">
+				pj_active = true
+			</when>
+			<otherwise>
+				pj_active = false
+			</otherwise>
+		</choose>
+		where pj_num = #{pj_num}
+	</update>
+
+
+
+	<!-- 프로젝트 리스트 체크박스 선택 시 삭제 -->
+	<delete id="deleteProjectList" parameterType="ProjectCheckVO">
+		delete from user_project where pj_num = #{pj_num}
+	</delete>
+
+	<!-- 프로젝트 상세내용 가져오기 -->
+	<select id="getProjectDetail" resultType="ProjectDetailVO">
+		select pj_num,
+		pj_name,
+		pj_description
+		from user_project
+		where pj_num = #{pjNum}
+	</select>
+
+	<select id="getProjectDetailMember"
+		resultType="ProjectDetailMemberVO">
+		select m.user_id,
+		m.is_observer,
+		u.user_name
+		from mapping m
+		left join user_user u
+		on m.user_id = u.user_id
+		where pj_num = #{pjNum}
+	</select>
+
+	<!-- 프로젝트 통계 가져오기 -->
+	<select id="getProjectStatic" resultType="ProjectStaticVO">
+		select pj_num,
+		pj_name,
+		pj_active,
+		pj_writer,
+		pj_startdate,
+		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+		and b.board_process = true ) complete,
+		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+		and b.board_process = false ) uncomplete,
+		(round(((select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+		and b.board_process = true ) /
+		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num )
+		)*100)) progress
+		from user_project p
+		<choose>
+			<when test='searchType =="pj_name" and search !=null'>
+				where pj_name like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_chief" and search !=null'>
+				where pj_chief like concat('%' , #{search},'%')
+			</when>
+			<when test='searchType =="pj_startdate" and search !=null'>
+				where pj_startdate like concat('%' , #{search},'%')
+			</when>
+		</choose>
+		order by pj_num desc
+		limit #{pageStart} , #{amount}
+	</select>
+
+	<!-- 로그인 정보 가져오기 -->
+	<select id="getLoginVO" resultType="AdminLoginVO"
+		parameterType="AdminLoginVO">
+		select admin_id, admin_pw from admin_admin where admin_id = #{admin_id}
+	</select>
+</mapper>

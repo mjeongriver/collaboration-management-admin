@@ -1,0 +1,321 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
+
+	<div class="wrap">
+
+		<main id="main" class="main">
+
+			<div class="pagetitle">
+				<h1>회원 목록</h1>
+			</div>
+			<!-- End Page Title -->
+
+			<section class="section">
+				<div class="row">
+					<div class="col-lg-12">
+
+						<div class="card">
+							<div class="card-body">
+								<div style="margin: 20px 0px; height: 40px">
+									<!-- 일정관리 검색창 -->
+									<div class="search-bar">
+
+										<!-- 검색 기능 마이바티스에서 쿼리문 -->
+										<form class="search-form d-flex align-items-center"
+											method="GET" action="manage-member"
+											style="justify-content: right;">
+											<div style="border: 1px solid #E0E5EE; border-radius: 15px;">
+
+												<select class="form-select"
+													style="float: left; height: 34px; width: 220px; margin: 10px; border: none"
+													name="searchType">
+													<!-- 검색 시 현상유지 -->
+													<option value="사원번호"
+														th:selected="${pageVO.criteria.searchType == '사원번호'}">사원번호</option>
+													<option value="아이디"
+														th:selected="${pageVO.criteria.searchType == '아이디'}">아이디</option>
+													<option value="이름"
+														th:selected="${pageVO.criteria.searchType == '이름'}">이름</option>
+													<option value="부서"
+														th:selected="${pageVO.criteria.searchType == '부서'}">부서</option>
+													<option value="휴대폰번호"
+														th:selected="${pageVO.criteria.searchType == '휴대폰번호'}">휴대폰번호</option>
+													<option value="이메일"
+														th:selected="${pageVO.criteria.searchType == '이메일'}">이메일</option>
+												</select> <input type="text" th:value="${pageVO.criteria.search}"
+													name="search" placeholder="Search"
+													title="Enter search keyword"
+													style="border: none; padding-top: 15px; outline: none;"
+													required="required" pattern="^[가-힣a-zA-Z0-9@]+$">
+												<button type="submit" title="Search"
+													style="background-color: transparent; border: none; padding-right: 18px">
+													<i class="bi bi-search"></i>
+												</button>
+
+											</div>
+										</form>
+									</div>
+									<!-- End Search Bar -->
+									<!-- 검색결과 건수 출력 -->
+									<div>
+										검색 결과: [[${count}]]건 <select id="handleAmount"
+											class="form-select"
+											style="float: right; height: 34px; width: 140px; margin-bottom: 7px">
+											<option value="10" th:selected="${pageVO.amount} == 10">10개씩
+												보기</option>
+											<option value="20" th:selected="${pageVO.amount} == 20">20개씩
+												보기</option>
+											<option value="50" th:selected="${pageVO.amount} == 50">50개씩
+												보기</option>
+										</select>
+
+									</div>
+								</div>
+
+
+								<!-- Bordered Table -->
+								<table class="table table-bordered"
+									style="text-align: center; margin-top: 20px">
+
+									<thead>
+										<tr>
+											<th scope="col" style="line-height: 30px; height: 30px">사원번호</th>
+											<th scope="col" style="line-height: 30px; height: 30px">아이디</th>
+											<th scope="col" style="line-height: 30px; height: 30px">이름</th>
+											<th scope="col" style="line-height: 30px; height: 30px">부서</th>
+											<th scope="col" style="line-height: 30px; height: 30px">휴대폰번호</th>
+											<th scope="col" style="line-height: 30px; height: 30px">이메일</th>
+											<th scope="col" style="line-height: 30px; height: 30px">가입일</th>
+											<th scope="col" style="line-height: 30px; height: 30px">마지막
+												로그인 기록</th>
+											<th scope="col" style="line-height: 30px; height: 30px">활성화/비활성화</th>
+											<th scope="col" style="line-height: 30px; height: 30px">비밀번호
+												초기화 <input class="form-check-input" type="checkbox"
+												id="gridCheck1" name="pwReset" style="margin-top: 8px"
+												onclick="selectAllPwReset(this)">
+											</th>
+											<th scope="col" style="line-height: 30px; height: 30px">회원
+												삭제 <input class="form-check-input" type="checkbox"
+												id="gridCheck1" name="memberDelete" style="margin-top: 8px"
+												onclick="selectAllMemberDelete(this)">
+											</th>
+										</tr>
+									</thead>
+									<form id="form">
+										<tbody>
+											<!-- <tr>
+												<th scope="row">1</th>
+												<td>double z</td>
+												<td>짱구</td>
+												<td>개발팀</td>
+												<td>010-3333-1111</td>
+												<td>z@naver.com</td>
+												<td>2016-05-25</td>
+												<td>2016-05-25</td>
+												<td><select style="border:1px solid #E0E5EE; border-radius: 5px">
+														<option selected>활성화</option>
+														<option>비활성화</option>
+												</select></td>
+												<td><input class="form-check-input" type="checkbox"
+													id="gridCheck1" name="pwReset"></td>
+												<td><input class="form-check-input" type="checkbox"
+													id="gridCheck1" name="memberDelete"></td>
+											</tr> -->
+
+											<!-- 타임리프로 DB 반복문 처리 -->
+											<th:blcok th:each="UserVO,status : ${UserList}">
+
+												<!-- form id="form"> -->
+												<tr>
+													<th scope="row">[[${UserVO.user_employeenumber}]]</th>
+													<td>[[${UserVO.user_id}]]</td>
+													<td>[[${UserVO.user_name}]]</td>
+													<td>[[${UserVO.department_name}]]</td>
+													<td>[[${UserVO.user_cell}]]</td>
+													<td>[[${UserVO.user_email}]]</td>
+													<td
+														th:text="${#dates.format(UserVO.user_regdate, 'yyyy-MM-dd')}"></td>
+													<td
+														th:text="${#dates.format(UserVO.log_date, 'yyyy-MM-dd HH시 mm분 ss초')}"></td>
+													<td><select
+														style="border: 1px solid #E0E5EE; border-radius: 5px"
+														name="user_active" class="user_active">
+
+															<!-- 타임리프 셀렉트 지정 -->
+															<option th:selected="${UserVO.user_active} == true"
+																value="true">활성화</option>
+															<option th:selected="${UserVO.user_active} == false"
+																value="false">비활성화</option>
+													</select></td>
+													<td><input class="form-check-input pwReset"
+														type="checkbox" id="gridCheck1" name="pwReset" value="off"
+														onchange="checkboxToggle(this)"></td>
+													<td><input class="form-check-input memberDelete"
+														type="checkbox" id="gridCheck1" name="memberDelete"
+														value="off" onchange="checkboxToggle(this)"> <input
+														type="hidden" name="user_id" class="user_id"
+														th:value="${UserVO.user_id}"></td>
+												</tr>
+												<!-- </form> -->
+											</th:blcok>
+
+										</tbody>
+									</form>
+								</table>
+								<!-- End Bordered Table -->
+								<button type="button" class="btn btn-primary"
+									style="float: right" id="submit">완료</button>
+
+							</div>
+
+							<div style="margin: 0 auto">
+								<ul class="pagination">
+
+									<!-- 이전버튼 -->
+
+									<li
+										th:class="${pageVO.prev == true ? 'page-item':'page-item disabled'}"><a
+										class="page-link"
+										th:href="@{manage-member(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">이전</a></li>
+
+
+									<!-- 페이징 부분 처리 -->
+									<th:block th:each="page : ${pageVO.pageList}">
+										<li
+											th:class="${page == pageVO.page ? 'page-item active':'page-item'}"><a
+											class="page-link"
+											th:href="@{manage-member(page=${page}, amount=${pageVO.amount} ,search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">[[${page}]]</a></li>
+									</th:block>
+
+									<!-- <li class="page-item active" aria-current="page"><a
+										class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li> -->
+
+
+									<!-- 다음 버튼 조건 -->
+									<li
+										th:class="${pageVO.prev == true ? 'page-item':'page-item disabled'}"><a
+										class="page-link"
+										th:href="@{manage-member(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">다음</a>
+									</li>
+
+								</ul>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</section>
+
+		</main>
+		<!-- End #main -->
+
+	</div>
+
+</th:block>
+
+<script>
+		//체크박스 밸류 토글
+		function checkboxToggle(button) {
+			if(button.value == "off"){
+				button.value = "on";
+			} else {
+				button.value = "off";
+			}
+
+		}
+		//비밀번호 초기화 전체선택
+		function selectAllPwReset(selectAll) {
+			const checkboxes = document.getElementsByName('pwReset');
+
+		 	checkboxes.forEach((checkbox) => {
+		    	checkbox.checked = selectAll.checked;
+		    	checkbox.value ="on"; //일괄 value값 처리
+		  	})
+		}
+		//회원 삭제 전체선택
+		function selectAllMemberDelete(selectAll){
+			const checkboxes = document.getElementsByName('memberDelete');
+
+		 	checkboxes.forEach((checkbox) => {
+		    	checkbox.checked = selectAll.checked;
+		    	checkbox.value ="on"; //일괄 value값 처리
+		  	})
+		}
+		//10개, 20개, 50개 보기 핸들 이벤트
+		var handleAmount = document.getElementById("handleAmount");
+		handleAmount.onchange = function(e) {
+			location.href="manage-member?page=1&amount=" + e.target.value;
+		}
+		//회원 삭제, 초기화 처리 비동기
+		$(function(){
+			$('#submit').on('click',function(){
+				var form = $('#form').serialize(); /* 폼 태그 안 data들을 한꺼번에 보낼 수 있음
+														사용하지 않을 경우 하나씩 data를 담아줘야 함
+														여기서는 잘 안되서 쓰진 않음*/
+
+				var user_id; //서버에서 받아줄 VO 멤버변수 값과 똑같이 선언
+				var pwReset;
+				var memberDelete;
+				var user = document.querySelectorAll(".user_id"); //배열로 user_id 클래스에 해당하는 값을 받아옴
+				var pw = document.querySelectorAll(".pwReset");	//배열로 pwReset 클래스에 해당하는 값을 받아옴
+				var member = document.querySelectorAll(".memberDelete");//배열로 memberDelete 클래스에 해당하는 값을 받아옴
+
+				var user_data=[]; //JSON 객체를 만들기 위한 배열 선언
+
+
+				for(var i = 0; i<user.length; i++){ //반복문으로 JSON 객체를 생성해줌
+					user_data[i] =
+						{
+							user_id:user[i].defaultValue,
+							pwReset:pw[i].value,
+							memberDelete:member[i].value
+					}
+
+				}
+				/* var formsubmit = JSON.parse(form);
+				console.log(formsubmit); */
+				$.ajax({
+					type:'post',
+					url:'/check-regist',
+					contentType:'application/json' , //보내줄 데이터 타입을 명시해줌 JSON 데이터
+					data:JSON.stringify(user_data), //보내줄 JSON 객체를 JSON 문자열로 변환
+					dataType:'text', // 서버에서 리턴받는 String 형태를 텍스트로 받음
+					success:function(result) {
+						alert(result);
+						location.href="/admin/manage-member";
+					},
+					error:function(err){
+						alert("변경에 실패했습니다.");
+					}
+				})
+			})
+		})
+
+		//활성화 유무 change 이벤트
+		$(".user_active").change(function(event) {
+			var user_idData = $(event.target).closest("td").closest("tr").find(".user_id").val(); //유저 아이디 가져옴
+			user_activeData = {
+					user_id:user_idData, //유저 아이디
+					user_active:$(event.target).val() //유저 비활성 활성 유무
+			}
+			$.ajax({
+				type:'POST',
+				url:'/check-active-regist',
+				contentType:'application/json',
+				data:JSON.stringify(user_activeData),
+				dataType:'text',
+				success:function(result){
+					alert(result);
+				},
+				error:function(){
+					alert('변경 실패');
+				}
+			})
+		})
+
+
+	</script>
+</html>

@@ -1,6 +1,7 @@
 package com.choongang.scheduleproject.command;
 
-import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProjectDetailVO {
-	
-	private String pj_num;
-	private String pj_name;
-	private String pj_description;
-	//private ArrayList<String> pj_member; 
-	//private ArrayList<String> pj_observer; 
+
+	@JsonProperty("pj_num")
+	private String pjNum;
+	private String pjName;
+	private String pjDescription;
+	//private ArrayList<String> pj_member;
+	//private ArrayList<String> pj_observer;
 }
