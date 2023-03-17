@@ -128,24 +128,24 @@
 
 												<!-- form id="form"> -->
 												<tr>
-													<th scope="row">[[${UserVO.user_employeenumber}]]</th>
-													<td>[[${UserVO.user_id}]]</td>
-													<td>[[${UserVO.user_name}]]</td>
-													<td>[[${UserVO.department_name}]]</td>
-													<td>[[${UserVO.user_cell}]]</td>
-													<td>[[${UserVO.user_email}]]</td>
+													<th scope="row">[[${UserVO.userEmployeenumber}]]</th>
+													<td>[[${UserVO.userId}]]</td>
+													<td>[[${UserVO.userName}]]</td>
+													<td>[[${UserVO.departmentName}]]</td>
+													<td>[[${UserVO.userCell}]]</td>
+													<td>[[${UserVO.userEmail}]]</td>
 													<td
-														th:text="${#dates.format(UserVO.user_regdate, 'yyyy-MM-dd')}"></td>
+														th:text="${#dates.format(UserVO.userRegdate, 'yyyy-MM-dd')}"></td>
 													<td
-														th:text="${#dates.format(UserVO.log_date, 'yyyy-MM-dd HH시 mm분 ss초')}"></td>
+														th:text="${#dates.format(UserVO.logDate, 'yyyy-MM-dd HH시 mm분 ss초')}"></td>
 													<td><select
 														style="border: 1px solid #E0E5EE; border-radius: 5px"
 														name="user_active" class="user_active">
 
 															<!-- 타임리프 셀렉트 지정 -->
-															<option th:selected="${UserVO.user_active} == true"
+															<option th:selected="${UserVO.userActive} == true"
 																value="true">활성화</option>
-															<option th:selected="${UserVO.user_active} == false"
+															<option th:selected="${UserVO.userActive} == false"
 																value="false">비활성화</option>
 													</select></td>
 													<td><input class="form-check-input pwReset"
@@ -155,7 +155,7 @@
 														type="checkbox" id="gridCheck1" name="memberDelete"
 														value="off" onchange="checkboxToggle(this)"> <input
 														type="hidden" name="user_id" class="user_id"
-														th:value="${UserVO.user_id}"></td>
+														th:value="${UserVO.userId}"></td>
 												</tr>
 												<!-- </form> -->
 											</th:blcok>

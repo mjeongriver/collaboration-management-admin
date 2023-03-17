@@ -29,13 +29,13 @@
 												<select class="form-select"
 													style="float: left; height: 34px; width: 220px; margin: 10px; border: none"
 													name="searchType">
-													<option value="pj_name"
-														th:selected="${pageVO.criteria.searchType == 'pj_name'}">프로젝트
+													<option value="pjName"
+														th:selected="${pageVO.criteria.searchType == 'pjName'}">프로젝트
 														명</option>
-													<option value="pj_writer"
-														th:selected="${pageVO.criteria.searchType == 'pj_writer'}">팀장</option>
-													<option value="pj_startdate"
-														th:selected="${pageVO.criteria.searchType == 'pj_startdate'}">프로젝트
+													<option value="pjWriter"
+														th:selected="${pageVO.criteria.searchType == 'pjWriter'}">팀장</option>
+													<option value="pjStartdate"
+														th:selected="${pageVO.criteria.searchType == 'pjStartdate'}">프로젝트
 														생성일</option>
 												</select> <input type="text" name="search" placeholder="Search"
 													th:value="${pageVO.criteria.search}"
