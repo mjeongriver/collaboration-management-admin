@@ -1,47 +1,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>중앙 소프트 일정관리 시스템</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+<title>중앙 소프트 일정관리 시스템</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="/assets/img/logo.png" rel="icon">
-  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<!-- Favicons -->
+<link href="/assets/img/logo.png" rel="icon">
+<link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="/assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet">
-  <script src="/assets/js/jquery-1.12.1.min.js"></script>
-  <script src="/assets/js/jquery-ui.min.js"></script>
-  
-  
-  <!-- =======================================================
+<!-- Template Main CSS File -->
+<link href="/assets/css/style.css" rel="stylesheet">
+<script src="/assets/js/jquery-1.12.1.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
+
+
+<!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  
+
 
 </head>
 <body>
 	<div class="wrap">
-		<main id="main" class="main" style="margin-left:0;">
+		<main id="main" class="main" style="margin-left: 0;">
 			<div class="pagetitle" style="text-align: center">
 				<h1>관리자 로그인</h1>
 			</div>
@@ -53,7 +58,8 @@
 							<div class="card-body">
 								<div class="pt-4 pb-2"></div>
 
-								<form class="row g-3 needs-validation" action="/admin/login" method="post">
+								<form class="row g-3 needs-validation" action="/admin/login"
+									method="post">
 
 									<div class="col-12">
 										<label for="yourUsername" class="form-label"></label> <label
@@ -80,7 +86,7 @@
 										</div>
 									</div>
 
-									
+
 									<div class="col-13">
 										<div style="padding: 4px;">
 											<button class="btn btn-primary" type="submit"
@@ -99,26 +105,26 @@
 		</main>
 		<!-- End #main -->
 	</div>
-</th:block>
+	</th:block>
 </body>
 
-  <script>
+<script>
   	//넘어오는 메세지 출력
   	if('[[${msg}]]' != '') {
   		alert('[[${msg}]]');
   	}
-  	
+
   	//쿠키로 아이디 저장
   	$(document).ready(function(){
-  		 
+
   	    // 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
   	    var key = getCookie("key");
-  	    $("#adminId").val(key); 
-  	     
+  	    $("#adminId").val(key);
+
   	    if($("#adminId").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
   	        $("rememberId").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
   	    }
-  	     
+
   	    $("#rememberId").change(function(){ // 체크박스에 변화가 있다면,
   	        if($("#rememberId").is(":checked")){ // ID 저장하기 체크했을 때,
   	            setCookie("key", $("#adminId").val(), 7); // 7일 동안 쿠키 보관
@@ -126,7 +132,7 @@
   	            deleteCookie("key");
   	        }
   	    });
-  	     
+
   	    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
   	    $("#adminId").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
   	        if($("#rememberId").is(":checked")){ // ID 저장하기를 체크한 상태라면,
@@ -134,20 +140,20 @@
   	        }
   	    });
   	});
-  	 
+
   	function setCookie(cookieName, value, exdays){
   	    var exdate = new Date();
   	    exdate.setDate(exdate.getDate() + exdays);
   	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
   	    document.cookie = cookieName + "=" + cookieValue;
   	}
-  	 
+
   	function deleteCookie(cookieName){
   	    var expireDate = new Date();
   	    expireDate.setDate(expireDate.getDate() - 1);
   	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
   	}
-  	 
+
   	function getCookie(cookieName) {
   	    cookieName = cookieName + '=';
   	    var cookieData = document.cookie;
@@ -161,23 +167,23 @@
   	    }
   	    return unescape(cookieValue);
   	}
-  	
+
   </script>
 
- <!-- Vendor JS Files -->
-  <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="/assets/vendor/quill/quill.min.js"></script>
-  <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
+<!-- Vendor JS Files -->
+<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/chart.js/chart.umd.js"></script>
+<script src="/assets/vendor/echarts/echarts.min.js"></script>
+<script src="/assets/vendor/quill/quill.min.js"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="/assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
-  
-  
-  
-  
+<!-- Template Main JS File -->
+<script src="/assets/js/main.js"></script>
+
+
+
+
 </html>

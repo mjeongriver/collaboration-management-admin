@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" type="text/css" href="/assets/css/modal.css" />
-<th:block th:replace="~{./include/basicLayout :: 함수( ~{:: .wrap } ) }">
+<th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
 
 	<div class="wrap">
 
@@ -23,16 +23,25 @@
 									<!-- 폼 형태로 값들을 컨트롤러에 넘김 -->
 									<div class="search-bar">
 										<form class="search-form d-flex align-items-center"
-											method="GET" action="manageProject" style="justify-content: right;">
+											method="GET" action="manage-project"
+											style="justify-content: right;">
 											<div style="border: 1px solid #E0E5EE; border-radius: 15px;">
 												<select class="form-select"
-													style="float: left; height: 34px; width: 220px; margin: 10px; border: none" name="searchType">
-													<option value="pj_name" th:selected="${pageVO.criteria.searchType == 'pj_name'}">프로젝트 명</option>
-													<option value="pj_writer" th:selected="${pageVO.criteria.searchType == 'pj_writer'}">팀장</option>
-													<option value="pj_startdate" th:selected="${pageVO.criteria.searchType == 'pj_startdate'}">프로젝트 생성일</option>
+													style="float: left; height: 34px; width: 220px; margin: 10px; border: none"
+													name="searchType">
+													<option value="pj_name"
+														th:selected="${pageVO.criteria.searchType == 'pj_name'}">프로젝트
+														명</option>
+													<option value="pj_writer"
+														th:selected="${pageVO.criteria.searchType == 'pj_writer'}">팀장</option>
+													<option value="pj_startdate"
+														th:selected="${pageVO.criteria.searchType == 'pj_startdate'}">프로젝트
+														생성일</option>
 												</select> <input type="text" name="search" placeholder="Search"
-													th:value="${pageVO.criteria.search}" title="Enter search keyword"
-													style="border: none; padding-top: 15px; outline: none;"required="required" pattern="^[가-힣a-zA-Z0-9-]+$">
+													th:value="${pageVO.criteria.search}"
+													title="Enter search keyword"
+													style="border: none; padding-top: 15px; outline: none;"
+													required="required" pattern="^[가-힣a-zA-Z0-9-]+$">
 												<button type="submit" title="Search"
 													style="background-color: transparent; border: none; padding-right: 18px">
 													<i class="bi bi-search"></i>
@@ -59,14 +68,21 @@
 									<thead>
 										<tr>
 
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 명</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												명</th>
 											<th scope="col" style="line-height: 30px; height: 30px">팀장</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 생성일</th>
-											<th scope="col" style="line-height: 30px; height: 30px">팀원 수</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 상세 보기</th>
-											<th scope="col" style="line-height: 30px; height: 30px">팀원 수정</th>
-											<th scope="col" style="line-height: 30px; height: 30px">활성화 여부</th>
-											<th scope="col" style="line-height: 30px; height: 30px">프로젝트 삭제 <input class="form-check-input" type="checkbox"
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												생성일</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀원
+												수</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												상세 보기</th>
+											<th scope="col" style="line-height: 30px; height: 30px">팀원
+												수정</th>
+											<th scope="col" style="line-height: 30px; height: 30px">활성화
+												여부</th>
+											<th scope="col" style="line-height: 30px; height: 30px">프로젝트
+												삭제 <input class="form-check-input" type="checkbox"
 												id="gridCheck1" style="margin-top: 8px;"
 												name="projectDelete" onclick="selectAllProjectDelete(this)">
 											</th>
@@ -94,32 +110,34 @@
 										</tr> -->
 										<th:block th:each="projectVO : ${projectList}">
 											<tr>
-												<th scope="row">[[${projectVO.pj_name}]]</th>
+												<th scope="row">[[${projectVO.pjName}]]</th>
 
-												<td>[[${projectVO.pj_writer}]]</td>
-												<td>[[${projectVO.pj_startdate}]]</td>
-												<td>[[${projectVO.pj_count}]]</td>
+												<td>[[${projectVO.pjWriter}]]</td>
+												<td>[[${projectVO.pjStartdate}]]</td>
+												<td>[[${projectVO.pjCount}]]</td>
 												<td><span class="badge bg-primary modalOn"
 													style="cursor: pointer">프로젝트 상세</span></td>
 												<td><span class="badge bg-primary modalOn"
 													style="cursor: pointer">팀원 수정</span></td>
 												<td><select
-													style="border: 1px solid #E0E5EE; border-radius: 5px" name="pj_active" class="pj_active">
-														<option th:selected="${projectVO.pj_active} ==true"
+													style="border: 1px solid #E0E5EE; border-radius: 5px"
+													name="pj_active" class="pj_active">
+														<option th:selected="${projectVO.pjActive} ==true"
 															value="true">활성화</option>
-														<option th:selected="${projectVO.pj_active} == false"
+														<option th:selected="${projectVO.pjActive} == false"
 															value="false">비활성화</option>
-													</select></td>
-												<td><input class="form-check-input projectDelete" type="checkbox"
-													id="gridCheck1" name="projectDelete">
-													<input type="hidden" th:value="${projectVO.pj_num}" name="pj_numCheck" class="pj_numCheck"></td>
+												</select></td>
+												<td><input class="form-check-input projectDelete"
+													type="checkbox" id="gridCheck1" name="projectDelete">
+													<input type="hidden" th:value="${projectVO.pjNum}"
+													name="pj_numCheck" class="pj_numCheck"></td>
 											</tr>
 										</th:block>
 									</tbody>
 								</table>
 								<!-- End Bordered Table -->
 								<button type="button" class="btn btn-primary"
-									style="float: right" id="submit" >완료</button>
+									style="float: right" id="submit">완료</button>
 
 							</div>
 
@@ -132,7 +150,7 @@
 									<li
 										th:class="${pageVO.prev == true ? 'page-item':'page-item disabled'}"><a
 										class="page-link"
-										th:href="@{manageProject(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">이전</a></li>
+										th:href="@{manage-project(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">이전</a></li>
 
 
 									<!-- 페이징 부분 처리 -->
@@ -140,14 +158,14 @@
 										<li
 											th:class="${page == pageVO.page ? 'page-item active':'page-item'}"><a
 											class="page-link"
-											th:href="@{manageProject(page=${page}, amount=${pageVO.amount} ,search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">[[${page}]]</a></li>
+											th:href="@{manage-project(page=${page}, amount=${pageVO.amount} ,search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">[[${page}]]</a></li>
 									</th:block>
-									
+
 									<!-- 다음 버튼 -->
 									<li
 										th:class="${pageVO.prev == true ? 'page-item':'page-item disabled'}"><a
 										class="page-link"
-										th:href="@{manageProject(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">다음</a>
+										th:href="@{manage-project(page=${pageVO.end+1},amount=${pageVO.amount},search=${pageVO.criteria.search} , searchType=${pageVO.criteria.searchType})}">다음</a>
 									</li>
 
 								</ul>
@@ -166,34 +184,35 @@
 				<div class="modal-content">
 					<section class="section" id="detailModal">
 						<div class="row modalStart" style="justify-content: center">
-						
+
 							<h5 class="title" style="padding-top: 20px"></h5>
 							<hr />
 							<div>
 								<input class="form-control projectName" type="text"
 									placeholder="프로젝트 제목을 입력하세요." readonly value=""><br>
 								<textarea class="form-control projectDetail" type="text"
-									placeholder="프로젝트에 관한 설명을 입력하세요." style="height: 200px" readonly ></textarea>
+									placeholder="프로젝트에 관한 설명을 입력하세요." style="height: 200px"
+									readonly></textarea>
 								<br>
 							</div>
 							<div>
-								
+
 								<div style="float: left; width: 49%;">
 									<p>팀원 목록</p>
 									<div class="form-control team" type="text"
 										style="height: 200px; overflow: auto;" readonly>
 										<!-- <p>강민정</p> -->
-										
+
 									</div>
 								</div>
 
-								
+
 								<div style="float: right; width: 49%">
 									<p>옵저버 목록</p>
 									<div class="form-control observer" type="text"
 										style="height: 200px; overflow: auto;" readonly>
 										<!-- <p>강민정</p> -->
-										
+
 									</div>
 								</div>
 							</div>
@@ -317,22 +336,22 @@
 <script th:inline="javascript">
 	//모달창 구현 - 누른 버튼마다 다른 모달 구현
 	$(".modalOn").click(function(e) {
-		
+
 		var pj_numData = $(e.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
 		if(e.target.innerHTML === "프로젝트 상세") { //프로젝트 상세 버튼 누를때
 			$(".team").empty(); // 창 열기전에 창에 있던 하위 태그들 초기화
 			$(".observer").empty(); // 창 열기전에 모달창에 있던 하위 태그를 초기화
-			
+
 			$.ajax({
-				url:'../getProjectDetail', //요청
+				url:'../get-project-detail', //요청
 				type:"POST",
 				data:JSON.stringify({pj_num:pj_numData}), //보내는 데이터
 				contentType:"application/json", //서버에 보내는 데이터 형식
 				dataType:"json", //서버에서 받는 데이터 형식
 				 beforeSend: function() {//로딩이 완료되기 전
 					 //마우스 커서를 로딩 중 커서로 변경
-				     $('html').css("cursor", "wait"); 
-				     
+				     $('html').css("cursor", "wait");
+
 				   	},
 				    complete: function() { //로딩 완료
 				    	//마우스 커서를 원래대로 돌린다
@@ -343,76 +362,76 @@
 					$(".projectName").attr("placeholder",result.projectName); //placeholder로 제목 고정
 					$(".projectDetail").attr("placeholder",result.projectDescription); // 이하 동일 상세 내용 고정
 					for(var i = 0; i<result.team.length; i++) { //team에 있는 인원들 출력
-						$(".team").append("<p>"+result.team[i]+"</p>");						
+						$(".team").append("<p>"+result.team[i]+"</p>");
 					}
 					for(var i = 0; i<result.observer.length; i++) { //observer에 있는 인원들 출력
 						$(".observer").append("<p>"+result.observer[i]+"</p>");
 					}
 				},
 				error:function(err){
-					
+
 				}
 			});
-		
+
 			$("#detailModal").css("display", "");
-			$("#changeModal").css("display", "none");	
-			
+			$("#changeModal").css("display", "none");
+
 		} else if(e.target.innerHTML === "팀원 수정") { //팀원 수정 버튼 누를때
 			$("#detailModal").css("display", "none");
-			$("#changeModal").css("display", "");			
+			$("#changeModal").css("display", "");
 		}
 		$("#basicModal").children().find(".title").html(e.target.innerHTML +": "+e.target.parentElement.parentElement.children[0].innerHTML); //제목 넣기
 	});
-	
+
 	//프로젝트 삭제 전체선택
 	function selectAllProjectDelete(selectAll) {
 			const checkboxes = document.getElementsByName('projectDelete');
-		  
+
 		 	checkboxes.forEach((checkbox) => {
 		    	checkbox.checked = selectAll.checked;
 		  	})
 		}
-	
+
 	//10개, 20개, 50개 보기 핸들 이벤트
 	var handleAmount = document.getElementById("handleAmount");
 	handleAmount.onchange = function(e) {
-		location.href="manageProject?page=1&amount=" + e.target.value;
+		location.href="manage-project?page=1&amount=" + e.target.value;
 	}
-	
+
 	//비동기로 restController에 데이터 넘기기
 	//먼저 배열로 해당 태그들을 가져와 value 값으로 json을 만듬
 	var pj_data = [];//json 담을 배열 선언
 	$("#submit").click(function(){
-		
+
 		var pj_numCheck = document.querySelectorAll(".pj_numCheck");
 		var pj_delete = document.querySelectorAll(".projectDelete");
-		
+
 		for(var i=0; i<pj_delete.length; i++) {
-			
+
 			pj_data[i]=
 				{
 					pj_num : pj_numCheck[i].defaultValue,
 					pj_delete: pj_delete[i].checked
 				}
 		}
-		
+
 		//여기서 JSON 데이터를 ajax로 보내줌
 		$.ajax({
-			url:"/projectCheckRegist",
+			url:"/project-check-regist",
 			type:"POST",
 			data:JSON.stringify(pj_data),
 			contentType:"application/json", //보내는 데이터
 			dataType:"text",
 			success:function(result) {
 				alert(result);
-				location.href='/admin/manageProject'; //새로고침
+				location.href='/admin/manage-project'; //새로고침
 			},
 			error:function(err){
 				console.log(err);
 			}
 		});
 	});
-	
+
 	//프로젝트 활성 비활성 유무 데이터 넘기기
 	$(".pj_active").change(function(event) {
 		var pj_numData = $(event.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
@@ -422,7 +441,7 @@
 		}
 		$.ajax({
 			type:'POST',
-			url:'/projectActiveUpdate',
+			url:'/project-active-update',
 			contentType:'application/json',
 			data:JSON.stringify(pj_activeData),
 			dataType:'text',
@@ -434,9 +453,9 @@
 			}
 		})
 	})
-	
-			
-			
+
+
+
 	</script>
-	
+
 </html>

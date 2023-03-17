@@ -1,7 +1,6 @@
-package com.choongang.scheduleproject.service;
+package com.choongang.scheduleproject.service.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,22 +17,23 @@ import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
+import com.choongang.scheduleproject.service.AdminService;
 import com.choongang.scheduleproject.util.Criteria;
 
 
 @Service
 public class AdminServiceImpl implements AdminService {
-	
+
 	@Autowired
 	private AdminMapper adminMapper;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	// 회원 목록
 	@Override
 	public ArrayList<UserVO> getMemberList(Criteria criteria) {
-		return adminMapper.getMemberList(criteria); 
+		return adminMapper.getMemberList(criteria);
 	}
 	//총 회원 수
 	@Override
@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int checkMemberUpdate(ArrayList<CheckVO> list) {
 		int result=0; //결과값 반환
-		
+
 		for(CheckVO vo : list) {
 			if(vo.getPwReset().equals("on")) {
 				String password ="default123!";
@@ -54,12 +54,12 @@ public class AdminServiceImpl implements AdminService {
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리
 		return result;
 	}
-	
+
 	//회원 삭제
 	@Override
 	public int deleteMember(ArrayList<CheckVO> list) {
 		int result=0; //결과값 반환
-		
+
 		for(CheckVO vo : list) {
 			if(vo.getMemberDelete().equals("on")) {
 				result = adminMapper.deleteMember(vo);
@@ -82,11 +82,11 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteProjectList(ArrayList<ProjectCheckVO> list) {
 		int result = 0;
 		for(ProjectCheckVO vo: list) {
-			if(vo.isPj_delete() == true) {				
+			if(vo.isPj_delete() == true) {
 				result = adminMapper.deleteProjectList(vo); //반복문 사용으로 프로젝트 넘버 당 하나하나 delete 실행
 			}
 		}
-		
+
 		return result;
 	}
 	//프로젝트 상세보기 내용 구함
@@ -118,6 +118,6 @@ public class AdminServiceImpl implements AdminService {
 	public AdminLoginVO getLoginVO(AdminLoginVO vo) {
 		return adminMapper.getLoginVO(vo);
 	}
-	
-	
+
+
 }
