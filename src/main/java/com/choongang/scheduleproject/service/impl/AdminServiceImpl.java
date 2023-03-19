@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.DepartmentVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
@@ -125,6 +126,21 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ArrayList<UserStaticVO> getMemberStatistics(@Param("pjNum") int pjNum) {
 		return adminMapper.getMemberStatistics(pjNum);
+	}
+	//부서가져오기
+	@Override
+	public ArrayList<DepartmentVO> getDepList() {
+		return adminMapper.getDepList();
+	}
+	//부서에 해당하는 인원 가져오기
+	@Override
+	public ArrayList<UserVO> getDepMemberList(int departmentId) {
+		return adminMapper.getDepMemberList(departmentId);
+	}
+	//해당 프로젝트 팀원 가져오기
+	@Override
+	public ArrayList<UserVO> getTeamMemberList(int pjNum) {
+		return adminMapper.getTeamMemberList(pjNum);
 	}
 
 

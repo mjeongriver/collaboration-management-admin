@@ -112,7 +112,9 @@
 											<tr>
 												<th scope="row">[[${projectVO.pjName}]]</th>
 
-												<td>[[${projectVO.pjWriter}]]</td>
+												<td>[[${projectVO.userName}]]
+													<input type="hidden" th:value="${projectVO.pjWriter}" class="pj_writer">
+												</td>
 												<td>[[${projectVO.pjStartdate}]]</td>
 												<td>[[${projectVO.pjCount}]]</td>
 												<td><span class="badge bg-primary modalOn"
@@ -237,78 +239,31 @@
 									<div>
 										<div style="float: left; width: 49%;">
 											<p>전체 목록</p>
-											<div class="categoryListWrap">
-												<div class="form-control" type="text"
-													style="height: 400px; overflow: auto;">
-													<ul class="categoryList" style="position: relative;"
-														onclick="getCategory_List(event);">
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "A" }'>기획부</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "B" }'>영업부</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "C" }'>개발부</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "C" }'>총무부</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "C" }'>인사부</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "1", "group_id": "C" }'>회계부</a></li>
-
-													</ul>
-													<ul class="categoryList" style="position: relative;"
-														onclick="getCategory_List(event);">
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>강민정</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>이동민</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>이승완</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>이세민</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>권도은</a></li>
-														<li><a href="#"
-															data-set='{"category_lv": "2", "group_id": "A" }'>이서윤</a></li>
-													</ul>
-												</div>
-												<div style="padding-top: 10px">
-													<button class="modalOn btn btn-primary w-20">추가</button>
+											<div class="form-control" type="text" style="height: 400px; overflow: auto;" required>
+												<div style="display: flex;">
+													<div class="depListWrap" style="padding-right: 20px; border-right: 1px solid #ced4da;">
+													</div>
+													<div class="depMemberListWrap">
+													</div>
 												</div>
 											</div>
+											
+											<div style="padding-top: 10px">
+												<button type="button" class="btn btn-primary w-20" onclick="teamPlus(event)">추가</button>
+											</div>
+											
 										</div>
-
-
-
-										<div style="float: right; width: 49%">
+										
+										<div style="float: right; width: 49%" required>
 											<p style="float: left">추가 목록</p>
-											<p style="float: right">
-												일괄 삭제 <input type=checkbox style="padding: 10px">
+											<p style="float: right" class="allMember">일괄 삭제 
+											<input type=checkbox name="memberDelete" style="padding: 10px" onclick="selectAllMember(this)">
 											</p>
-											<div class="form-control" type="text"
-												style="height: 400px; overflow: auto;" readonly>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
-												<p>
-													<input type=checkbox style="padding: 10px"> 강민정
-												</p>
+											<div id=teamName class="form-control" type="text" style="height: 400px; overflow: auto;" readonly>
 											</div>
-											<div style="padding-top: 10px"></div>
-											<button class="modalOn btn btn-primary w-20"
-												style="float: left;">삭제</button>
+											<div style="padding-top: 10px">
+											</div>
+											<button type="button" onclick="memberDelete2()" class="btn btn-primary w-20" style="float: left;">삭제</button>
 										</div>
 
 									</div>
@@ -317,8 +272,7 @@
 							</div>
 
 							<div align="center">
-								<button class="modalOff btn btn-primary w-20"
-									style="margin-top: 30px">완료</button>
+								<button type="button" onclick="memberSuccess()" class="modalOff btn btn-primary w-20" style="margin-top: 30px">완료</button>
 							</div>
 
 						</div>
@@ -335,9 +289,10 @@
 
 <script th:inline="javascript">
 	//모달창 구현 - 누른 버튼마다 다른 모달 구현
+	var pj_numData;
 	$(".modalOn").click(function(e) {
-
-		var pj_numData = $(e.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
+		pj_numData = $(e.target).closest("td").closest("tr").find(".pj_numCheck").val(); //pj_num 받아오기
+		var pj_writer = $(e.target).closest("td").closest("tr").find(".pj_writer").val(); //pj_writer 받아오기
 		if(e.target.innerHTML === "프로젝트 상세") { //프로젝트 상세 버튼 누를때
 			$(".team").empty(); // 창 열기전에 창에 있던 하위 태그들 초기화
 			$(".observer").empty(); // 창 열기전에 모달창에 있던 하위 태그를 초기화
@@ -358,7 +313,6 @@
 				        $('html').css("cursor", "auto");
 				    },
 				success:function(result){
-					console.log(result);
 					$(".projectName").attr("placeholder",result.projectName); //placeholder로 제목 고정
 					$(".projectDetail").attr("placeholder",result.projectDescription); // 이하 동일 상세 내용 고정
 					for(var i = 0; i<result.team.length; i++) { //team에 있는 인원들 출력
@@ -377,6 +331,97 @@
 			$("#changeModal").css("display", "none");
 
 		} else if(e.target.innerHTML === "팀원 수정") { //팀원 수정 버튼 누를때
+			
+			$(".depListWrap").empty()//부서목록 이전값 초기화
+			$(".depMemberListWrap").empty() //부서목록 팀원 이전값 초기화
+			$("#teamName").empty(); //팀원 목록 초기화
+			//부서 목록 불러오기
+			$.ajax({
+				url: "../get-dlist",
+				type: "get",
+				async: false,
+				success: function(result) {
+					let str = "";
+					str += '<ul class="depList" style="position: relative; list-style: none;" onclick="getDepList(event);">';
+					result.forEach(function(item, index) {
+						str += '<li class="depList" style="cursor: pointer; padding: 5px 0px 5px 5px; margin: 10px 0px 10px;" value=' + JSON.stringify(item.departmentId) + '>' + item.departmentName + '</li>';
+					})
+					str += '</ul>';
+		
+					$(".depListWrap").append(str); //자식으로 추가
+				},
+				error: function(err) {
+					alert("카테고리 조회에 실패했습니다. 담당자에게 문의하세요.");
+				}
+			});
+			
+			//해당 프로젝트 팀원 불러오기
+			$.ajax({
+				url:"../get-team-member?pj_num="+pj_numData,
+				type:"get",
+				async: false,
+				success:function(result){
+					console.log(result);
+					result.forEach(function(element,i) {
+						let teamNameDiv = document.getElementById('teamName');
+						
+							
+						//해당 프로젝트 인원 목록 출력 태그
+						let newListItem = document.createElement('div');
+						newListItem.setAttribute('name', 'member');
+						newListItem.setAttribute('data-name', element.userName);
+						newListItem.appendChild(document.createTextNode(element.userName));
+						newListItem.setAttribute('value', element.userId);
+						newListItem.style.margin = '5px 5px 5px 5px';
+						
+						if(pj_writer != element.userId){//프로젝트장 제외
+							// select 박스
+							let selectBox = document.createElement('select');
+							selectBox.setAttribute('name', 'memberType');
+							selectBox.style.margin = '0px 20px 10px 10px';
+							selectBox.style.borderRadius = '5px';
+					
+							// 옵션
+							let teamOption = document.createElement('option');
+							teamOption.selected = element.observer === true ? false:true;
+	 						teamOption.text = '팀원';
+							teamOption.value = '0';
+							selectBox.add(teamOption);
+					
+							let observerOption = document.createElement('option');
+							observerOption.selected = element.observer === true ? true:false;
+							observerOption.text = '옵저버';
+							observerOption.value = '1';
+							selectBox.add(observerOption);
+					
+							newListItem.appendChild(selectBox);
+					
+							
+							// input의 속성 지정
+							let newInput = document.createElement('input');
+							newInput.setAttribute('type', 'checkbox');
+							newInput.setAttribute('name', 'memberDelete');
+							newInput.style.margin = '0px 10px 20px 0px';
+							newListItem.insertBefore(newInput, newListItem.firstChild);
+					
+						} else {
+							// 팀장 지정
+							let newSpan = document.createElement('span');
+							newSpan.innerHTML = "팀장";
+							newSpan.style.margin = '0px 10px 20px 0px';
+							newListItem.insertBefore(newSpan, newListItem.firstChild);
+						}			
+						teamNameDiv.appendChild(newListItem);
+									
+					})
+				},
+				error:function(){
+					
+				}
+				
+			});
+			
+		
 			$("#detailModal").css("display", "none");
 			$("#changeModal").css("display", "");
 		}
@@ -454,8 +499,144 @@
 		})
 	})
 
-
-
+	//모달에서 일괄 삭제 전체 선택 기능
+	function selectAllMember(selectAll) {
+	
+		let checkboxes = document.getElementsByName('memberDelete');
+	
+		checkboxes.forEach((checkbox) => {
+			checkbox.checked = selectAll.checked;
+		})
+	
+	}
+	
+	//ajax로 부서 클릭 시 부서에 있는 팀원 목록 출력 
+	//여기서 세션 아이디 값 비교해서 본인이면 팀원 목록에 안 나오도록 처리
+	function getDepList(e) {
+		$.ajax({
+			url: "../get-dmlist",
+			type: "get",
+			data: {
+				department_id: e.target.value
+			},
+			success: function(result) {
+				let str = "";
+				str += '<ul class="depMemberList" style="position: relative; list-style: none; padding: 0px 0px 0px 18px">';
+				result.forEach(function(item, index) {
+						str += `<li class="depMemberList2" onclick="seleted(event)" data-value="${item.userId}" style="padding: 5px 0px 5px 5px; margin: 10px 0px 10px; cursor: pointer; border-radius: 10px;">${item.userName}</li>`;
+					
+				});
+				str += '</ul>';
+	
+				// 기존 자식 요소들을 모두 제거하고, 새로운 요소들을 추가함
+				$(".depMemberListWrap").empty().append(str);
+	
+				// 새로 추가한 요소들에 대해 .category_remove() 함수 호출
+				$('.depMemberList2').category_remove();
+			},
+			error: function(err) {
+				alert("카테고리 조회에 실패했습니다. 담당자에게 문의하세요.");
+			}
+		});
+	}
+	
+	//다른 부서 눌렀을 때 이전 팀원 목록 삭제
+	$.fn.category_remove = function() {
+	// 현재 요소 내부에서 .depMemberListWrap 요소만 선택하여 내용을 지움
+	this.find('.depMemberListWrap').empty();
+	}
+	
+	//이름을 선택 하고 추가를 누를 때 추가 목록에 이름이 들어가고 동일한 사람 추가 방지
+	let teamPlus = function(e) {
+		let teamList = document.querySelectorAll('.selected');
+		let allMember = document.querySelector('.allMember').children;
+		
+		//전체 목록 div
+		let teamNameDiv = document.getElementById('teamName');
+		Array.from(allMember).forEach(function(element) {
+			element.checked = false;
+		});
+	
+		
+		teamList.forEach(function(element, index) {
+			let name = teamList[index].innerHTML;
+	
+			//선택된 사람들의 이름
+			let name2 = teamList[index].dataset.value;
+			let value = teamList[index].getAttribute('value');
+			let existingMembers = teamNameDiv.querySelectorAll('[name="member"]');
+			let isMemberExist = Array.from(existingMembers).some(function(member) {
+				return member.getAttribute('value') === name2;
+			});
+			console.log(isMemberExist);
+			//없는 이름이라면 추가해준다
+			if (!isMemberExist) {
+				let newListItem = document.createElement('div');
+				newListItem.setAttribute('name', 'member');
+				newListItem.setAttribute('data-name', name);
+				newListItem.appendChild(document.createTextNode(name));
+				newListItem.setAttribute('value', name2);
+				newListItem.style.margin = '5px 5px 5px 5px';
+			
+				// select 박스
+				let selectBox = document.createElement('select');
+				selectBox.setAttribute('name', 'memberType');
+				selectBox.style.margin = '0px 20px 10px 10px';
+				selectBox.style.borderRadius = '5px';
+	
+				// 옵션
+				let teamOption = document.createElement('option');
+				teamOption.selected = true;
+				teamOption.text = '팀원';
+				teamOption.value = '0';
+				selectBox.add(teamOption);
+	
+				let observerOption = document.createElement('option');
+				observerOption.text = '옵저버';
+				observerOption.value = '1';
+				selectBox.add(observerOption);
+	
+				newListItem.appendChild(selectBox);
+	
+				// input의 속성 지정
+				let newInput = document.createElement('input');
+				newInput.setAttribute('type', 'checkbox');
+				newInput.setAttribute('name', 'memberDelete');
+				newInput.style.margin = '0px 10px 20px 0px';
+				newListItem.insertBefore(newInput, newListItem.firstChild);
+	
+				teamNameDiv.appendChild(newListItem);
+			}
+			//추가가 되면 기존에 선택했던 팀원들 색 지워줌
+			element.classList.remove('selected');
+			element.style.color = '';
+			element.style.backgroundColor = 'white';
+		});
+	};
+	
+		
+	//선택 했을 때 색상 변경 
+	let seleted = function(e) {
+		e.target.classList.toggle('selected');
+		e.target.style.backgroundColor = e.target.classList.contains('selected') ? '#0d6efd' : 'white';
+		e.target.style.color = e.target.classList.contains('selected') ? 'white' : '';
+		e.target.style.cursor = "pointer";
+	}
+	
+	//삭제 버튼 누를 때 안에 있는 태그 삭제
+	function memberDelete2() {
+		// teamName 요소 선택하기
+		let teamNameElement = document.querySelectorAll('[name="member"]');
+		teamNameElement.forEach(function(element,i) {
+			if (teamNameElement[i].children[0].checked) {
+				teamNameElement[i].remove();
+			}
+		});
+	}
+	//확인 버튼을 누를 시 수정, 삭제, 삽입을 위한 데이터 넘기기
+	function memberSuccess(){
+		console.log(pj_numData);
+	}
 	</script>
 
 </html>

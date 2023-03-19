@@ -27,4 +27,5 @@ public class UserVO {
    private int userEmployeenumber;
    private Timestamp userRegdate;
    private Timestamp logDate;
+   private boolean isObserver;
 }

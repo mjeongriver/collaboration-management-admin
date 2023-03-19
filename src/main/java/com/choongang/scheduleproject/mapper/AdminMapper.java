@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.DepartmentVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
@@ -109,5 +110,22 @@ public interface AdminMapper {
 	 * @return ArrayList
 	 */
 	public ArrayList<UserStaticVO> getMemberStatistics(int pjNum); //회원당 통계 가져오기
+	/***
+	 * 
+	 * @return ArrayList
+	 */
+	public ArrayList<DepartmentVO> getDepList();//부서 가져오기
+	/***
+	 * 
+	 * @param departmentId
+	 * @return ArrayList
+	 */
+	public ArrayList<UserVO> getDepMemberList(int departmentId); //해당 부서의 인원 가져오기
+	/***
+	 * 
+	 * @param pjNum
+	 * @return UserVO
+	 */
+	public ArrayList<UserVO> getTeamMemberList(int pjNum);//프로젝트당 해당 팀원 가져오기
 
 }

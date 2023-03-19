@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.DepartmentVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
 import com.choongang.scheduleproject.command.UserStaticVO;
+import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.service.AdminService;
 
 import com.google.gson.JsonArray;
@@ -63,6 +65,7 @@ public class AdminRestController {
 		}
 		return "등록 실패";
 	}
+	//플젝당 상세보기 및 인원
 	@PostMapping("/get-project-detail")
 	public String getProjectDetail(@RequestBody ProjectDetailVO vo) { //
 		ProjectDetailVO ProjectDetailData = adminService.getProjectDetail(vo);
@@ -85,6 +88,7 @@ public class AdminRestController {
 
 		return ProjectDetail.toString(); //json 스트링으로 반환
 	}
+	//플젝 당 팀원 통계 
 	@GetMapping("/get-member-statistics")
 	public String getMemberStatistics(@RequestParam("pj_num") int pjNum) {
 		ArrayList<UserStaticVO> memberStatistics = adminService.getMemberStatistics(pjNum); //결과값 담아주는 리스트
@@ -98,6 +102,22 @@ public class AdminRestController {
 		memberStatic.add("member", member);
 		memberStatic.add("progress", progress);
 		return memberStatic.toString();
+	}
+	
+	//부서 요청
+	@GetMapping("/get-dlist")
+	public ArrayList<DepartmentVO> getDepList (){
+		return adminService.getDepList();
+	}
+	//부서별 팀원 요청
+	@GetMapping("/get-dmlist")
+	public ArrayList<UserVO> getDepMemberList(@RequestParam("department_id") int departmentId) {
+		return adminService.getDepMemberList(departmentId);
+	}
+	//해당 프로젝트 팀원 요청
+	@GetMapping("/get-team-member")
+	public ArrayList<UserVO> getTeamMemberList(@RequestParam("pj_num") int pjNum) {
+		return adminService.getTeamMemberList(pjNum);
 	}
 
 }
