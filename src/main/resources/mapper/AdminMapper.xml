@@ -231,4 +231,15 @@
 		parameterType="AdminLoginVO">
 		select admin_id, admin_pw from admin_admin where admin_id = #{adminId}
 	</select>
+	<!-- 회원 당 통계 정보 가져오기 -->
+	<select id="getMemberStatistics" resultType="UserStaticVO" parameterType="int">
+		select u.user_name ,
+		(round(((select count(b.board_process) from user_board b where b.board_writer = u.user_id and b.board_process = true and b.pj_num=#{pjNum} ) /
+		(select count(b.board_process) from user_board b where b.board_writer = u.user_id and b.pj_num=#{pjNum}) )*100)) progress
+		from user_user u
+		left join mapping m
+		on u.user_id = m.user_id
+		where m.pj_num = #{pjNum}
+	</select>
+	
 </mapper>

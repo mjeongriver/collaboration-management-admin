@@ -2,6 +2,7 @@ package com.choongang.scheduleproject.service.impl;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
+import com.choongang.scheduleproject.command.UserStaticVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
 import com.choongang.scheduleproject.service.AdminService;
@@ -114,9 +116,15 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<ProjectStaticVO> getProjectStatic(Criteria criteria) {
 		return adminMapper.getProjectStatic(criteria);
 	}
+	//어드민 로그인 정보
 	@Override
 	public AdminLoginVO getLoginVO(AdminLoginVO vo) {
 		return adminMapper.getLoginVO(vo);
+	}
+	//회원당 통계정보
+	@Override
+	public ArrayList<UserStaticVO> getMemberStatistics(@Param("pjNum") int pjNum) {
+		return adminMapper.getMemberStatistics(pjNum);
 	}
 
 

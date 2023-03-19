@@ -165,7 +165,7 @@
 							<!-- Bar Chart -->
 							<canvas id="barChart" style="max-height: 400px;"></canvas>
 							<script>
-				                /* document.addEventListener("DOMContentLoaded", () => {
+				               /* document.addEventListener("DOMContentLoaded", () => {
 				                  new Chart(document.querySelector('#barChart'), {
 				                    type: 'bar',
 				                    data: {
@@ -202,7 +202,7 @@
 				                      }
 				                    }
 				                  });
-				                }); */
+				                });*/
 				              </script>
 							<!-- End Bar CHart -->
 
@@ -245,9 +245,8 @@
 
 		var pj_num_data = $(e.target).closest("td").closest("tr").find("#pj_num").val(); //pj_num 받아오기
 		$.ajax({
-			url:'../get-memeber-statistics',
+			url:'../get-member-statistics?pj_num='+pj_num_data,
 			type:'get',
-			data:pj_num,
 			dataType:"json", //서버에서 받는 데이터 형식
 			beforeSend: function() {//로딩이 완료되기 전
 				//마우스 커서를 로딩 중 커서로 변경
@@ -259,15 +258,21 @@
 			        $('html').css("cursor", "auto");
 			},
 			success:function(result){
+				//이전 차트 삭제
+				const oldChart = Chart.getChart("barChart");
+				if (oldChart) {
+				  oldChart.destroy();
+				}
+				console.log(result);
 				//그래프 로드
-				document.addEventListener("DOMContentLoaded", () => {
+					
 	                  new Chart(document.querySelector('#barChart'), {
 	                    type: 'bar',
 	                    data: {
-	                      labels: ['강민정', '권도은', '이동민', '이세민', '이승완'],
+	                      labels: result.member, //팀원 표현
 	                      datasets: [{
 	                        label: '진행',
-	                        data: [65, 59, 80, 81, 56],
+	                        data: result.progress, //진척률표현
 	                        backgroundColor: [
 	                          'rgba(255, 99, 132, 0.2)',
 	                          'rgba(255, 159, 64, 0.2)',
@@ -297,17 +302,18 @@
 	                      }
 	                    }
 	                  });
-	                });
+	                
 
 			},
-			error:function(){
-
+			error:function(err){
+				console.log(err);
 			}
 
 		})
 
 	});
-
+	
+	
 	//10개, 20개, 50개 보기 핸들 이벤트
 	var handleAmount = document.getElementById("handleAmount");
 	handleAmount.onchange = function(e) {

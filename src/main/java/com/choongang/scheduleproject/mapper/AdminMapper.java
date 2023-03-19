@@ -13,6 +13,7 @@ import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
+import com.choongang.scheduleproject.command.UserStaticVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.util.Criteria;
 
@@ -102,5 +103,11 @@ public interface AdminMapper {
 	 * @return AdminLoginVO
 	 */
 	public AdminLoginVO getLoginVO(AdminLoginVO vo); //로그인 정보 가져오기
+	/***
+	 * 
+	 * @param pjNum
+	 * @return ArrayList
+	 */
+	public ArrayList<UserStaticVO> getMemberStatistics(int pjNum); //회원당 통계 가져오기
 
 }

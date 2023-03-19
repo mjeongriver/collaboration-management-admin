@@ -14,6 +14,7 @@ import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
 import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
+import com.choongang.scheduleproject.command.UserStaticVO;
 import com.choongang.scheduleproject.service.AdminService;
 
 import com.google.gson.JsonArray;
@@ -86,8 +87,17 @@ public class AdminRestController {
 	}
 	@GetMapping("/get-member-statistics")
 	public String getMemberStatistics(@RequestParam("pj_num") int pjNum) {
-		System.out.println(pjNum);
-		return "success";
+		ArrayList<UserStaticVO> memberStatistics = adminService.getMemberStatistics(pjNum); //결과값 담아주는 리스트
+		JsonArray member = new JsonArray(); //팀원
+		JsonArray progress = new JsonArray(); //통계
+		JsonObject memberStatic = new JsonObject(); //넘겨줄 데이터 Gson의 json으로 파싱
+		for(UserStaticVO vo : memberStatistics) {
+			member.add(vo.getUserName()); //팀원 JSON 에 담아줌
+			progress.add(vo.getProgress()); //진행률 JSON에 담아줌
+		}
+		memberStatic.add("member", member);
+		memberStatic.add("progress", progress);
+		return memberStatic.toString();
 	}
 
 }
