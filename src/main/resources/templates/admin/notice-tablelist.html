@@ -58,7 +58,7 @@
                 <th:block th:each="vo, stat: ${AdminNoticeList}">
                   <tr>
                     <td>[[${(pageVO.page -1) * pageVO.amount + stat.count }]]</td><!-- 1, 11, 21페이지부터 시작하기위해 -->
-                    <td><a href="/admin/notice-content?noticeNum="th:attrappend="href=${vo.noticNum}">[[${vo.noticeTitle}]]</a></td>
+                    <td><a href="/admin/notice-content?notice_num="th:attrappend="href=${vo.noticeNum}">[[${vo.noticeTitle}]]</a></td>
                     <td>[[${vo.noticeWriter}]]</td>
                     <td>[[${ #dates.format(vo.noticeRegdate, 'yyyy-MM-dd') }]]</td>
                   </tr>
@@ -111,10 +111,16 @@
 <!-- ~개씩 보기 -->
 <script>
 	var handleAmount = document.getElementById("handleAmount");
-		handleAmount.onchange = function(e) {
+	handleAmount.onchange = function(e) {
 
-			location.href="adminNoticeTableList?page=1&amount=" + e.target.value;
-	}
+		const form = document.querySelector('form');
+		const query = new URLSearchParams(window.location.search);
+		query.set('amount', e.target.value);
+		const search = query.toString();
+		const page = query.get('page') || 1;
+		const url = `notice-tablelist?page=${page}&${search}`;
+		window.location.href = url;
+}
 
 </script>
 

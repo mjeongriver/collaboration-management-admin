@@ -76,9 +76,9 @@ public class HomeController {
 
 	//삭제 기능
 	@PostMapping(value="/deleteform")
-	public String deleteNotice(@RequestParam("notice_num") int notice_num, RedirectAttributes ra) {
+	public String deleteNotice(@RequestParam("noticeNum") int noticeNum, RedirectAttributes ra) {
 
-		int result = adminNoticeService.deleteNotice(notice_num);
+		int result = adminNoticeService.deleteNotice(noticeNum);
 		String msg = result == 1 ? "삭제되었습니다" : "삭제에 실패했습니다";
 		ra.addFlashAttribute("msg", msg);
 
