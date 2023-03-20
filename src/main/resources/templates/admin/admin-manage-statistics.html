@@ -91,7 +91,7 @@
 												style="cursor: pointer">통계 상세보기</span></td>
 										</tr> -->
 										<!-- 반복문으로 목록 출력 -->
-										<th:blcok th:each="projectStaticVO: ${projectStaticVO}">
+										<th:block th:each="projectStaticVO: ${projectStaticVO}">
 											<tr>
 
 												<td>[[${projectStaticVO.pjName}]]</td>
@@ -110,7 +110,7 @@
 												<td><span class="badge bg-primary modalOn"
 													style="cursor: pointer">통계 상세보기</span></td>
 											</tr>
-										</th:blcok>
+										</th:block>
 
 									</tbody>
 								</table>
@@ -300,7 +300,7 @@
 	                      }
 	                    }
 	                  });
-	                
+
 
 			},
 			error:function(err){
@@ -310,8 +310,8 @@
 		})
 
 	});
-	
-	
+
+
 	//10개, 20개, 50개 보기 핸들 이벤트
 	var handleAmount = document.getElementById("handleAmount");
 	handleAmount.onchange = function(e) {

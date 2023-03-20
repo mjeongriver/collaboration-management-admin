@@ -97,27 +97,48 @@ public interface AdminService {
 	 */
 	public AdminLoginVO getLoginVO(AdminLoginVO vo); //로그인 정보 가져오기
 	/***
-	 * 
+	 *
 	 * @param pjNum
 	 * @return UserStaticVOt
 	 */
 	public ArrayList<UserStaticVO> getMemberStatistics(int pjNum); //회원당 통계 가져오기
 	/***
-	 * 
+	 *
 	 * @return DepartmentVO
 	 */
 	public ArrayList<DepartmentVO> getDepList();//부서 가져오기
 	/***
-	 * 
+	 *
 	 * @param departmentId
 	 * @return UserVO
 	 */
 	public ArrayList<UserVO> getDepMemberList(int departmentId); //해당 부서의 인원 가져오기
 	/***
-	 * 
+	 *
 	 * @param pjNum
 	 * @return UserVO
 	 */
 	public ArrayList<UserVO> getTeamMemberList(int pjNum);//프로젝트당 해당 팀원 가져오기
-
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @return int
+	 */
+	public int insertMember(String userId, String pjNum);//해당 프로젝트 인원 추가
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @return int
+	 */
+	public int deleteTeamMember(String userId, String pjNum);//해당 프로젝트 인원 삭제
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @param isObserver
+	 * @return int
+	 */
+	public int updateTeamMember(String userId, String pjNum, int isObserver); //프로젝트 인원 옵저버 수정
 }

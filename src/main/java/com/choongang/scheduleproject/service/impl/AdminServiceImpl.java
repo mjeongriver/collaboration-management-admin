@@ -142,6 +142,20 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<UserVO> getTeamMemberList(int pjNum) {
 		return adminMapper.getTeamMemberList(pjNum);
 	}
+	//해당 프로젝트 인원 추가
+	@Override
+	public int insertMember(String userId, String pjNum) {
+		return adminMapper.insertMember(userId, pjNum);
+	}
+	//해당 프로젝트 인원 삭제
+	@Override
+	public int deleteTeamMember(String userId, String pjNum) {
+		return adminMapper.deleteTeamMember(userId, pjNum);
+	}
+	@Override
+	public int updateTeamMember(String userId, String pjNum, int isObserver) {
+		return adminMapper.updateTeamMember(userId, pjNum, isObserver);
+	}
 
 
 }

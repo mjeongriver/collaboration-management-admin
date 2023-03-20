@@ -28,4 +28,5 @@ public class UserVO {
    private Timestamp userRegdate;
    private Timestamp logDate;
    private boolean isObserver;
+   private String userMethod;
 }

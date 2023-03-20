@@ -88,7 +88,7 @@ public class AdminRestController {
 
 		return ProjectDetail.toString(); //json 스트링으로 반환
 	}
-	//플젝 당 팀원 통계 
+	//플젝 당 팀원 통계
 	@GetMapping("/get-member-statistics")
 	public String getMemberStatistics(@RequestParam("pj_num") int pjNum) {
 		ArrayList<UserStaticVO> memberStatistics = adminService.getMemberStatistics(pjNum); //결과값 담아주는 리스트
@@ -103,7 +103,7 @@ public class AdminRestController {
 		memberStatic.add("progress", progress);
 		return memberStatic.toString();
 	}
-	
+
 	//부서 요청
 	@GetMapping("/get-dlist")
 	public ArrayList<DepartmentVO> getDepList (){
@@ -119,5 +119,30 @@ public class AdminRestController {
 	public ArrayList<UserVO> getTeamMemberList(@RequestParam("pj_num") int pjNum) {
 		return adminService.getTeamMemberList(pjNum);
 	}
+	@PostMapping("/insert-member")
+	public String insertMember(@RequestParam("user_id") String userId, @RequestParam("pj_num") String pjNum) {
+		if(userId == "") {
+			return "이미 추가된 인원입니다.";
+		}
+		adminService.insertMember(userId, pjNum);
+		return "추가했습니다.";
+	}
+	@PostMapping("/delete-member")
+	public String deleteMember(@RequestParam("user_id") String userId, @RequestParam("pj_num") String pjNum) {
 
+		if(1==adminService.deleteTeamMember(userId, pjNum)) {
+			return "삭제했습니다.";
+		}
+		return "삭제할 수 없습니다.";
+	}
+	@PostMapping("/update-team-member")
+	public String updateTeamMember(@RequestParam("user_id") String userId,
+									@RequestParam("pj_num") String pjNum,
+									@RequestParam("is_observer") int isObserver) {
+		if(1 == adminService.updateTeamMember(userId, pjNum, isObserver)) {
+			return "변경했습니다";
+		}
+
+		return "변경 중 오류가 발생했습니다.";
+	}
 }

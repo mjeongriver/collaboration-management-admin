@@ -3,6 +3,7 @@ package com.choongang.scheduleproject.mapper;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
@@ -105,27 +106,51 @@ public interface AdminMapper {
 	 */
 	public AdminLoginVO getLoginVO(AdminLoginVO vo); //로그인 정보 가져오기
 	/***
-	 * 
+	 *
 	 * @param pjNum
 	 * @return ArrayList
 	 */
 	public ArrayList<UserStaticVO> getMemberStatistics(int pjNum); //회원당 통계 가져오기
 	/***
-	 * 
+	 *
 	 * @return ArrayList
 	 */
 	public ArrayList<DepartmentVO> getDepList();//부서 가져오기
 	/***
-	 * 
+	 *
 	 * @param departmentId
 	 * @return ArrayList
 	 */
 	public ArrayList<UserVO> getDepMemberList(int departmentId); //해당 부서의 인원 가져오기
 	/***
-	 * 
+	 *
 	 * @param pjNum
 	 * @return UserVO
 	 */
 	public ArrayList<UserVO> getTeamMemberList(int pjNum);//프로젝트당 해당 팀원 가져오기
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @return int
+	 */
+	public int insertMember(@Param("userId") String userId, @Param("pjNum") String pjNum);//해당 프로젝트 인원 추가
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @return int
+	 */
+	public int deleteTeamMember(@Param("userId") String userId, @Param("pjNum") String pjNum);//해당 프로젝트 인원 삭제
+	/***
+	 *
+	 * @param userId
+	 * @param pjNum
+	 * @param isObserver
+	 * @return int
+	 */
+	public int updateTeamMember(@Param("userId") String userId,
+								@Param("pjNum") String pjNum,
+								@Param("isObserver") int isObserver);//프로젝트 인원 수정
 
 }

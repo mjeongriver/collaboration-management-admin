@@ -20,6 +20,7 @@
 				u.user_employeenumber,
 				u.user_regdate,
 				d.department_name,
+				u.user_method,
 		max(l.log_date) log_date
 		from user_user u
 		left join user_department d
@@ -255,7 +256,7 @@
 	<!-- 부서별 인원 목록 -->
 	<select id="getDepMemberList" resultType="UserVO" parameterType="int">
 		select user_name,
-				user_department.department_id, 
+				user_department.department_id,
 				user_id
 		from user_user left join
 		user_department
@@ -264,18 +265,39 @@
 		where user_user.department_id =
 		#{departmentId};
 	</select>
-	
+
 	<!--해당 프로젝트 팀원들 가져오기-->
 	<select id="getTeamMemberList" resultType="UserVO" parameterType="int">
 		select u.user_name,
-				u.user_id, 
+				u.user_id,
 			   u.user_role,
 			   m.is_observer
 		from user_user u
 		left join mapping m
 		on u.user_id = m.user_id
 		where m.pj_num = #{pjNum}
-		
+
 	</select>
-	
+	<!-- 프로젝트 목록에서 프로젝트 팀원 추가 -->
+	<insert id="insertMember" parameterType="String">
+		insert into mapping (pj_num, user_id, is_observer, pj_bookmark)
+		value (#{pjNum},#{userId},0,0)
+	</insert>
+	<!-- 해당 프로젝트 인원 삭제 -->
+	<delete id="deleteTeamMember" parameterType="String">
+		delete from mapping where pj_num = #{pjNum} and user_id=#{userId}
+	</delete>
+	<!-- 해당 프로젝트 인원 옵저버 유무 업데이트 -->
+	<update id="updateTeamMember" parameterType="String">
+		update mapping set
+		<choose>
+			<when test="isObserver == 1">
+				is_observer = true
+			</when>
+			<otherwise>
+				is_observer = false
+			</otherwise>
+		</choose>
+		where user_id = #{userId} and pj_num=#{pjNum}
+	</update>
 </mapper>

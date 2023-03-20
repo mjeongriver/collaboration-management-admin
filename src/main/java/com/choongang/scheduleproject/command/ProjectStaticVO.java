@@ -1,6 +1,5 @@
 package com.choongang.scheduleproject.command;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
