@@ -1,5 +1,7 @@
 package com.choongang.scheduleproject.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.choongang.scheduleproject.command.AdminNoticeListVO;
+import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.service.AdminNoticeService;
 import com.choongang.scheduleproject.service.AdminService;
 import com.choongang.scheduleproject.util.Criteria;
@@ -34,7 +37,8 @@ public class HomeController {
 	}
 
 	@GetMapping("/admin-dashboard")
-	public String adminDashboard(Model model , Criteria criteria) {
+	public String adminDashboard(Model model, Criteria criteria) {
+		criteria.setAmount(5);
 	    int totalMember = adminService.getMemberCount(criteria); // 회원 총 갯수
 	    int totalProject = adminService.getProjectCount(criteria); // 프로젝트 총 갯수
 
@@ -46,8 +50,23 @@ public class HomeController {
 	    model.addAttribute("projectList", adminService.getProjectList(criteria)); // 프로젝트 목록 데이터
 	    model.addAttribute("projectPageVO", projectPageVO); // 프로젝트 목록 페이지 정보
 
+	    ArrayList<ProjectStaticVO> projectStaticList = adminService.getProjectStatic(criteria); // 프로젝트 통계 데이터
+	    PageVO projectStaticVO = new PageVO(criteria, projectStaticList.size());
+	    model.addAttribute("projectStaticList", projectStaticList);
+	    model.addAttribute("projectStaticVO", projectStaticVO);
+
+	    ArrayList<AdminNoticeListVO> noticeList = adminNoticeService.getList(criteria); // 공지사항 목록 데이터
+	    PageVO noticePageVO = new PageVO(criteria, noticeList.size());
+	    model.addAttribute("noticeList", noticeList);
+	    model.addAttribute("noticePageVO", noticePageVO);
+
 	    return "admin/admin-dashboard";
 	}
+
+
+
+
+
 
 	//관리자 공지사항 게시판
 	@GetMapping("/notice-tablelist")
