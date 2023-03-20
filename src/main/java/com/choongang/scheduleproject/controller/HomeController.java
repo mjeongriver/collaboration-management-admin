@@ -30,7 +30,7 @@ public class HomeController {
 
 	@GetMapping("/")
 	public String index() {
-		return "admin/adminNoticeLogin";
+		return "admin/admin-login";
 	}
 
 	@GetMapping("/admin-dashboard")

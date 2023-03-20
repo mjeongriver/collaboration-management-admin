@@ -42,71 +42,20 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<th scope="row" style="font-weight: 400;">1</th>
-													<td>double z</td>
-													<td>짱구</td>
-													<td>완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-																aria-valuemax="100">25%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">2</th>
-													<td>bread</td>
-													<td>철수</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 70%" aria-valuenow="70" aria-valuemin="0"
-																aria-valuemax="100">70%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">3</th>
-													<td>mom</td>
-													<td>유리</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 0%" aria-valuenow="0" aria-valuemin="0"
-																aria-valuemax="100"></div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">4</th>
-													<td>mimi</td>
-													<td>맹구</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 30%" aria-valuenow="30" aria-valuemin="0"
-																aria-valuemax="100">30%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">5</th>
-													<td>hoon</td>
-													<td>훈이</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 45%" aria-valuenow="45" aria-valuemin="0"
-																aria-valuemax="100">45%</div>
-														</div>
-													</td>
-												</tr>
+												<th:blcok th:each="projectStaticVO: ${projectStaticVO}">
+											<tr>
+												<td>[[${projectStaticVO.pjName}]]</td>
+												<td>[[${projectStaticVO.pjWriter}]]</td>
+												<td>[[${projectStaticVO.pjStartdate}]]</td>
+												<td th:text="${projectStaticVO.progress} == 100 ? '완료':'미완료'"></td>
+												<td><div class="progress">
+														<div class="progress-bar" role="progressbar"
+															th:id="'progress'+${projectStaticVOStat.index}"
+															style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+															aria-valuemax="100">[[${projectStaticVO.progress}]]%</div>
+														</div></td>
+											</tr>
+										</th:blcok>
 											</tbody>
 										</table>
 										<!-- End Bordered Table -->
