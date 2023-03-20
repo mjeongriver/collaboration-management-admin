@@ -21,7 +21,7 @@
 								<nav>
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item active"
-											onclick="location.href='/admin/manage-statistics'"
+											onclick="location.href='manage-statistics'"
 											style="cursor: pointer">통계</li>
 									</ol>
 								</nav>
@@ -42,71 +42,20 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<th scope="row" style="font-weight: 400;">1</th>
-													<td>double z</td>
-													<td>짱구</td>
-													<td>완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 25%" aria-valuenow="25" aria-valuemin="0"
-																aria-valuemax="100">25%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">2</th>
-													<td>bread</td>
-													<td>철수</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 70%" aria-valuenow="70" aria-valuemin="0"
-																aria-valuemax="100">70%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">3</th>
-													<td>mom</td>
-													<td>유리</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 0%" aria-valuenow="0" aria-valuemin="0"
-																aria-valuemax="100"></div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">4</th>
-													<td>mimi</td>
-													<td>맹구</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 30%" aria-valuenow="30" aria-valuemin="0"
-																aria-valuemax="100">30%</div>
-														</div>
-													</td>
-												</tr>
-												<tr>
-													<th scope="row" style="font-weight: 400;">5</th>
-													<td>hoon</td>
-													<td>훈이</td>
-													<td>미완료</td>
-													<td>
-														<div class="progress">
-															<div class="progress-bar" role="progressbar"
-																style="width: 45%" aria-valuenow="45" aria-valuemin="0"
-																aria-valuemax="100">45%</div>
-														</div>
-													</td>
-												</tr>
+												<th:blcok th:each="projectStaticVO: ${projectStaticVO}">
+											<tr>
+												<td>[[${projectStaticVO.pjName}]]</td>
+												<td>[[${projectStaticVO.pjWriter}]]</td>
+												<td>[[${projectStaticVO.pjStartdate}]]</td>
+												<td th:text="${projectStaticVO.progress} == 100 ? '완료':'미완료'"></td>
+												<td><div class="progress">
+														<div class="progress-bar" role="progressbar"
+															th:id="'progress'+${projectStaticVOStat.index}"
+															style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+															aria-valuemax="100">[[${projectStaticVO.progress}]]%</div>
+														</div></td>
+											</tr>
+										</th:blcok>
 											</tbody>
 										</table>
 										<!-- End Bordered Table -->
@@ -121,7 +70,7 @@
 								<nav>
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item active"
-											onclick="location.href='admin/notice-tablelist'"
+											onclick="location.href='notice-tablelist'"
 											style="cursor: pointer">공지사항 게시판</li>
 									</ol>
 								</nav>
@@ -144,7 +93,7 @@
 
 
 													<td>Cell</td>
-													<td><a href="noticecontent">Cell</a></td>
+													<td><a href="admin/notice-content">Cell</a></td>
 													<td>Cell</td>
 													<td>Cell</td>
 
@@ -152,7 +101,7 @@
 												<tr class="table-primary">
 
 													<td>Cell</td>
-													<td><a href="noticecontent">Cell</a></td>
+													<td><a href="admin/notice-content">Cell</a></td>
 													<td>Cell</td>
 													<td>Cell</td>
 
@@ -160,7 +109,7 @@
 												<tr class="table-primary">
 
 													<td>Cell</td>
-													<td><a href="noticecontent">Cell</a></td>
+													<td><a href="admin/notice-content">Cell</a></td>
 													<td>Cell</td>
 													<td>Cell</td>
 
@@ -168,7 +117,7 @@
 												<tr>
 
 													<td>1</td>
-													<td><a href="noticecontent">Cell</a></td>
+													<td><a href="admin/notice-content">Cell</a></td>
 													<td>이동민</td>
 													<td>2023-03-02</td>
 
@@ -176,7 +125,7 @@
 												<tr>
 
 													<td>1</td>
-													<td><a href="noticecontent">Cell</a></td>
+													<td><a href="admin/notice-content">Cell</a></td>
 													<td>이동민</td>
 													<td>2023-03-02</td>
 
@@ -198,7 +147,7 @@
 								<nav>
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item active"
-											onclick="location.href='/admin/admin-manage-member'"
+											onclick="location.href='manage-member'"
 											style="cursor: pointer">회원 관리</li>
 									</ol>
 								</nav>
@@ -250,7 +199,7 @@
 								<nav>
 									<ol class="breadcrumb">
 										<li class="breadcrumb-item active"
-											onclick="location.href='/admin/admin-manage-project'"
+											onclick="location.href='manage-project'"
 											style="cursor: pointer">프로젝트 관리</li>
 									</ol>
 								</nav>
@@ -275,13 +224,13 @@
 												</thead>
 												<tbody>
 													<th:block th:each="projectVO : ${projectList}">
-														<tr>
-															<th scope="row">[[${projectVO.pjName}]]</th>
+											<tr>
+												<th scope="row">[[${projectVO.pjName}]]</th>
 
-															<td>[[${projectVO.pjChief}]]</td>
-															<td>[[${projectVO.pjStartdate}]]</td>
-															<td>[[${projectVO.pjCount}]]</td>
-														</tr>
+												<td>[[${projectVO.pjWriter}]]</td>
+												<td>[[${projectVO.pjStartdate}]]</td>
+												<td>[[${projectVO.pjCount}]]</td>
+											</tr>
 													</th:block>
 												</tbody>
 											</table>
