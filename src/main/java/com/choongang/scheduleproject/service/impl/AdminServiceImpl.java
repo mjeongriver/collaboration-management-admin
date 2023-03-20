@@ -2,12 +2,14 @@ package com.choongang.scheduleproject.service.impl;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.choongang.scheduleproject.command.AdminLoginVO;
 import com.choongang.scheduleproject.command.CheckVO;
+import com.choongang.scheduleproject.command.DepartmentVO;
 import com.choongang.scheduleproject.command.ProjectActiveVO;
 import com.choongang.scheduleproject.command.ProjectCheckVO;
 import com.choongang.scheduleproject.command.ProjectDetailMemberVO;
@@ -15,6 +17,7 @@ import com.choongang.scheduleproject.command.ProjectDetailVO;
 import com.choongang.scheduleproject.command.ProjectStaticVO;
 import com.choongang.scheduleproject.command.ProjectVO;
 import com.choongang.scheduleproject.command.UserActiveVO;
+import com.choongang.scheduleproject.command.UserStaticVO;
 import com.choongang.scheduleproject.command.UserVO;
 import com.choongang.scheduleproject.mapper.AdminMapper;
 import com.choongang.scheduleproject.service.AdminService;
@@ -23,6 +26,7 @@ import com.choongang.scheduleproject.util.Criteria;
 
 @Service
 public class AdminServiceImpl implements AdminService {
+	private final static String PASSWORD ="default123!";
 
 	@Autowired
 	private AdminMapper adminMapper;
@@ -47,8 +51,7 @@ public class AdminServiceImpl implements AdminService {
 
 		for(CheckVO vo : list) {
 			if(vo.getPwReset().equals("on")) {
-				String password ="default123!";
-				vo.setPassword( passwordEncoder.encode(password)); //비밀번호 암호화 후 초기화
+				vo.setPassword( passwordEncoder.encode(PASSWORD)); //비밀번호 암호화 후 초기화
 				result = adminMapper.checkMemberUpdate(vo);
 			}
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리
@@ -114,9 +117,44 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<ProjectStaticVO> getProjectStatic(Criteria criteria) {
 		return adminMapper.getProjectStatic(criteria);
 	}
+	//어드민 로그인 정보
 	@Override
 	public AdminLoginVO getLoginVO(AdminLoginVO vo) {
 		return adminMapper.getLoginVO(vo);
+	}
+	//회원당 통계정보
+	@Override
+	public ArrayList<UserStaticVO> getMemberStatistics(@Param("pjNum") int pjNum) {
+		return adminMapper.getMemberStatistics(pjNum);
+	}
+	//부서가져오기
+	@Override
+	public ArrayList<DepartmentVO> getDepList() {
+		return adminMapper.getDepList();
+	}
+	//부서에 해당하는 인원 가져오기
+	@Override
+	public ArrayList<UserVO> getDepMemberList(int departmentId) {
+		return adminMapper.getDepMemberList(departmentId);
+	}
+	//해당 프로젝트 팀원 가져오기
+	@Override
+	public ArrayList<UserVO> getTeamMemberList(int pjNum) {
+		return adminMapper.getTeamMemberList(pjNum);
+	}
+	//해당 프로젝트 인원 추가
+	@Override
+	public int insertMember(String userId, String pjNum) {
+		return adminMapper.insertMember(userId, pjNum);
+	}
+	//해당 프로젝트 인원 삭제
+	@Override
+	public int deleteTeamMember(String userId, String pjNum) {
+		return adminMapper.deleteTeamMember(userId, pjNum);
+	}
+	@Override
+	public int updateTeamMember(String userId, String pjNum, int isObserver) {
+		return adminMapper.updateTeamMember(userId, pjNum, isObserver);
 	}
 
 

@@ -20,6 +20,6 @@ public class ProjectVO {
 	private String pjStartdate;
 	private String pjEnddate;
 	private String pjCount;
-
+	private String userName;
 
 }

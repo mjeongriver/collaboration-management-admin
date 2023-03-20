@@ -7,19 +7,20 @@
 	namespace="com.choongang.scheduleproject.mapper.AdminMapper">
 	<!-- 회원목록 출력 -->
 	<select id="getMemberList" resultType="UserVO">
-		select u.user_id,
-		u.department_id,
-		u.user_role,
-		u.user_email,
-		u.user_name,
-		u.user_pw,
-		u.user_cell,
-		u.user_birth,
-		u.user_active,
-		u.user_position,
-		u.user_employeenumber,
-		u.user_regdate,
-		d.department_name,
+		select  u.user_id,
+				u.department_id,
+				u.user_role,
+				u.user_email,
+				u.user_name,
+				u.user_pw,
+				u.user_cell,
+				u.user_birth,
+				u.user_active,
+				u.user_position,
+				u.user_employeenumber,
+				u.user_regdate,
+				d.department_name,
+				u.user_method,
 		max(l.log_date) log_date
 		from user_user u
 		left join user_department d
@@ -110,17 +111,20 @@
 
 	<!-- 프로젝트 리스트 출력 -->
 	<select id="getProjectList" resultType="ProjectVO">
-		select p.pj_num,
-		p.pj_name,
-		p.pj_active,
-		p.pj_writer,
-		p.pj_description,
-		p.pj_startdate,
-		p.pj_enddate,
+		select  p.pj_num,
+				p.pj_name,
+				p.pj_active,
+				pj_writer,
+				p.pj_description,
+				p.pj_startdate,
+				p.pj_enddate,
+				u.user_name,
 		count(m.user_id) pj_count
 		from user_project p
 		left join mapping m
 		on m.pj_num = p.pj_num
+		left join user_user u
+		on u.user_id = p.pj_writer
 		<choose>
 			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
@@ -177,18 +181,18 @@
 
 	<!-- 프로젝트 상세내용 가져오기 -->
 	<select id="getProjectDetail" resultType="ProjectDetailVO">
-		select pj_num,
-		pj_name,
-		pj_description
+		select  pj_num,
+				pj_name,
+				pj_description
 		from user_project
 		where pj_num = #{pjNum}
 	</select>
 
 	<select id="getProjectDetailMember"
 		resultType="ProjectDetailMemberVO">
-		select m.user_id,
-		m.is_observer,
-		u.user_name
+		select  m.user_id,
+				m.is_observer,
+				u.user_name
 		from mapping m
 		left join user_user u
 		on m.user_id = u.user_id
@@ -197,20 +201,22 @@
 
 	<!-- 프로젝트 통계 가져오기 -->
 	<select id="getProjectStatic" resultType="ProjectStaticVO">
-		select pj_num,
-		pj_name,
-		pj_active,
-		pj_writer,
-		pj_startdate,
-		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
-		and b.board_process = true ) complete,
-		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
-		and b.board_process = false ) uncomplete,
-		(round(((select count(b.board_process) from user_board b where b.pj_num = p.pj_num
-		and b.board_process = true ) /
-		(select count(b.board_process) from user_board b where b.pj_num = p.pj_num )
-		)*100)) progress
+		select  pj_num,
+				pj_name,
+				pj_active,
+				(u.user_name) pj_writer,
+				pj_startdate,
+				(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+				and b.board_process = true ) complete,
+				(select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+				and b.board_process = false ) uncomplete,
+				(round(((select count(b.board_process) from user_board b where b.pj_num = p.pj_num
+				and b.board_process = true ) /
+				(select count(b.board_process) from user_board b where b.pj_num = p.pj_num )
+				)*100)) progress
 		from user_project p
+		left join user_user u
+		on p.pj_writer = u.user_id
 		<choose>
 			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
@@ -231,4 +237,67 @@
 		parameterType="AdminLoginVO">
 		select admin_id, admin_pw from admin_admin where admin_id = #{adminId}
 	</select>
+	<!-- 회원 당 통계 정보 가져오기 -->
+	<select id="getMemberStatistics" resultType="UserStaticVO" parameterType="int">
+		select u.user_name ,
+			   (round(((select count(b.board_process) from user_board b where b.board_writer = u.user_id and b.board_process = true and b.pj_num=#{pjNum} ) /
+			   (select count(b.board_process) from user_board b where b.board_writer = u.user_id and b.pj_num=#{pjNum}) )*100)) progress
+		from user_user u
+		left join mapping m
+		on u.user_id = m.user_id
+		where m.pj_num = #{pjNum}
+	</select>
+	<!-- 부서 목록 -->
+	<select id="getDepList" resultType="DepartmentVO">
+		select department_name,
+		department_id from user_department
+	</select>
+
+	<!-- 부서별 인원 목록 -->
+	<select id="getDepMemberList" resultType="UserVO" parameterType="int">
+		select user_name,
+				user_department.department_id,
+				user_id
+		from user_user left join
+		user_department
+		on user_user.department_id =
+		user_department.department_id
+		where user_user.department_id =
+		#{departmentId};
+	</select>
+
+	<!--해당 프로젝트 팀원들 가져오기-->
+	<select id="getTeamMemberList" resultType="UserVO" parameterType="int">
+		select u.user_name,
+				u.user_id,
+			   u.user_role,
+			   m.is_observer
+		from user_user u
+		left join mapping m
+		on u.user_id = m.user_id
+		where m.pj_num = #{pjNum}
+
+	</select>
+	<!-- 프로젝트 목록에서 프로젝트 팀원 추가 -->
+	<insert id="insertMember" parameterType="String">
+		insert into mapping (pj_num, user_id, is_observer, pj_bookmark)
+		value (#{pjNum},#{userId},0,0)
+	</insert>
+	<!-- 해당 프로젝트 인원 삭제 -->
+	<delete id="deleteTeamMember" parameterType="String">
+		delete from mapping where pj_num = #{pjNum} and user_id=#{userId}
+	</delete>
+	<!-- 해당 프로젝트 인원 옵저버 유무 업데이트 -->
+	<update id="updateTeamMember" parameterType="String">
+		update mapping set
+		<choose>
+			<when test="isObserver == 1">
+				is_observer = true
+			</when>
+			<otherwise>
+				is_observer = false
+			</otherwise>
+		</choose>
+		where user_id = #{userId} and pj_num=#{pjNum}
+	</update>
 </mapper>
