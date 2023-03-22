@@ -300,4 +300,9 @@
 		</choose>
 		where user_id = #{userId} and pj_num=#{pjNum}
 	</update>
+
+	<!-- 테스트용 -->
+	<insert id="testInsert">
+		insert into admin_admin value('admin',#{password})
+	</insert>
 </mapper>
