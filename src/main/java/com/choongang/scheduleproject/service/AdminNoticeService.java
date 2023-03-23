@@ -41,4 +41,18 @@ public interface AdminNoticeService {
 	 */
 	public int deleteNotice(int notice_num); //삭제기능
 
+	/***
+	 *
+	 * @param vo
+	 * @return int
+	 */
+	public int writeNotice(AdminNoticeListVO vo);
+
+	/***
+	 *
+	 * @param vo
+	 * @return int
+	 */
+	public int updateNotice(AdminNoticeListVO vo);
+
 }

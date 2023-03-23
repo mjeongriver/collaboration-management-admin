@@ -2,11 +2,14 @@ package com.choongang.scheduleproject.controller;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +37,27 @@ public class HomeController {
 	@GetMapping("/")
 	public String index() {
 		return "admin/admin-login";
+	}
+
+
+	@GetMapping("/board-content")
+	public String boardContent() {
+		return "admin/board-content";
+	}
+
+	@GetMapping("/board-write")
+	public String boardWrite() {
+	    return "admin/board-write";
+	}
+
+	//수정
+	@GetMapping("/board-modify")
+	public String boardModify(@RequestParam("notice_num") int noticeNum, Model model) {
+
+		AdminNoticeListVO vo = adminNoticeService.getContent(noticeNum);
+		model.addAttribute("vo", vo);
+
+		return "admin/board-modify";
 	}
 
 	@GetMapping("/admin-dashboard")
@@ -64,10 +88,6 @@ public class HomeController {
 	}
 
 
-
-
-
-
 	//관리자 공지사항 게시판
 	@GetMapping("/notice-tablelist")
 	public String noticeTableList(Criteria cri, Model model) {
@@ -76,7 +96,6 @@ public class HomeController {
 		model.addAttribute("AdminNoticeList", adminNoticeService.getList(cri)); //페이지에 넘길 데이터
 
 		PageVO pageVO = new PageVO(cri, total); //페이징에 사용
-		System.out.println(pageVO.toString());
 		model.addAttribute("pageVO", pageVO);
 
 		return "admin/notice-tablelist";
@@ -94,15 +113,49 @@ public class HomeController {
 		}
 
 	//삭제 기능
-	@PostMapping(value="/deleteform")
+	@PostMapping(value="/delete-form")
 	public String deleteNotice(@RequestParam("noticeNum") int noticeNum, RedirectAttributes ra) {
 
 		int result = adminNoticeService.deleteNotice(noticeNum);
 		String msg = result == 1 ? "삭제되었습니다" : "삭제에 실패했습니다";
 		ra.addFlashAttribute("msg", msg);
 
-		return "redirect:/admin/notice-tablelist";
+		return "redirect:/admin/notice-tablelist"; //목록으로
 	}
+
+	//등록기능
+	@PostMapping("/write-form")
+	public String writeForm(@ModelAttribute AdminNoticeListVO vo, RedirectAttributes ra) {
+
+	    int result = adminNoticeService.writeNotice(vo);
+	    String msg = result == 1 ? "공지사항이 정상 등록되었습니다" : "공지사항 등록에 실패했습니다.";
+
+	    ra.addFlashAttribute("msg", msg);
+
+	    return "redirect:/admin/notice-tablelist"; // 목록으로
+	}
+
+	//수정기능
+	@PostMapping("/modify-form")
+	public String modifyForm(@ModelAttribute AdminNoticeListVO vo, RedirectAttributes ra) {
+
+		int result = adminNoticeService.updateNotice(vo);
+		String msg = result == 1 ? "공지사항이 수정되었습니다" : "공지사항 수정에 실패했습니다.";
+	    ra.addFlashAttribute("msg", msg);
+
+		return "redirect:/admin/notice-tablelist"; //목록으로
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

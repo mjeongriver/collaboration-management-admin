@@ -1,6 +1,6 @@
 package com.choongang.scheduleproject.command;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +17,13 @@ public class AdminNoticeListVO {
 	private String adminId;
 	private String noticeTitle;
 	private String noticeContent;
-	private Timestamp noticeRegdate;
+	private Date noticeRegdate;
 	private String noticeWriter;
 	private String noticeNote;
 
+
+
+
 }
+
+

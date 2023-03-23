@@ -57,9 +57,35 @@
   		  from admin_notice where notice_num = #{noticeNum}
   	</select>
 
+	<!-- 삭제 기능 -->
   	<delete id="deleteNotice" parameterType="int">
   		delete from admin_notice where notice_num = #{noticeNum}
   	</delete>
+
+  	<!-- 등록 기능 -->
+  	<insert id="writeNotice" parameterType="AdminNoticeListVO">
+  		insert into admin_notice(notice_num,
+  								 admin_id,
+  		                         notice_title,
+  		                         notice_content,
+  		                         notice_writer,
+  		                         notice_note)
+  		values(#{noticeNum},
+  				#{adminId},
+  		        #{noticeTitle},
+  		        #{noticeContent},
+  		        #{noticeWriter},
+  		        #{noticeNote})
+  	</insert>
+
+  	<!-- 수정기능 -->
+  	<update id="updateNotice" parameterType="AdminNoticeListVO">
+  		update admin_notice
+  		   set notice_title = #{noticeTitle},
+  		       notice_content = #{noticeContent}
+  		 where notice_num = #{noticeNum}
+  	</update>
+
 
 
 

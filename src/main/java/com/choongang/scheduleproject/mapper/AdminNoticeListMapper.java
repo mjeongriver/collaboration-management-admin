@@ -16,5 +16,7 @@ public interface AdminNoticeListMapper {
 
 	public AdminNoticeListVO getContent(int noticeNum); //상세조회
 	public int deleteNotice(int noticeNum); //삭제기능
+	public int writeNotice(AdminNoticeListVO vo); //등록기능
+	public int updateNotice(AdminNoticeListVO vo); //수정기능
 
 }

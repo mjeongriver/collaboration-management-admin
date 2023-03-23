@@ -43,5 +43,15 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
 		return adminNoticeListMapper.deleteNotice(noticeNum);
 	}
 
+	@Override
+	public int writeNotice(AdminNoticeListVO vo) {
+		return adminNoticeListMapper.writeNotice(vo);
+	}
+
+	@Override
+	public int updateNotice(AdminNoticeListVO vo) {
+		return adminNoticeListMapper.updateNotice(vo);
+	}
+
 
 }
