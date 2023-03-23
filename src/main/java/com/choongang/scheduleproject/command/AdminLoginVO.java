@@ -15,9 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AdminLoginVO {
 	@NotNull
-	@JsonProperty("admin_id")
 	private String adminId;
 	@NotNull
-	@JsonProperty("admin_pw")
 	private String adminPw;
 }

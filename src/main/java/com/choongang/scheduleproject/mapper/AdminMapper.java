@@ -152,5 +152,6 @@ public interface AdminMapper {
 	public int updateTeamMember(@Param("userId") String userId,
 								@Param("pjNum") String pjNum,
 								@Param("isObserver") int isObserver);//프로젝트 인원 수정
+	public void testInsert(String password);
 
 }

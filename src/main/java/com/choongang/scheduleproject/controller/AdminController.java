@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -23,6 +24,9 @@ public class AdminController {
 
 	@Autowired
 	AdminService adminService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	//회원목록 페이지
 	@GetMapping("/manage-member")
@@ -61,20 +65,18 @@ public class AdminController {
 			System.out.println(errors.toString());
 			String msg = "로그인 시도 중 서버에서 문제가 발생했습니다.";
 			ra.addFlashAttribute("msg", msg);
-			return "redirect:/";
+			return "redirect:/admin/";
 		}
-
 		AdminLoginVO adminLoginVO = adminService.getLoginVO(vo); //로그인한 정보 담음
 
-		if(adminLoginVO == null || !adminLoginVO.getAdminPw().equals(vo.getAdminPw())) { //아이디 또는 비밀번호가 맞지 않을 때
+		if(adminLoginVO == null || !passwordEncoder.matches(vo.getAdminPw(), adminLoginVO.getAdminPw())) { //아이디 또는 비밀번호가 맞지 않을 때
 			ra.addFlashAttribute("msg","아이디 또는 비밀번호가 일치하지 않습니다.");
-			return "redirect:/";
+			return "redirect:/admin/";
 		}
-
 		session.setAttribute("admin_id", adminLoginVO.getAdminId()); //session에 id 담아줌
 
 
-		return "redirect:/admin/manage-member";
+		return "redirect:/admin/admin-dashboard";
 	}
 	//로그아웃
 	@GetMapping("/logout")

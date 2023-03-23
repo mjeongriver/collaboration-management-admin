@@ -119,6 +119,7 @@ public class AdminRestController {
 	public ArrayList<UserVO> getTeamMemberList(@RequestParam("pj_num") int pjNum) {
 		return adminService.getTeamMemberList(pjNum);
 	}
+	//해당 프로젝트 인원 추가
 	@PostMapping("/insert-member")
 	public String insertMember(@RequestParam("user_id") String userId, @RequestParam("pj_num") String pjNum) {
 		if(userId == "") {
@@ -127,6 +128,7 @@ public class AdminRestController {
 		adminService.insertMember(userId, pjNum);
 		return "추가했습니다.";
 	}
+	//해당 프로젝트 인원 삭제
 	@PostMapping("/delete-member")
 	public String deleteMember(@RequestParam("user_id") String userId, @RequestParam("pj_num") String pjNum) {
 
@@ -135,6 +137,7 @@ public class AdminRestController {
 		}
 		return "삭제할 수 없습니다.";
 	}
+	//해당 프로젝트 인원 권한 변경
 	@PostMapping("/update-team-member")
 	public String updateTeamMember(@RequestParam("user_id") String userId,
 									@RequestParam("pj_num") String pjNum,

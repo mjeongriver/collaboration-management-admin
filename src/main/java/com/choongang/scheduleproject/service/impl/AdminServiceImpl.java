@@ -152,6 +152,7 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteTeamMember(String userId, String pjNum) {
 		return adminMapper.deleteTeamMember(userId, pjNum);
 	}
+	//해당 프로젝트 인원 권한 변경
 	@Override
 	public int updateTeamMember(String userId, String pjNum, int isObserver) {
 		return adminMapper.updateTeamMember(userId, pjNum, isObserver);
