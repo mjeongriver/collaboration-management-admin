@@ -1,6 +1,5 @@
 package com.choongang.scheduleproject.command;
 
-import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

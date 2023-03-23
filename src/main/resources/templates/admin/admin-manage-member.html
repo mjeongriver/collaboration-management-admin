@@ -275,8 +275,6 @@
 					}
 
 				}
-				/* var formsubmit = JSON.parse(form);
-				console.log(formsubmit); */
 				$.ajax({
 					type:'post',
 					url:'/check-regist',
@@ -289,6 +287,7 @@
 					},
 					error:function(err){
 						alert("변경에 실패했습니다.");
+						console.log(err);
 					}
 				})
 			})
