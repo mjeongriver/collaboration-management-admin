@@ -1,7 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
-
 <th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
 
     <div class="wrap">
@@ -10,7 +8,6 @@
             <section class="section">
                 <div class="row">
                     <div class="col-lg-7" style="margin:0 auto;">
-
                         <!-- 내용 박스 -->
                         <div class="card">
                             <div class="card-body" style="padding: 20 100px 30px 100px;">
@@ -52,22 +49,14 @@
                                             <button type="submit" id="boardSuccess" class="btn btn-primary" onclick="writeNotice(event)" style="float:right;">작성 완료</button>
                                         </div>
                                     </div>
-
                                 </form>
-
                             </div>
                         </div> <!-- card end -->
-
                     </div>
-
-
-
                 </div>
-
             </section>
         </main>
         <!-- End #main -->
-
     </div>
 
 </th:block>
@@ -103,6 +92,4 @@
 		});
 
 </script>
-
-
 </html>

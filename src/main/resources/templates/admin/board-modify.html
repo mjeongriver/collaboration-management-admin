@@ -9,8 +9,6 @@
 				<div class="row">
 					<div class="col-lg-8" style="margin:0 auto;">
 
-
-
 						<!-- 내용 박스 -->
 						<div class="card">
 							<div class="card-body" style="padding: 20px 50px 50px 50px;">
@@ -21,7 +19,6 @@
 								<input type="hidden" name="noticeNum" th:value="${vo.noticeNum }"/>
 
 									<div style="border: 1px solid #ccc; padding: 30px; border-radius: 10px;">
-
 										<div class="row mb-3">
 											<label for="process" class="col-sm-2 col-form-label">글 제목</label>
 											<div class="col-sm-10" style="padding: 4.75px 15px">
@@ -35,7 +32,7 @@
 												[[${#dates.format(vo.noticeRegdate, 'yyyy-MM-dd')}]]
 											</div>
 										</div>
-											 <!-- 여기까지가 수정화면 보기 마지막 -->
+										<!-- 여기까지가 수정화면 보기 마지막 -->
 
 										<div class="row mb-3">
                                         	<label for="inputDescription" class="col-sm-2 col-form-label">세부 내용</label>
@@ -55,11 +52,9 @@
 						</div>
 					</div>
 				</div>
-
 			</section>
 		</main>
 		<!-- End #main -->
-
 	</div>
 
 </th:block>
@@ -71,11 +66,12 @@
 
 <script>
 
-	function updateNotice(event) {
+ 	function updateNotice(event) {
 		if(confirm("정말 수정하겠습니까?")) {
     		document.modifyForm.submit();
+		}
 	}
-}
+
 
 	$(document).ready(function() {
 		  $('#summernote').summernote({

@@ -7,13 +7,11 @@
 
     <div class="pagetitle">
       <h1>공지사항</h1>
-
     </div><!-- End Page Title -->
 
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
-
 
           <div class="card">
             <div class="card-body">
@@ -26,14 +24,15 @@
 			      				<div style="border:1px solid #E0E5EE; border-radius:15px;">
 			      					<select name="searchType" class="form-select" style="float:left;height:34px;width:220px;margin:10px;border:none">
 			      					<!-- 검색키워드 화면에서 유지시킴 -->
-										<option value="title" th:selected="${pageVO.criteria.searchType} == 'title'">제목으로 검색하기</option>
-										<option value="regdate" th:selected="${pageVO.criteria.searchType} == 'regdate'">작성일로 검색하기</option>
+										<option value="title" th:selected="${pageVO.criteria.searchType} == 'title'">제목</option>
+										<option value="regdate" th:selected="${pageVO.criteria.searchType} == 'regdate'">작성일</option>
 									</select>
        								<input type="text" name="search" th:value="${pageVO.criteria.search}" placeholder="Search" title="Enter search keyword" style=" border:none; padding-top:15px; outline:none;">
 			        				<button type="submit" title="Search" style="background-color:transparent; border:none; padding-right:18px"><i class="bi bi-search"></i></button>
 			        			</div>
 			    				</form>
 			    				</div><!-- End Search Bar -->
+
 			    				<!-- 몇개씩 보기 -->
 			    					<div>결과: [[${pageVO.total}]]건
 										<select id="handleAmount" class="form-select" style="float: right;height:34px;width : 140px; margin-bottom:7px">
@@ -71,8 +70,8 @@
 				 <div style="display:flex; justify-content:right;">
 			 		<a href="board-write" class="btn btn-primary btn-sm">글쓰기</a>
 				</div>
-
             </div>
+
             <!-- 페이지네이션 -->
 	            <div style="margin: 0 auto">
             	<div>
@@ -94,34 +93,19 @@
 	                </ul>
 	              </div>
           		</div>
-
         </div>
       </div>
     </section>
-
-
-
-
   </main><!-- End #main -->
-
   </div>
-
 </th:block>
 
 <!-- ~개씩 보기 -->
 <script>
-	let handleAmount = document.getElementById("handleAmount");
-	handleAmount.onchange = function(e) {
 
-		const form = document.querySelector('form');
-		const query = new URLSearchParams(window.location.search);
-		query.set('amount', e.target.value);
-		const search = query.toString();
-		const page = query.get('page') || 1;
-		const url = `notice-tablelist?page=${page}&${search}`;
-		window.location.href = url;
-}
+	handleAmount.onchange = function(e) {
+		location.href="notice-tablelist?page=1&amount=" + e.target.value;
+	}
 
 </script>
-
 </html>

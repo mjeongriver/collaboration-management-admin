@@ -45,8 +45,7 @@
 												<td>[[${projectStaticVO.pjName}]]</td>
 												<td>[[${projectStaticVO.pjWriter}]]</td>
 												<td>[[${projectStaticVO.pjStartdate}]]</td>
-												<td
-													th:text="${projectStaticVO.progress} == 100 ? '완료':'미완료'"></td>
+												<td th:text="${projectStaticVO.progress} == 100 ? '완료':'미완료'"></td>
 											</tr>
 										</th:block>
 									</tbody>
@@ -128,7 +127,6 @@
 													<!-- 타임리프로 DB 반복문 처리 -->
 													<th:blcok th:each="UserVO,status : ${UserList}">
 
-														<!-- form id="form"> -->
 														<tr>
 															<th scope="row">[[${UserVO.userEmployeenumber}]]</th>
 															<td>[[${UserVO.userId}]]</td>
@@ -158,37 +156,32 @@
 									</ol>
 								</nav>
 								<div class="card">
-										<div class="card-body">
-											<!-- Bordered Table -->
-											<table class="table table-bordered"
-												style="text-align: center; margin-top: 20px">
+									<div class="card-body">
+										<!-- Bordered Table -->
+										<table class="table table-bordered"
+											style="text-align: center; margin-top: 20px">
 
-												<thead>
-													<tr>
-														<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-															명</th>
-														<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-															장</th>
-														<th scope="col" style="line-height: 30px; height: 30px">프로젝트
-															생성일</th>
-														<th scope="col" style="line-height: 30px; height: 30px">팀원
-															수</th>
-													</tr>
-												</thead>
-												<tbody>
+											<thead>
+												<tr>
+													<th scope="col" style="line-height: 30px; height: 30px">프로젝트명</th>
+													<th scope="col" style="line-height: 30px; height: 30px">프로젝트장</th>
+													<th scope="col" style="line-height: 30px; height: 30px">프로젝트생성일</th>
+													<th scope="col" style="line-height: 30px; height: 30px">팀원수</th>
+												</tr>
+											</thead>
+											<tbody>
 												<th:block th:each="projectVO : ${projectList}">
-											<tr>
-												<th scope="row">[[${projectVO.pjName}]]</th>
-
-												<td>[[${projectVO.pjWriter}]]</td>
-												<td>[[${projectVO.pjStartdate}]]</td>
-												<td>[[${projectVO.pjCount}]]</td>
-											</tr>
+												<tr>
+													<th scope="row">[[${projectVO.pjName}]]</th>
+													<td>[[${projectVO.pjWriter}]]</td>
+													<td>[[${projectVO.pjStartdate}]]</td>
+													<td>[[${projectVO.pjCount}]]</td>
+												</tr>
 												</th:block>
-												</tbody>
-											</table>
-											<!-- End Bordered Table -->
-										</div>
+											</tbody>
+										</table>
+										<!-- End Bordered Table -->
+									</div>
 								</div>
 								<!-- End Recent Activity -->
 							</div>
@@ -203,8 +196,5 @@
 		<!-- End #main -->
 	</div>
 </th:block>
-
-
-
 
 </html>
