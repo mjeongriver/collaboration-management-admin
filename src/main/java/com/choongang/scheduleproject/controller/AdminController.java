@@ -81,7 +81,7 @@ public class AdminController {
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes ra) {
-		session.invalidate(); // 세션 만료시키기
+		session.removeAttribute("admin_id"); // 세션 만료시키기
 		String msg = "로그아웃되었습니다.";
 		ra.addFlashAttribute("msg", msg);
 		return "redirect:/admin/"; //로그인화면으로
