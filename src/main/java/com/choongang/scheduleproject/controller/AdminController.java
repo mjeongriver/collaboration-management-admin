@@ -74,6 +74,7 @@ public class AdminController {
 			ra.addFlashAttribute("msg","아이디 또는 비밀번호가 일치하지 않습니다.");
 			return "redirect:/";
 		}
+		session.setMaxInactiveInterval(7200);// 세션 2시간 설정
 		session.setAttribute("admin_id", adminLoginVO.getAdminId()); //session에 id 담아줌
 
 
