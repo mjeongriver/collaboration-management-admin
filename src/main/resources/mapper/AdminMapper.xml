@@ -133,7 +133,7 @@
 				where pj_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjWriter" and search !=null'>
-				where pj_writer like concat('%' , #{search},'%')
+				where u.user_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
@@ -147,13 +147,15 @@
 	<!-- 프로젝트 갯수 -->
 	<select id="getProjectCount" resultType="int">
 		select count(*)
-		from user_project
+		from user_project p
+		left join user_user u
+		on p.pj_writer = u.user_id
 		<choose>
 			<when test='searchType =="pjName" and search !=null'>
 				where pj_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjWriter" and search !=null'>
-				where pj_writer like concat('%' , #{search},'%')
+				where u.user_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
@@ -225,7 +227,7 @@
 				where pj_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjWriter" and search !=null'>
-				where pj_writer like concat('%' , #{search},'%')
+				where u.user_name like concat('%' , #{search},'%')
 			</when>
 			<when test='searchType =="pjStartdate" and search !=null'>
 				where pj_startdate like concat('%' , #{search},'%')
