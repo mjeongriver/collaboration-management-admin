@@ -104,10 +104,13 @@
 
 	<!-- 체크박스 삭제 작업 -->
 	<delete id="deleteMember" parameterType="CheckVO">
-
 		delete from user_user where user_id = #{userId}
-
 	</delete>
+	<!-- 해당 프로젝트 인원 삭제 -->
+	<delete id="deleteTeamUser" parameterType="CheckVO">
+		delete from mapping where user_id=#{userId}
+	</delete>
+
 
 	<!-- 프로젝트 리스트 출력 -->
 	<select id="getProjectList" resultType="ProjectVO">

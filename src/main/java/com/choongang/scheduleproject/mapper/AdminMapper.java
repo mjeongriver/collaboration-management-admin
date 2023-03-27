@@ -47,6 +47,12 @@ public interface AdminMapper {
 	public int deleteMember(CheckVO vo);//회원 삭제
 	/***
 	 *
+	 * @param CheckVO
+	 * @return int
+	 */
+	public int deleteTeamUser(CheckVO vo);//팀 - 유저 매핑테이블 회원 삭제
+	/***
+	 *
 	 * @param criteria
 	 * @return int
 	 */

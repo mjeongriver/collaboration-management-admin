@@ -65,6 +65,7 @@ public class AdminServiceImpl implements AdminService {
 
 		for(CheckVO vo : list) {
 			if(vo.getMemberDelete().equals("on")) {
+				result = adminMapper.deleteTeamUser(vo);
 				result = adminMapper.deleteMember(vo);
 			}
 		}//리스트에 담긴 VO 객체 매퍼에 담아서 처리
