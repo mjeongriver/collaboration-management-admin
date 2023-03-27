@@ -23,7 +23,7 @@
                                         </div>
                                     </div>
 
-                                            <input name="adminId" type="hidden" class="form-control" required="required">
+                                    <input name="adminId" type="hidden" class="form-control" required="required">
 
                                     <div class="row mb-3">
                                         <label for="inputTitle" class="col-sm-2 col-form-label">제목</label>
@@ -33,12 +33,12 @@
                                         </div>
                                     </div>
 
-                                   <div class="row mb-3">
+                                    <div class="row mb-3">
                                         <label for="inputDescription" class="col-sm-2 col-form-label">세부 내용</label>
                                         <div class="col-sm-10">
                                             <div>
                                                 <textarea id="summernote" name="noticeContent"></textarea>
-                                            	<span id="contentWarning" style="color: red; font-size: 14px; float: right;"></span>
+                                                <span id="contentWarning" style="color: red; font-size: 14px; float: right;"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -68,28 +68,44 @@
 <script src="/assets/js/board-regist.js"></script>
 
 <script>
-	function writeNotice(event) {
-		if(confirm("게시글을 등록하겠습니까?")) {
-    		document.adminRegForm.submit();
-		}
-	}
+    function writeNotice(event) {
+        let noticeTitle = document.getElementsByName("noticeTitle")[0].value;
+        let summernote = document.getElementById("summernote").value;
 
-	$(document).ready(function() {
-		  $('#summernote').summernote({
-			  	height: 270,
-				minHeight: null,
-				maxHeight: null,
-				focus: true,
-		        toolbar: [
-		            ['style', ['bold', 'italic', 'underline', 'clear']],
-		            ['font', ['strikethrough', 'superscript', 'subscript']],
-		            ['fontsize', ['fontsize']],
-		            ['color', ['color']],
-		            ['para', ['ul', 'ol', 'paragraph']],
-		            ['height', ['height']]
-		        ]
-			});
-		});
+        if (noticeTitle === "") {
+            alert("제목을 입력해주세요.");
+            event.preventDefault(); // 이벤트 전파 중지
+            return;
+        }
 
+        if (summernote === "") {
+            alert("내용을 입력해주세요.");
+            event.preventDefault(); // 이벤트 전파 중지
+            return;
+        }
+
+        if (confirm("게시글을 등록하겠습니까?")) {
+            document.adminRegForm.submit();
+        }
+    }
+
+
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 270,
+            minHeight: null,
+            maxHeight: null,
+            focus: true,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+        });
+    });
 </script>
+
 </html>

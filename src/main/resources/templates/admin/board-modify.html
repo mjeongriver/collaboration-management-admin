@@ -2,34 +2,34 @@
 
 <th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
 
-	<div class="wrap">
-		<main id="main" class="main" style="background-color: #f6f9ff;">
+    <div class="wrap">
+        <main id="main" class="main" style="background-color: #f6f9ff;">
 
-			<section class="section">
-				<div class="row">
-					<div class="col-lg-8" style="margin:0 auto;">
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-8" style="margin:0 auto;">
 
-						<!-- 내용 박스 -->
-						<div class="card">
-							<div class="card-body" style="padding: 20px 50px 50px 50px;">
-								<h5 class="card-title">글 수정</h5>
+                        <!-- 내용 박스 -->
+                        <div class="card">
+                            <div class="card-body" style="padding: 20px 50px 50px 50px;">
+                                <h5 class="card-title">글 수정</h5>
 
-								<form name="modifyForm" action="modify-form" method="post">
+                                <form name="modifyForm" action="modify-form" method="post">
 
-								<input type="hidden" name="noticeNum" th:value="${vo.noticeNum }"/>
+                                    <input type="hidden" name="noticeNum" th:value="${vo.noticeNum }" />
 
-									<div style="border: 1px solid #ccc; padding: 30px; border-radius: 10px;">
-										<div class="row mb-3">
-											<label for="process" class="col-sm-2 col-form-label">글 제목</label>
-											<div class="col-sm-10" style="padding: 4.75px 15px">
-												<input type="text" name="noticeTitle" th:value="${vo.noticeTitle }"/>
-											</div>
-										</div>
+                                    <div style="border: 1px solid #ccc; padding: 30px; border-radius: 10px;">
+                                        <div class="row mb-3">
+                                            <label for="process" class="col-sm-2 col-form-label">글 제목</label>
+                                            <div class="col-sm-10" style="padding: 4.75px 15px">
+                                                <input type="text" name="noticeTitle" th:value="${vo.noticeTitle }" required="required" />
+                                            </div>
+                                        </div>
 
-										<div class="row mb-3">
-											<label for="title" class="col-sm-2 col-form-label">작성일</label>
-											<div class="col-sm-10" style="padding: 4.75px 15px;">
-												[[${#dates.format(vo.noticeRegdate, 'yyyy-MM-dd')}]]
+                                        <div class="row mb-3">
+                                            <label for="title" class="col-sm-2 col-form-label">작성일</label>
+                                            <div class="col-sm-10" style="padding: 4.75px 15px;">
+                                                [[${#dates.format(vo.noticeRegdate, 'yyyy-MM-dd')}]]
 											</div>
 										</div>
 										<!-- 여기까지가 수정화면 보기 마지막 -->
@@ -66,11 +66,27 @@
 
 <script>
 
- 	function updateNotice(event) {
-		if(confirm("정말 수정하겠습니까?")) {
-    		document.modifyForm.submit();
-		}
-	}
+  	function updateNotice(event) {
+ 	    let noticeTitle = document.getElementsByName("noticeTitle")[0].value;
+ 	    let summernote = document.getElementById("summernote").value.replace(/<p>/gi, "").replace(/<br>/gi,"").replace(/<\/p>/gi, "");
+
+ 	    console.log(summernote);
+ 	    if (noticeTitle === "") {
+ 	        alert("제목을 입력해주세요.");
+ 	        event.preventDefault(); // 이벤트 전파 중지
+ 	        return;
+ 	    }
+
+ 	    if (summernote === "") {
+ 	        alert("내용을 입력해주세요.");
+ 	        event.preventDefault(); // 이벤트 전파 중지
+ 	        return;
+ 	    }
+
+ 	    if (confirm("게시글을 등록하겠습니까?")) {
+ 	        document.modifyForm.submit();
+ 	    }
+ 	}
 
 
 	$(document).ready(function() {

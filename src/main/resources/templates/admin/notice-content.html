@@ -2,37 +2,37 @@
 
 <th:block th:replace="~{./include/basic-layout :: 함수( ~{:: .wrap } ) }">
 
-	<div class="wrap">
-		<main id="main" class="main" style="background-color: #f6f9ff;">
+    <div class="wrap">
+        <main id="main" class="main" style="background-color: #f6f9ff;">
 
-			<section class="section">
-				<div class="row">
-					<div class="col-lg-8" style="margin:0 auto;">
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-8" style="margin:0 auto;">
 
 
 
-						<!-- 내용 박스 -->
-						<div class="card">
-							<div class="card-body" style="padding: 20px 50px 50px 50px;">
-								<h5 class="card-title">글 상세 보기</h5>
+                        <!-- 내용 박스 -->
+                        <div class="card">
+                            <div class="card-body" style="padding: 20px 50px 50px 50px;">
+                                <h5 class="card-title">글 상세 보기</h5>
 
-								<form action="/admin/delete-form" method="post" name="actionForm">
+                                <form action="/admin/delete-form" method="post" name="actionForm">
 
-								<input type="hidden" name="noticeNum" th:value="${adminNoticeListVO.noticeNum }">
+                                    <input type="hidden" name="noticeNum" th:value="${adminNoticeListVO.noticeNum }">
 
-									<div style="border: 1px solid #ccc; padding: 30px; border-radius: 10px;">
+                                    <div style="border: 1px solid #ccc; padding: 30px; border-radius: 10px;">
 
-										<div class="row mb-3">
-											<label for="process" class="col-sm-2 col-form-label">글 제목</label>
-											<div class="col-sm-10" style="padding: 4.75px 15px">
-												<span>[[${adminNoticeListVO.noticeTitle}]]</span>
-											</div>
-										</div>
+                                        <div class="row mb-3">
+                                            <label for="process" class="col-sm-2 col-form-label">글 제목</label>
+                                            <div class="col-sm-10" style="padding: 4.75px 15px">
+                                                <span>[[${adminNoticeListVO.noticeTitle}]]</span>
+                                            </div>
+                                        </div>
 
-										<div class="row mb-3">
-											<label for="title" class="col-sm-2 col-form-label">작성일</label>
-											<div class="col-sm-10" style="padding: 4.75px 15px;">
-												[[${#dates.format(adminNoticeListVO.noticeRegdate, 'yyyy-MM-dd')}]]
+                                        <div class="row mb-3">
+                                            <label for="title" class="col-sm-2 col-form-label">작성일</label>
+                                            <div class="col-sm-10" style="padding: 4.75px 15px;">
+                                                [[${#dates.format(adminNoticeListVO.noticeRegdate, 'yyyy-MM-dd')}]]
 											</div>
 										</div>
 
@@ -73,7 +73,7 @@
 <script>
 
 	function deleteNotice(event) {
-		if(confirm("정말 지우겠습니까?")) {
+		if(confirm("정말 삭제하시겠습니까?")) {
     		document.actionForm.submit();
 	}
 }
