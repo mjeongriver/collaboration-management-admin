@@ -85,7 +85,7 @@
 
 		update user_user set
 		user_pw = #{password}<!-- 암호화 처리해서 들어가줘야 함 -->
-		where user_id = #{user_id};
+	where user_id = #{userId};
 	</update>
 
 	<!-- 유저 활성/비활성 업데이트 -->
