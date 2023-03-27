@@ -41,9 +41,6 @@
 											<div class="col-sm-10">
 												<div>
 													<div id="summernote" name="editordata" style="overflow: auto; height: 300px; border: 1px solid #ccc; padding: 5px; border-radius: 10px;">
-<!-- 														<div style="padding: 10px">
-															[[${adminNoticeListVO.noticeContent}]]
-														</div> -->
 														<div style="padding: 10px" th:utext="${adminNoticeListVO.noticeContent}"></div>
 													</div>
 												</div>
@@ -75,7 +72,6 @@
 
 <script>
 
-
 	function deleteNotice(event) {
 		if(confirm("정말 지우겠습니까?")) {
     		document.actionForm.submit();
@@ -86,8 +82,7 @@
 		  const noticeNum = event.target.getAttribute("data-notice-num");
 		  const url = `/admin/board-modify?notice_num=${noticeNum}`;
 		  window.location.href = url;
-		}
+	}
 
 </script>
-
 </html>
