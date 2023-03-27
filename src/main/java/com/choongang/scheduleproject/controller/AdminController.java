@@ -1,5 +1,7 @@
 package com.choongang.scheduleproject.controller;
 
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -59,19 +61,18 @@ public class AdminController {
 	}
 	//어드민 로그인 요청
 	@PostMapping("/login")
-	public String login(@Valid AdminLoginVO vo , Errors errors, HttpSession session, RedirectAttributes ra) {
+	public String login(@Valid AdminLoginVO vo , Errors errors, HttpSession session, RedirectAttributes ra ,HttpServletResponse response) {
 		//서버단에서 유효성 검사 실행
 		if(errors.hasErrors()) {
-			System.out.println(errors.toString());
 			String msg = "로그인 시도 중 서버에서 문제가 발생했습니다.";
 			ra.addFlashAttribute("msg", msg);
-			return "redirect:/admin/";
+			return "redirect:/";
 		}
 		AdminLoginVO adminLoginVO = adminService.getLoginVO(vo); //로그인한 정보 담음
 
 		if(adminLoginVO == null || !passwordEncoder.matches(vo.getAdminPw(), adminLoginVO.getAdminPw())) { //아이디 또는 비밀번호가 맞지 않을 때
 			ra.addFlashAttribute("msg","아이디 또는 비밀번호가 일치하지 않습니다.");
-			return "redirect:/admin/";
+			return "redirect:/";
 		}
 		session.setAttribute("admin_id", adminLoginVO.getAdminId()); //session에 id 담아줌
 
@@ -84,7 +85,7 @@ public class AdminController {
 		session.removeAttribute("admin_id"); // 세션 만료시키기
 		String msg = "로그아웃되었습니다.";
 		ra.addFlashAttribute("msg", msg);
-		return "redirect:/admin/"; //로그인화면으로
+		return "redirect:/"; //로그인화면으로
 	}
 
 

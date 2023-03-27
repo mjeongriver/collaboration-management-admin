@@ -21,8 +21,7 @@ public class AdminAuthHandler implements HandlerInterceptor{
 			throws Exception {
 		String admin_id = (String)request.getSession().getAttribute("admin_id"); //세션에 있는 admin 값 받아옴
 		if(admin_id == null) { //세션 없을 때
-			System.out.println(admin_id);
-			response.sendRedirect(request.getContextPath() + "/admin/"); //로그인 페이지 리디렉션
+			response.sendRedirect(request.getContextPath() + "/"); //로그인 페이지 리디렉션
 			return false; //컨트롤러 실행 x
 		}
 		return true; //컨트롤러 실행 o
