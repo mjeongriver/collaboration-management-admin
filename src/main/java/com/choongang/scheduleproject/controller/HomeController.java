@@ -2,7 +2,6 @@ package com.choongang.scheduleproject.controller;
 
 import java.util.ArrayList;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,6 +19,7 @@ import com.choongang.scheduleproject.service.AdminNoticeService;
 import com.choongang.scheduleproject.service.AdminService;
 import com.choongang.scheduleproject.util.Criteria;
 import com.choongang.scheduleproject.util.PageVO;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -46,7 +46,7 @@ public class HomeController {
 
 	@GetMapping("/board-write")
 	public String boardWrite() {
-	    return "admin/board-write";
+		return "admin/board-write";
 	}
 
 	//수정
@@ -63,28 +63,28 @@ public class HomeController {
 	@GetMapping("/admin-dashboard")
 	public String adminDashboard(Model model, Criteria criteria) {
 		criteria.setAmount(5);
-	    int totalMember = adminService.getMemberCount(criteria); // 회원 총 갯수
-	    int totalProject = adminService.getProjectCount(criteria); // 프로젝트 총 갯수
+		int totalMember = adminService.getMemberCount(criteria); // 회원 총 갯수
+		int totalProject = adminService.getProjectCount(criteria); // 프로젝트 총 갯수
 
-	    PageVO memberPageVO = new PageVO(criteria, totalMember);
-	    model.addAttribute("UserList", adminService.getMemberList(criteria)); // 회원 목록 데이터
-	    model.addAttribute("memberPageVO", memberPageVO); // 회원 목록 페이지 정보
+		PageVO memberPageVO = new PageVO(criteria, totalMember);
+		model.addAttribute("UserList", adminService.getMemberList(criteria)); // 회원 목록 데이터
+		model.addAttribute("memberPageVO", memberPageVO); // 회원 목록 페이지 정보
 
-	    PageVO projectPageVO = new PageVO(criteria, totalProject);
-	    model.addAttribute("projectList", adminService.getProjectList(criteria)); // 프로젝트 목록 데이터
-	    model.addAttribute("projectPageVO", projectPageVO); // 프로젝트 목록 페이지 정보
+		PageVO projectPageVO = new PageVO(criteria, totalProject);
+		model.addAttribute("projectList", adminService.getProjectList(criteria)); // 프로젝트 목록 데이터
+		model.addAttribute("projectPageVO", projectPageVO); // 프로젝트 목록 페이지 정보
 
-	    ArrayList<ProjectStaticVO> projectStaticList = adminService.getProjectStatic(criteria); // 프로젝트 통계 데이터
-	    PageVO projectStaticVO = new PageVO(criteria, projectStaticList.size());
-	    model.addAttribute("projectStaticList", projectStaticList);
-	    model.addAttribute("projectStaticVO", projectStaticVO);
+		ArrayList<ProjectStaticVO> projectStaticList = adminService.getProjectStatic(criteria); // 프로젝트 통계 데이터
+		PageVO projectStaticVO = new PageVO(criteria, projectStaticList.size());
+		model.addAttribute("projectStaticList", projectStaticList);
+		model.addAttribute("projectStaticVO", projectStaticVO);
 
-	    ArrayList<AdminNoticeListVO> noticeList = adminNoticeService.getList(criteria); // 공지사항 목록 데이터
-	    PageVO noticePageVO = new PageVO(criteria, noticeList.size());
-	    model.addAttribute("noticeList", noticeList);
-	    model.addAttribute("noticePageVO", noticePageVO);
+		ArrayList<AdminNoticeListVO> noticeList = adminNoticeService.getList(criteria); // 공지사항 목록 데이터
+		PageVO noticePageVO = new PageVO(criteria, noticeList.size());
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("noticePageVO", noticePageVO);
 
-	    return "admin/admin-dashboard";
+		return "admin/admin-dashboard";
 	}
 
 
@@ -109,8 +109,8 @@ public class HomeController {
 		AdminNoticeListVO adminNoticeListVO = adminNoticeService.getContent(notice_num);
 		model.addAttribute("adminNoticeListVO", adminNoticeListVO);
 
-			return "admin/notice-content";
-		}
+		return "admin/notice-content";
+	}
 
 	//삭제 기능
 	@PostMapping(value="/delete-form")
@@ -127,12 +127,12 @@ public class HomeController {
 	@PostMapping("/write-form")
 	public String writeForm(@ModelAttribute AdminNoticeListVO vo, RedirectAttributes ra) {
 
-	    int result = adminNoticeService.writeNotice(vo);
-	    String msg = result == 1 ? "공지사항이 정상 등록되었습니다" : "공지사항 등록에 실패했습니다.";
+		int result = adminNoticeService.writeNotice(vo);
+		String msg = result == 1 ? "공지사항이 정상 등록되었습니다" : "공지사항 등록에 실패했습니다.";
 
-	    ra.addFlashAttribute("msg", msg);
+		ra.addFlashAttribute("msg", msg);
 
-	    return "redirect:/admin/notice-tablelist"; // 목록으로
+		return "redirect:/admin/notice-tablelist"; // 목록으로
 	}
 
 	//수정기능
@@ -141,7 +141,7 @@ public class HomeController {
 
 		int result = adminNoticeService.updateNotice(vo);
 		String msg = result == 1 ? "공지사항이 수정되었습니다" : "공지사항 수정에 실패했습니다.";
-	    ra.addFlashAttribute("msg", msg);
+		ra.addFlashAttribute("msg", msg);
 
 		return "redirect:/admin/notice-tablelist"; //목록으로
 	}
