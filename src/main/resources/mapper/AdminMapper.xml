@@ -250,7 +250,7 @@
 		from user_user u
 		left join mapping m
 		on u.user_id = m.user_id
-		where m.pj_num = #{pjNum}
+		where m.pj_num = #{pjNum} and m.is_observer=false
 	</select>
 	<!-- 부서 목록 -->
 	<select id="getDepList" resultType="DepartmentVO">

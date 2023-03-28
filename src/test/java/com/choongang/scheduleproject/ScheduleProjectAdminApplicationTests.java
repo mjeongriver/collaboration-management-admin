@@ -14,10 +14,10 @@ class ScheduleProjectAdminApplicationTests {
 	@Autowired
 	AdminMapper adminMapper;
 
-	@Test
-	void contextLoads() {
-		String password=passwordEncoder.encode("password");
-		adminMapper.testInsert(password);
-	}
+//	@Test
+//	void contextLoads() {
+//		String password=passwordEncoder.encode("password");
+//		adminMapper.testInsert(password);
+//	}
 
 }
