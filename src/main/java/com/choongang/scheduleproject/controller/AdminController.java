@@ -38,7 +38,7 @@ public class AdminController {
 		model.addAttribute("UserList", adminService.getMemberList(criteria)); //페이지에 넘길 데이터를 모델에 담는다.
 		PageVO pageVO = new PageVO(criteria,total ); //pageVO 객체에서 사용할 criteria 와 total 값 주입
 		model.addAttribute("pageVO", pageVO); //넘겨줄 VO 데이터
-		return "/admin/admin-manage-member";
+		return "admin/admin-manage-member";
 	}
 	//프로젝트 관리 페이지
 	@GetMapping("/manage-project")
@@ -47,7 +47,7 @@ public class AdminController {
 		PageVO pageVO = new PageVO(criteria,total ); //페이징
 		model.addAttribute("projectList", adminService.getProjectList(criteria));//화면에 보여질 프로젝트리스트
 		model.addAttribute("pageVO", pageVO);
-		return "/admin/admin-manage-project";
+		return "admin/admin-manage-project";
 	}
 	//통계 목록 페이지
 	@GetMapping("/manage-statistics")
@@ -57,7 +57,7 @@ public class AdminController {
 		model.addAttribute("projectStaticVO" , adminService.getProjectStatic(criteria)); //프로젝트 통계 목록 담아줌
 		model.addAttribute("pageVO", pageVO); //페이징
 
-		return "/admin/admin-manage-statistics";
+		return "admin/admin-manage-statistics";
 	}
 	//어드민 로그인 요청
 	@PostMapping("/login")
