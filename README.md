@@ -1,4 +1,4 @@
-# 📆 Schedule management Project 
+# 📆 Collaboration Management(admin) Project 
 
 <img src="https://user-images.githubusercontent.com/116552282/232581103-2c929819-e577-46b4-b53d-a27d39dad65a.png">
 
