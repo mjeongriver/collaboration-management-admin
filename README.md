@@ -1,15 +1,5 @@
 # 📆 Collaboration Management(admin) Project 
-
-<img src="https://user-images.githubusercontent.com/116552282/232581103-2c929819-e577-46b4-b53d-a27d39dad65a.png">
-
 > 관리자 페이지에서는 사용자 사이트 내부의 정보들을 관리할 수 있습니다.
-<br/>
-
-### 레퍼런스
----
-<img src="https://user-images.githubusercontent.com/116552282/232567464-1bcba549-d4fb-4bb1-9724-ce3fbd5ade9f.png">
-
-> 현재 일정관리 툴로 사용되고 있는 flow, slack 등을 참고하여 기능 및 UI를 설계 하였습니다.
 <br/>
 
 ### 바로가기
